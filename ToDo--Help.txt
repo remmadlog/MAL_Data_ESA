@@ -1,0 +1,102 @@
+Maybe all ToDos:
+__supply_module__
+ToDo:
+    IMPORTANT
+        -- extend the download of anime_types!
+            -- At least this
+                -- TV = TV show, BUT OVA and ONA are also shows but not broadcast to tv
+            -- Maybe this too but not as important
+                -- Move = Theater/TV, BUT Special is also a Movie!
+    - OTHER
+        -- info logging
+            -- more/better logging (low priority)
+        -- Main comment
+            -- "forum" ONLY returns the NEWEST 15 entries (not really usable except for checking existence in order to measure engagement)
+        -- better implementation
+            -- additional pages
+            -- update
+        -- better functions
+            -- download this id (basic and all)
+            -- download this season
+            -- download this year
+            -- update options
+            --
+
+__creation_module__
+ToDo:
+    - URGENT
+        -- creating list by id_full and co
+            -- The smart way!
+    - IMPORTANT
+        -- Fist column of tables created by "get_table_season" is odd
+        -- logging
+        -- SPECIAL and OVA consideration!
+    - OTHER
+        -- In get_table_season()
+            -- consider commented creation of:
+                    studio_list, genre_list, theme_list
+               delete and or write different function
+        -- efficiency
+            -- df creation ist very slow (rethink the process)
+        -- try: except:
+            -- using a cheap solution atm - Change that!
+    - FUTUR
+        -- Additional tables
+            -- Season [TV, Movie, Averages...]
+            -- VAs [shows, scores_average, season, year...]
+
+__thoughts__
+    -- TV, OVA, ONA - Movie, Special
+        -- They are all importente (shows - movies)
+
+
+
+--Done--
+
+
+--Tables--
+    -- YEAR
+        -- #anime_type
+        -- score: mean,min,may for TV and Movie
+        -- round(score) = i for i in range(1,11)
+    -- YEAR and SEASON
+        -- #anime_type
+        -- score: mean,min,may for TV and Movie
+        -- tv_episode_mean, tv_duration_mean, tv_scored_by_mean, tv_on_list_mean, tv_favorites_mean, movie_duration_mean, movie_scored_by_mean, movie_on_list_mean, movie_favorites_mean
+    -- YEAR and SOURCE
+        -- "#shows" | "#TV" | "#Movie" | "#Other" | "score_mean"
+    -- YEAR and SEASON and SOURCE
+        -- "#shows" | "#TV" | "#Movie" | "#Other" | "score_mean"
+    -- YEAR and RATING
+        -- "#shows" | "#TV" | "#Movie" | "#Other"
+    -- YEAR and SEASON and RATING
+        -- "#shows" | "#TV" | "#Movie" | "#Other"
+    -- DAY and YEAR
+        -- score
+     -- DAY
+        -- score
+
+Year
+	Season
+		Status
+			Type
+				Episodes
+				Duration
+				Score
+				Genre
+				Theme
+				Studio
+				Source
+
+- Genre over time
+- Theme over time
+- Source over time
+			
+
+
+
+
+
+
+
+
