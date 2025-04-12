@@ -394,8 +394,11 @@ def download_json_all_param(anime_id, anime_type):
     # skip userupdates and reviews -- to many data AND no idea how to use it
     request_parameter = ["full", "characters", "staff", "episodes", "forum", "statistics"] # deleted recommendations and relations due to usage
 
+    # no need to try to get "https://api.jikan.moe/v4/anime/4907/episodes" again if "4907" has no "episodes" side
+    exception_list = get_empty_suffix_list()
     for req_param in request_parameter:
-        download_by_malID(anime_id, req_param,anime_type)
+        if str(anime_id)+"/"+req_param not in exception_list:
+            download_by_malID(anime_id, req_param,anime_type)
 
 
 # download season for season, year
@@ -484,12 +487,19 @@ def tracking_error(error_text,url):
     with open("tracking_errors.txt", 'a', encoding='utf-8') as f:
         f.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "---" + error_text + "---" + url + "\n")
 
-# if "data" is not in data it is usually the case, that the "id" has no information under "episodes" or "characters"
+# if
+# "data" is not in data it is usually the case, that the "id" has no information under "episodes" or "characters"
 # get a list of this so we can check a sample if that is the case
 def tracking_warning(error_text,url):
     with open("tracking_possible_problems.txt", 'a', encoding='utf-8') as f:
         f.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "---" + error_text + "---" + url + "\n")
+    with open("tracking_data=[].txt", 'a', encoding='utf-8') as g:
+        if error_text == "data[data] == []":
+            spl = url.split("/")
+            g.write(spl[-2]+"/"+spl[-1] + "\n")
 
+
+# to keep a better overview it helps to be able to reset the warning and error tracking txt files
 def reset_error_warning_tracking():
     with open("tracking_errors.txt", 'w', encoding='utf-8') as f:
         f.close()
@@ -497,5 +507,13 @@ def reset_error_warning_tracking():
         f.close()
 
 
-
+# we keep track of IDs that result in a waring with "data[data] == []". In that case the url probably does not have an e.g "episode" so why try again
+# Usage: obtain a list of IDs that probably don't need further download attempts
+# makes sense if you not try to get this specific id but all ids
+def get_empty_suffix_list():
+    id_list = []
+    with open("tracking_data=[].txt", 'r', encoding='utf-8') as f:
+        for line in f:
+            id_list.append(line.split("\n")[0])
+    return id_list
 
