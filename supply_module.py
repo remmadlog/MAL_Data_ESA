@@ -87,6 +87,7 @@ ToDo:
 #   #   #   #   #   #   #
 #   Import
 #   #   #   #   #   #   #
+import datetime
 import requests
 import time
 from pathlib import Path
@@ -107,25 +108,50 @@ logging.basicConfig(filename='Logging.log', encoding='utf-8', level=logging.WARN
 #   #   #   #   #   #   #
 
 # check response code to see if the request was good
+# SEE: https://docs.api.jikan.moe/#section/Information/HTTP-Responses
 def check_response(response,url_ident):
     if response.status_code != 200: # in case the response is not good
+        if response.status_code == 304:
+            logger.warning('In check_response -- Not Modified: 304 -- ' + url_ident[2] + "/" + url_ident[1] + "/" +url_ident[0])
+            return 1
+        if response.status_code == 400:
+            logger.error('In check_response -- Bad response: 400 - missing parameters -- ' + url_ident[2] + "/" +url_ident[1] + "/" +url_ident[0])
+            tracking_error("Bad response: 400",response.url)
+            # print("     Bad response: 400 -- API missing required parameters --",url_ident)
+            return 0
         if response.status_code == 404:
             logger.error('In check_response -- Bad response: 404 -- ' + url_ident[2] + "/" + url_ident[1] + "/" +url_ident[0])
-            print("     Bad response: 404 --", url_ident)
+            tracking_error("Bad response: 404", response.url)
+            # print("     Bad response: 404 --", url_ident)
+            return 0
+        if response.status_code == 405:
+            logger.error('In check_response -- Bad response: 405 -- ' + url_ident[2] + "/" + url_ident[1] + "/" +url_ident[0])
+            tracking_error("Bad response: 405", response.url)
+            # print("     Bad response: 404 --", url_ident)
+            return 0
+        if response.status_code == 429:
+            logger.error('In check_response -- Too Many Request: 429 -- ' + url_ident[2] + "/" + url_ident[1] + "/" +url_ident[0])
+            print("     Too Many Request: 429 --", url_ident)
+            return 3
+        if response.status_code == 500:
+            logger.warning('In check_response -- Internal Server Error: 504 - MAl timeout -- ' + url_ident[2] + "/" +url_ident[1] + "/" +url_ident[0]) # warning, because we catch that below
+            tracking_error("Bad response: 504", response.url)
+            # print("     Internal Server Error: 504 -- MAl timeout --",url_ident)
+            return 0
+        if response.status_code == 503:
+            logger.warning('In check_response -- Service Unavailable: 504 - Sever maintenance -- ' + url_ident[2] + "/" +url_ident[1] + "/" +url_ident[0]) # warning, because we catch that below
+            tracking_error("Bad response: 504", response.url)
+            # print("     Service Unavailable: 504 -- Sever maintenance --",url_ident)
             return 0
         if response.status_code == 504:
             logger.warning('In check_response -- Bad response: 504 - MAl timeout -- ' + url_ident[2] + "/" +url_ident[1] + "/" +url_ident[0]) # warning, because we catch that below
             print("     Bad response: 504 -- MAl timeout --",url_ident)
             return 2
-        if response.status_code == 400:
-            logger.error('In check_response -- Bad response: 400 - missing parameters -- ' + url_ident[2] + "/" +url_ident[1] + "/" +url_ident[0])
-            print("     Bad response: 400 -- API missing required parameters --",url_ident)
-            return 0
     return 1
 
 
 # url request as function | instead of doing it everytime by hand use this function to save space
-# retunrs a list: control_parameter, data
+# return is a list: control_parameter, data
 # control_parameter used to deside if the request was good
 def get_data(url, ignore_page_warning =0):
     # since I get RateLimitException:
@@ -137,9 +163,10 @@ def get_data(url, ignore_page_warning =0):
     time.sleep(wait)
     data = response.json()
 
-    if check_response(response,url_ident) == 0:
+    check_resp = check_response(response,url_ident)
+    if check_resp == 0:
         return [0,data]
-    if check_response(response,url_ident) == 2:
+    if check_resp == 2 or check_resp == 3:
         # MAL timeout -- wait 5 minutes     || I am inpatient and need a reminder that time is indeed passing
         print("     A MAL timeout occurred -- we wait for 300 seconds.")
         time.sleep(150)
@@ -153,18 +180,20 @@ def get_data(url, ignore_page_warning =0):
         time.sleep(wait)
         data = response.json()
         if check_response(response, url_ident) != 1:
+            print("     Still problems with" + url_ident[2] +"/" + url_ident[1] + "/" +url_ident[0])
+            tracking_error("Timeout", response.url)
             return [0,data]
 
     if "data" in data:
         if data["data"] == []:
             logger.warning('In get_data -- Bad response, data[data] == [] for -- ' + url_ident[2] +"/" + url_ident[1] + "/" +url_ident[0])
-            print("     Bad response: data is empty", url_ident)
+            # print("     Bad response: data is empty", url_ident)
+            tracking_warning("data[data] == []",response.url)
             return [0,data]
     else:
         logger.error('In get_data -- Bad response, date notin data for -- ' + url_ident[2] + "/" + url_ident[1] + "/" + url_ident[0])
-        print("     Bad response: data notin data", url_ident)
-        print(url)
-        print(data)
+        # print("     Bad response: data notin data", url_ident)
+        tracking_error("date notin data", response.url)
         return [0, data]
     if "type" in data:
         # check if we got an api timeout
@@ -179,7 +208,8 @@ def get_data(url, ignore_page_warning =0):
                 if data["type"] == "RateLimitException":
                     # second timeout in a row -> print a note and check it by hand or try again later
                     # we return the "To many requests" data
-                    print("     please check", url_ident)
+                    # print("     please check", url_ident)
+                    tracking_warning("Second RateLimitException", response.url)
                     logger.error('In get_data -- second time: RateLimitException -- ' + url_ident[2] +"/" + url_ident[1] + "/" +url_ident[0])
                     return [0, data]
 
@@ -190,7 +220,8 @@ def get_data(url, ignore_page_warning =0):
             if ignore_page_warning == 0:
                 # if there is a next_page go and check by hand
                 logger.warning('In get_data -- there might be additional pages -- ' + url_ident[2] + "/" +url_ident[1] + "/" +url_ident[0])
-                print("     please check",url_ident, "for additional pages")
+                # print("     please check",url_ident, "for additional pages")
+                tracking_warning("Additional Pages", response.url)
             return [2, data]
     return [1,data]
 
@@ -350,8 +381,8 @@ def download_by_malID(anime_id, req_param, anime_type):
                 [control_param,data] = get_pages(anime_id, req_param)
             save_json(data,path,name)
             save_tracking("anime",anime_id,req_param, anime_type = anime_type)
-    else:
-        print("     ",anime_id, req_param, "exists on disk.")
+    # else:
+    #     print("     ",anime_id, req_param, "exists on disk.")
 
 
 
@@ -417,15 +448,56 @@ def get_ids_in_season(year,season = "all",anime_type = "TV"):
 
 # function to easily download all anime that are _done airing_ and _have score_
 # nothing to see here, one could wirte that on the flow, needed it for testing, kept it.
-def download_anime_year(year, anime_typ = "TV"):
-    IDs = get_ids_in_season(year,anime_type=anime_typ)
-    for id in IDs:
-        print(id)  # just to check that nothing is stuck
-        download_json_all_param(id, anime_typ)
+# TV, ONA, OVA are shows
+# Movie, Special are Movie types
+# all = shows + Movie types -- No music types
+def download_anime_year(year, anime_type = "all"):
+    if anime_type == "all":
+        IDs = []
+        for a_type in ['TV', 'Movie', 'Special', 'TV Special', 'OVA', 'ONA']:
+            IDs += get_ids_in_season(year,anime_type=a_type)
+        for anime_id in IDs:
+            print(anime_id)  # just to check that nothing is stuck
+            download_json_all_param(anime_id, anime_type)
+    else:
+        IDs = get_ids_in_season(year,anime_type=anime_type)
+        for anime_id in IDs:
+            print(anime_id)  # just to check that nothing is stuck
+            download_json_all_param(anime_id, anime_type)
 
 
-def download_anime_season(year, season, anime_typ = "TV"):
-    IDs = get_ids_in_season(year, season, anime_type=anime_typ)
-    for id in IDs:
-        print(id)  # just to check that nothing is stuck
-        download_json_all_param(id, anime_typ)
+def download_anime_season(year, season, anime_type = "all"):
+    if anime_type == "all":
+        IDs = []
+        for a_type in ['TV', 'Movie', 'Special', 'TV Special', 'OVA', 'ONA']:
+            IDs += get_ids_in_season(year, season,anime_type=a_type)
+        for anime_id in IDs:
+            print(anime_id)  # just to check that nothing is stuck
+            download_json_all_param(anime_id, anime_type)
+    else:
+        IDs = get_ids_in_season(year, season,anime_type=anime_type)
+        for anime_id in IDs:
+            print(anime_id)  # just to check that nothing is stuck
+            download_json_all_param(anime_id, anime_type)
+
+
+# a more direct list of errors compared to logging todo: make logging better if you need this!
+def tracking_error(error_text,url):
+    with open("tracking_errors.txt", 'a', encoding='utf-8') as f:
+        f.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "---" + error_text + "---" + url + "\n")
+
+# if "data" is not in data it is usually the case, that the "id" has no information under "episodes" or "characters"
+# get a list of this so we can check a sample if that is the case
+def tracking_warning(error_text,url):
+    with open("tracking_possible_problems.txt", 'a', encoding='utf-8') as f:
+        f.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "---" + error_text + "---" + url + "\n")
+
+def reset_error_warning_tracking():
+    with open("tracking_errors.txt", 'w', encoding='utf-8') as f:
+        f.close()
+    with open("tracking_possible_problems.txt", 'w', encoding='utf-8') as f:
+        f.close()
+
+
+
+
