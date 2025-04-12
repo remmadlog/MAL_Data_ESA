@@ -44,6 +44,7 @@ What are interesting relations?
         -- score distribution of tv shows
 """
 
+#todo: Special == TV Special
 
 # Create a table that gives the amount of anime_type by year
 #   table_main[table_main["anime_type"] == "TV"].groupby("year").size()
@@ -54,12 +55,14 @@ tab_year_type = pd.concat([
                | (table_main["anime_type"] == "Movie")
                | (table_main["anime_type"] == "OVA")
                | (table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")
                | (table_main["anime_type"] == "ONA")].groupby("year").size(),
     table_main[(table_main["anime_type"] == "TV")
                | (table_main["anime_type"] == "OVA")
                | (table_main["anime_type"] == "ONA")].groupby("year").size(),
     table_main[(table_main["anime_type"] == "Movie")
-               | (table_main["anime_type"] == "Special")].groupby("year").size(),
+               | (table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")].groupby("year").size(),
     table_main[(table_main["anime_type"] == "Music")
                | (table_main["anime_type"] == "CM")
                | (table_main["anime_type"] == "PV")].groupby("year").size(),
@@ -67,7 +70,8 @@ tab_year_type = pd.concat([
     table_main[table_main["anime_type"] == "OVA"].groupby("year").size(),
     table_main[table_main["anime_type"] == "ONA"].groupby("year").size(),
     table_main[table_main["anime_type"] == "Movie"].groupby("year").size(),
-    table_main[table_main["anime_type"] == "Special"].groupby("year").size(),
+    table_main[(table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")].groupby("year").size(),
     table_main[table_main["anime_type"] == "Music"].groupby("year").size(),
     table_main[table_main["anime_type"] == "CM"].groupby("year").size(),
     table_main[table_main["anime_type"] == "PV"].groupby("year").size(),
@@ -75,6 +79,7 @@ tab_year_type = pd.concat([
                & (table_main["anime_type"] != "Movie")
                & (table_main["anime_type"] != "OVA")
                & (table_main["anime_type"] != "Special")
+               | (table_main["anime_type"] != "TV Special")
                & (table_main["anime_type"] != "ONA")
                & (table_main["anime_type"] != "Music")
                & (table_main["anime_type"] != "CM")
@@ -99,12 +104,14 @@ tab_year_score = pd.concat([
                | (table_main["anime_type"] == "Movie")
                | (table_main["anime_type"] == "OVA")
                | (table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")
                | (table_main["anime_type"] == "ONA")].groupby("year")["score"].mean(),
     table_main[(table_main["anime_type"] == "TV")
                | (table_main["anime_type"] == "OVA")
                | (table_main["anime_type"] == "ONA")].groupby("year")["score"].mean(),
     table_main[(table_main["anime_type"] == "Movie")
-               | (table_main["anime_type"] == "Special")].groupby("year")["score"].mean(),
+               | (table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")].groupby("year")["score"].mean(),
     table_main[(table_main["anime_type"] == "Music")
                | (table_main["anime_type"] == "CM")
                | (table_main["anime_type"] == "PV")].groupby("year")["score"].mean(),
@@ -112,12 +119,14 @@ tab_year_score = pd.concat([
                | (table_main["anime_type"] == "Movie")
                | (table_main["anime_type"] == "OVA")
                | (table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")
                | (table_main["anime_type"] == "ONA")].groupby("year")["score"].min(),
     table_main[(table_main["anime_type"] == "TV")
                | (table_main["anime_type"] == "OVA")
                | (table_main["anime_type"] == "ONA")].groupby("year")["score"].min(),
     table_main[(table_main["anime_type"] == "Movie")
-               | (table_main["anime_type"] == "Special")].groupby("year")["score"].min(),
+               | (table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")].groupby("year")["score"].min(),
     table_main[(table_main["anime_type"] == "Music")
                | (table_main["anime_type"] == "CM")
                | (table_main["anime_type"] == "PV")].groupby("year")["score"].min(),
@@ -125,12 +134,14 @@ tab_year_score = pd.concat([
                | (table_main["anime_type"] == "Movie")
                | (table_main["anime_type"] == "OVA")
                | (table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")
                | (table_main["anime_type"] == "ONA")].groupby("year")["score"].max(),
     table_main[(table_main["anime_type"] == "TV")
                | (table_main["anime_type"] == "OVA")
                | (table_main["anime_type"] == "ONA")].groupby("year")["score"].max(),
     table_main[(table_main["anime_type"] == "Movie")
-               | (table_main["anime_type"] == "Special")].groupby("year")["score"].max(),
+               | (table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")].groupby("year")["score"].max(),
     table_main[(table_main["anime_type"] == "Music")
                | (table_main["anime_type"] == "CM")
                | (table_main["anime_type"] == "PV")].groupby("year")["score"].max(),
@@ -138,16 +149,19 @@ tab_year_score = pd.concat([
     table_main[table_main["anime_type"] == "OVA"].groupby(["year"])["score"].mean(),
     table_main[table_main["anime_type"] == "ONA"].groupby(["year"])["score"].mean(),
     table_main[table_main["anime_type"] == "Movie"].groupby(["year"])["score"].mean(),
-    table_main[table_main["anime_type"] == "Special"].groupby(["year"])["score"].mean(),
+    table_main[(table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")].groupby(["year"])["score"].mean(),
     table_main[table_main["anime_type"] == "TV"].groupby(["year"])["score"].min(),
     table_main[table_main["anime_type"] == "OVA"].groupby(["year"])["score"].min(),
     table_main[table_main["anime_type"] == "ONA"].groupby(["year"])["score"].min(),
-    table_main[table_main["anime_type"] == "Special"].groupby(["year"])["score"].min(),
+    table_main[(table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")].groupby(["year"])["score"].min(),
     table_main[table_main["anime_type"] == "Movie"].groupby(["year"])["score"].min(),
     table_main[table_main["anime_type"] == "TV"].groupby(["year"])["score"].max(),
     table_main[table_main["anime_type"] == "OVA"].groupby(["year"])["score"].max(),
     table_main[table_main["anime_type"] == "ONA"].groupby(["year"])["score"].max(),
-    table_main[table_main["anime_type"] == "Special"].groupby(["year"])["score"].max(),
+    table_main[(table_main["anime_type"] == "Special")
+               | (table_main["anime_type"] == "TV Special")].groupby(["year"])["score"].max(),
     table_main[table_main["anime_type"] == "Movie"].groupby(["year"])["score"].max()
 ],
 axis =1)
