@@ -453,12 +453,11 @@ def get_ids_in_season(year,season = "all",anime_type = "TV"):
 # all = shows + Movie types -- No music types
 def download_anime_year(year, anime_type = "all"):
     if anime_type == "all":
-        IDs = []
         for a_type in ['TV', 'Movie', 'Special', 'TV Special', 'OVA', 'ONA']:
-            IDs += get_ids_in_season(year,anime_type=a_type)
-        for anime_id in IDs:
-            print(anime_id)  # just to check that nothing is stuck
-            download_json_all_param(anime_id, anime_type)
+            IDs = get_ids_in_season(year,anime_type=a_type)
+            for anime_id in IDs:
+                print(anime_id)  # just to check that nothing is stuck
+                download_json_all_param(anime_id, anime_type)
     else:
         IDs = get_ids_in_season(year,anime_type=anime_type)
         for anime_id in IDs:
@@ -468,12 +467,11 @@ def download_anime_year(year, anime_type = "all"):
 
 def download_anime_season(year, season, anime_type = "all"):
     if anime_type == "all":
-        IDs = []
         for a_type in ['TV', 'Movie', 'Special', 'TV Special', 'OVA', 'ONA']:
-            IDs += get_ids_in_season(year, season,anime_type=a_type)
-        for anime_id in IDs:
-            print(anime_id)  # just to check that nothing is stuck
-            download_json_all_param(anime_id, anime_type)
+            IDs = get_ids_in_season(year, season,anime_type=a_type)
+            for anime_id in IDs:
+                print(anime_id)  # just to check that nothing is stuck
+                download_json_all_param(anime_id, anime_type)
     else:
         IDs = get_ids_in_season(year, season,anime_type=anime_type)
         for anime_id in IDs:
