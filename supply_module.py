@@ -460,7 +460,7 @@ def download_anime_year(year, anime_type = "all"):
             IDs = get_ids_in_season(year,anime_type=a_type)
             for anime_id in IDs:
                 print(anime_id)  # just to check that nothing is stuck
-                download_json_all_param(anime_id, anime_type)
+                download_json_all_param(anime_id, a_type)
     else:
         IDs = get_ids_in_season(year,anime_type=anime_type)
         for anime_id in IDs:
@@ -474,7 +474,7 @@ def download_anime_season(year, season, anime_type = "all"):
             IDs = get_ids_in_season(year, season,anime_type=a_type)
             for anime_id in IDs:
                 print(anime_id)  # just to check that nothing is stuck
-                download_json_all_param(anime_id, anime_type)
+                download_json_all_param(anime_id, a_type)
     else:
         IDs = get_ids_in_season(year, season,anime_type=anime_type)
         for anime_id in IDs:
