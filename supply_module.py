@@ -150,16 +150,35 @@ def check_response(response,url_ident):
     return 1
 
 
+def try_get(url):
+    try:
+        response = requests.get(url, timeout=10)
+        return response
+    except:
+        print("        stuck on request, try again")
+        try:
+            response = requests.get(url, timeout=10)
+            return response
+        except:
+            print("        stuck on request, skip this: return return [0,data]")
+            return []
+
+
 # url request as function | instead of doing it everytime by hand use this function to save space
 # return is a list: control_parameter, data
 # control_parameter used to deside if the request was good
 def get_data(url, ignore_page_warning =0):
+    # print("        Try to get", url)
     # since I get RateLimitException:
     wait = 1 #waiting time in seconds
     url_split = url.split("/")  # splitting url to obtain the api request defining information for error reporting
     url_split[-1] = url_split[-1].split("?")[0]  # in case of pathparameter e.g. ?page=2
     url_ident = [url_split[-1], url_split[-2], url_split[-3]]  # should be the last 3 entries
-    response = requests.get(url)
+
+    response = try_get(url) # request.get(url, timeout = 10) AND try ONE more time -- return [] if timeouted twice
+    if response ==[]:
+        return [0,[]]
+
     time.sleep(wait)
     data = response.json()
 
@@ -176,7 +195,11 @@ def get_data(url, ignore_page_warning =0):
         # Was thinking about
         # return get_data(url, ignore_page_warning)
         # but was very scared of a loop, so I went for -- loop prevention possible
-        response = requests.get(url)
+
+        response = try_get(url)
+        if response == []:
+            return [0, []]
+
         time.sleep(wait)
         data = response.json()
         if check_response(response, url_ident) != 1:
@@ -187,12 +210,12 @@ def get_data(url, ignore_page_warning =0):
     if "data" in data:
         if data["data"] == []:
             logger.warning('In get_data -- Bad response, data[data] == [] for -- ' + url_ident[2] +"/" + url_ident[1] + "/" +url_ident[0])
-            # print("     Bad response: data is empty", url_ident)
+            # print("        Bad response: data is empty", url_ident)
             tracking_warning("data[data] == []",response.url)
             return [0,data]
     else:
         logger.error('In get_data -- Bad response, date notin data for -- ' + url_ident[2] + "/" + url_ident[1] + "/" + url_ident[0])
-        # print("     Bad response: data notin data", url_ident)
+        # print("        Bad response: data notin data", url_ident)
         tracking_error("date notin data", response.url)
         return [0, data]
     if "type" in data:
@@ -201,7 +224,17 @@ def get_data(url, ignore_page_warning =0):
         # you could also wait longer between requests in general
         if data["type"] == "RateLimitException": # we send to many requests to api and have to wait a bit
             time.sleep(4)
-            response = requests.get(url)
+            try:
+                response = requests.get(url, timeout=10)
+                print("        Got a response")
+            except:
+                print("        stuck on request, try again")
+                try:
+                    response = requests.get(url, timeout=10)
+                    print("        Got a response")
+                except:
+                    print("        stuck on request, skip this: return return [0,data]")
+                    return [0, []]
             time.sleep(wait)
             data = response.json()
             if "type" in data: # let's see if t works again
@@ -359,30 +392,60 @@ def check_exist(Type, year_id, season_reqparam):
                 return 0
 
 
+# get a list of all id/req_param so we can check the list and not always open tracking for each id/req_param -- think that might be better
+# use this if you want to download a lot of ids in one go e.g. download_json_all_param
+def get_existing_ids():
+    with open('tracking.json', encoding="utf8") as f:
+        data = json.load(f)
+    id_list = []
+    for item in data["anime"]:
+        # item = mal_id
+        for rep in data["anime"][str(item)]["req_param"]:
+            # data["anime"][str(item)]["req_param"] is a lit of the req_param
+            id_list.append(str(item) + "/" + rep)
+    return id_list
+
+
+
 #   #   #   #   #   #   #
 #   Download
 #   #   #   #   #   #   #
 
 # download one file depending on anime_id and path Parameter
 # do not use this to get season information
-def download_by_malID(anime_id, req_param, anime_type):
-    if check_exist("anime", anime_id, req_param) == 0:
-        #print("Request:",req_param, "for", anime_id)
+# check_existance != 1 used if you want to download a lot of ids and check existing ids using get_existing_ids()
+def download_by_malID(anime_id, req_param, anime_type, check_existance = 1):
+    if check_existance == 1:
+        if check_exist("anime", anime_id, req_param) == 0:
+            # print("    Request:",req_param, "for", anime_id)
 
-        url = "https://api.jikan.moe/v4/anime/" + str(anime_id)  + "/" + req_param
+            url = "https://api.jikan.moe/v4/anime/" + str(anime_id)  + "/" + req_param
+            path = "data_json/anime/" + anime_type + "/" + str(anime_id)
+            name = str(anime_id) + "_" + req_param  + ".json"
+
+            [control_param,data] = get_data(url)
+            # print("        " + str(anime_id) + "/" + req_param + " --- " + anime_type)
+            if control_param != 0:
+                if control_param ==2:
+                    # print("     The requested data:",anime_id, req_param, "has multiple pages")
+                    [control_param,data] = get_pages(anime_id, req_param)
+                save_json(data,path,name)
+                save_tracking("anime",anime_id,req_param, anime_type = anime_type)
+    else:
+        # print("    Request:", req_param, "for", anime_id)
+
+        url = "https://api.jikan.moe/v4/anime/" + str(anime_id) + "/" + req_param
         path = "data_json/anime/" + anime_type + "/" + str(anime_id)
-        name = str(anime_id) + "_" + req_param  + ".json"
+        name = str(anime_id) + "_" + req_param + ".json"
 
-        [control_param,data] = get_data(url)
-
+        [control_param, data] = get_data(url)
+        # print("        " + str(anime_id) + "/" + req_param + " --- " + anime_type)
         if control_param != 0:
-            if control_param ==2:
+            if control_param == 2:
                 # print("     The requested data:",anime_id, req_param, "has multiple pages")
-                [control_param,data] = get_pages(anime_id, req_param)
-            save_json(data,path,name)
-            save_tracking("anime",anime_id,req_param, anime_type = anime_type)
-    # else:
-    #     print("     ",anime_id, req_param, "exists on disk.")
+                [control_param, data] = get_pages(anime_id, req_param)
+            save_json(data, path, name)
+            save_tracking("anime", anime_id, req_param, anime_type=anime_type)
 
 
 
@@ -396,9 +459,11 @@ def download_json_all_param(anime_id, anime_type):
 
     # no need to try to get "https://api.jikan.moe/v4/anime/4907/episodes" again if "4907" has no "episodes" side
     exception_list = get_empty_suffix_list()
+    exists_list = get_existing_ids()
     for req_param in request_parameter:
         if str(anime_id)+"/"+req_param not in exception_list:
-            download_by_malID(anime_id, req_param,anime_type)
+            if str(anime_id) + "/" + req_param not in exists_list:
+                download_by_malID(anime_id, req_param,anime_type, check_existance=0)
 
 
 # download season for season, year
@@ -459,12 +524,12 @@ def download_anime_year(year, anime_type = "all"):
         for a_type in ['TV', 'Movie', 'Special', 'TV Special', 'OVA', 'ONA']:
             IDs = get_ids_in_season(year,anime_type=a_type)
             for anime_id in IDs:
-                print(anime_id)  # just to check that nothing is stuck
+                # print("    " + str(anime_id))  # just to check that nothing is stuck
                 download_json_all_param(anime_id, a_type)
     else:
         IDs = get_ids_in_season(year,anime_type=anime_type)
         for anime_id in IDs:
-            print(anime_id)  # just to check that nothing is stuck
+            # print(anime_id)  # just to check that nothing is stuck
             download_json_all_param(anime_id, anime_type)
 
 
@@ -473,12 +538,12 @@ def download_anime_season(year, season, anime_type = "all"):
         for a_type in ['TV', 'Movie', 'Special', 'TV Special', 'OVA', 'ONA']:
             IDs = get_ids_in_season(year, season,anime_type=a_type)
             for anime_id in IDs:
-                print(anime_id)  # just to check that nothing is stuck
-                download_json_all_param(anime_id, a_type)
+                # print(anime_id)  # just to check that nothing is stuck
+                download_json_all_param(anime_id, anime_type)
     else:
         IDs = get_ids_in_season(year, season,anime_type=anime_type)
         for anime_id in IDs:
-            print(anime_id)  # just to check that nothing is stuck
+            # print(anime_id)  # just to check that nothing is stuck
             download_json_all_param(anime_id, anime_type)
 
 
