@@ -463,6 +463,7 @@ def download_json_all_param(anime_id, anime_type):
     for req_param in request_parameter:
         if str(anime_id)+"/"+req_param not in exception_list:
             if str(anime_id) + "/" + req_param not in exists_list:
+                # print("----", anime_id)  # just to check that nothing is stuck
                 download_by_malID(anime_id, req_param,anime_type, check_existance=0)
 
 
@@ -524,12 +525,12 @@ def download_anime_year(year, anime_type = "all"):
         for a_type in ['TV', 'Movie', 'Special', 'TV Special', 'OVA', 'ONA']:
             IDs = get_ids_in_season(year,anime_type=a_type)
             for anime_id in IDs:
-                # print("    " + str(anime_id))  # just to check that nothing is stuck
+                print(year, "----", anime_id)  # just to check that nothing is stuck
                 download_json_all_param(anime_id, a_type)
     else:
         IDs = get_ids_in_season(year,anime_type=anime_type)
         for anime_id in IDs:
-            # print(anime_id)  # just to check that nothing is stuck
+            print(year,"----",anime_id)  # just to check that nothing is stuck
             download_json_all_param(anime_id, anime_type)
 
 
