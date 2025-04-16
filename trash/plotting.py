@@ -14,18 +14,18 @@ def plt_save(name):
 
 """
 Using normalized data to get a better feel for comparison
-    -- using this later
 """
-
-
 # opening normalized table (years are not normalized)
 table_normalized = pd.read_excel('S_1970_2024_information_by_year_normalized.xlsx')
 table = pd.read_excel('S_1970_2024_information_by_year.xlsx')
 
 
+table_main = pd.read_excel('Season_1970_2024_main.xlsx')
+
+
 # AMOUNT of TYPE & SCORE of TYPE
-Amount_Score = 1
-if Amount_Score:
+Amount_Score_Plot = 1
+if Amount_Score_Plot:
     #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
     #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
     """Amount of TYPES and TYPE_COMBINATIONS"""
@@ -50,16 +50,16 @@ if Amount_Score:
     plt.plot(table["year"],table["#TV_OVA_ONA"],label="#TV_OVA_ONA")
     plt.plot(table["year"],table["#Movie_Special"],label="#Movie_Special")
     plt.plot(table["year"],table["#Music_CM_PV"],label="#Music_CM_PV")
-    plt.plot(table["year"],table["#Rest_shows"],label="#Rest_shows")
+    # plt.plot(table["year"],table["#Rest_shows"],label="#Other_shows")     # all but one is NaN
 
     plt.legend(loc="upper left")
 
-    plt.title("Amount per year (Shows - TV+ - Movie+ - Rest)")
+    plt.title("Amount per year (Shows - TV+ - Movie+ - Other)")
     plt.xlabel("Years")
     plt.ylabel("Amount")
     plt.grid(linestyle = '--', linewidth = 0.5)
 
-    plt_save('Amount per year (Shows - TV+ - Movie+ - Rest)')
+    plt_save('Amount per year (Shows - TV+ - Movie+ - Other)')
 
 
 
@@ -81,25 +81,22 @@ if Amount_Score:
 
     plt_save('Amount per year (TV - OVA - ONA)')
 
-
     #   # Movie_Special, #Movie_shows, #Special_shows
-    plt.figure(figsize=(20,10))
+    plt.figure(figsize=(20, 10))
     plt.figure(3)
     # plt.subplot(1, 3, 3)
-    plt.plot(table["year"],table["#Movie_Special"],label="#Movie_Special")
-    plt.plot(table["year"],table["#Movie_shows"],label="#Movie")
-    plt.plot(table["year"],table["#Special_shows"],label="#Special")
+    plt.plot(table["year"], table["#Movie_Special"], label="#Movie_Special")
+    plt.plot(table["year"], table["#Movie_shows"], label="#Movie")
+    plt.plot(table["year"], table["#Special_shows"], label="#Special")
 
     plt.legend(loc="upper left")
 
     plt.title("Amount per year (Movie - Special)")
     plt.xlabel("Years")
     plt.ylabel("Amount")
-    plt.grid(linestyle = '--', linewidth = 0.5)
+    plt.grid(linestyle='--', linewidth=0.5)
 
     plt_save('Amount per year (Movie - Special)')
-
-
 
 
     #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
@@ -443,3 +440,63 @@ if Amount_Score:
     plt.ylim(0,10)
     plt_save(title)
 
+# SOURCE per YEAR
+source_plot = 1
+if source_plot == 1:
+    #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+    #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+    """Source per Year"""
+    #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+    #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+    # Source per year
+    plt.figure(figsize=(20,10))
+
+    for item in ['Manga', 'Original', 'Game', 'Visual novel', 'Web manga', 'Light novel', 'Novel', 'Unknown', 'Other']:
+        plt.plot(table["year"], table["#" + item], label=item)
+
+
+    name = "Amount of Source per year (of scored entries)"
+    plt.xlabel("Year")
+    plt.ylabel("Amount")
+
+    plt.legend(loc="upper left")
+    plt.title(name)
+    plt.grid(linestyle = '--', linewidth = 0.5)
+
+    plt_save(name)
+    plt.clf()
+
+
+# -#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+# -#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+"""Ratio TV/MOVIE over time"""
+# -#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+# -#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+# todo: comment
+temp_table = table
+temp_table["%TV_shows"] = temp_table["#TV_shows"]/temp_table["#TV_Movie_OVA_Special_ONA"]
+temp_table["%OVA_shows"] = temp_table["#OVA_shows"]/temp_table["#TV_Movie_OVA_Special_ONA"]
+temp_table["%ONA_shows"] = temp_table["#ONA_shows"]/temp_table["#TV_Movie_OVA_Special_ONA"]
+temp_table["%Movie_shows"] = temp_table["#Movie_shows"]/temp_table["#TV_Movie_OVA_Special_ONA"]
+temp_table["%Special_shows"] = temp_table["#Special_shows"]/temp_table["#TV_Movie_OVA_Special_ONA"]
+
+plt.figure(figsize=(20, 10))
+
+plt.plot(temp_table["year"], temp_table["%TV_shows"], label="% of TV")
+plt.plot(temp_table["year"], temp_table["%OVA_shows"], label="% of ONA")
+plt.plot(temp_table["year"], temp_table["%ONA_shows"], label="% of OVA")
+plt.plot(temp_table["year"], temp_table["%Movie_shows"], label="% of Movie")
+plt.plot(temp_table["year"], temp_table["%Special_shows"], label="% of Special")
+
+name = "Ratio of anime types over years"
+plt.xlabel("Year")
+plt.ylabel("%")
+
+plt.legend(loc="upper right")
+# plt.xlim(5.25,7.75)
+plt.title(name)
+plt.grid(linestyle='--', linewidth=0.5)
+plt_save(name)
+
+plt_save(name)
+plt.clf()
