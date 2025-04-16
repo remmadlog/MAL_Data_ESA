@@ -1,6 +1,8 @@
 """
 Creating table using the main tables obtained by the __creation_module__
 """
+from itertools import groupby
+
 from creation_module import *
 from warnings import simplefilter
 
@@ -79,7 +81,7 @@ tab_year_type = pd.concat([
                & (table_main["anime_type"] != "Movie")
                & (table_main["anime_type"] != "OVA")
                & (table_main["anime_type"] != "Special")
-               | (table_main["anime_type"] != "TV Special")
+               & (table_main["anime_type"] != "TV Special")
                & (table_main["anime_type"] != "ONA")
                & (table_main["anime_type"] != "Music")
                & (table_main["anime_type"] != "CM")
@@ -87,7 +89,7 @@ tab_year_type = pd.concat([
 
 ],
 axis =1)
-tab_year_type.columns = ["#shows", "#TV_Movie_OVA_Special_ONA", "#TV_OVA_ONA", "#Movie_Special", "#Music_CM_PV",  "#TV_shows", "#OVA_shows", "#ONA_shows", "#Movie_shows", "#Special_shows", "#Music_shows", "#CM_shows", "PV_shows", "#Rest_shows"]
+tab_year_type.columns = ["#shows", "#TV_Movie_OVA_Special_ONA", "#TV_OVA_ONA", "#Movie_Special", "#Music_CM_PV",  "#TV_shows", "#OVA_shows", "#ONA_shows", "#Movie_shows", "#Special_shows", "#Music_shows", "#CM_shows", "PV_shows", "#Other_shows"]
 
 
 
@@ -178,6 +180,73 @@ tab_year_score.columns = ["score_mean","score_min", "score_max",
 
 
 
+
+# Create a table that gives the amount of source material XZY per year
+"""
+consideration of 
+    pd.concat([table_main[(table_main["score"] > 0)].groupby("source").size().sort_values()],axis=1)
+gives
+    Radio              9
+    Card game         71
+    Picture book      73
+    Book              96
+    Web novel        125
+    Mixed media      185
+    Music            208
+    4-koma manga     299
+    Web manga        430
+    Novel            612
+    Other            654
+    Light novel     1039
+    Unknown         1134
+    Visual novel    1143
+    Game            1162
+    Manga           4762
+    Original        5778
+we reduce this to
+    Web manga        430
+    Novel            612
+    Light novel     1039
+    Unknown         1134
+    Visual novel    1143
+    Game            1162
+    Other           1711
+    Manga           4762
+    Original        5778
+"""
+
+tab_year_source = pd.concat([
+    table_main[(table_main["source"] == "Manga") & (table_main["score"] > 0)].groupby("year").size(),
+    table_main[(table_main["source"] == "Original") & (table_main["score"] > 0)].groupby("year").size(),
+    table_main[(table_main["source"] == "Game") & (table_main["score"] > 0)].groupby("year").size(),
+    table_main[(table_main["source"] == "Visual novel") & (table_main["score"] > 0)].groupby("year").size(),
+    table_main[(table_main["source"] == "Web manga") & (table_main["score"] > 0)].groupby("year").size(),
+    table_main[(table_main["source"] == "Light novel") & (table_main["score"] > 0)].groupby("year").size(),
+    table_main[(table_main["source"] == "Novel") & (table_main["score"] > 0)].groupby("year").size(),
+    table_main[(table_main["source"] == "Unknown") & (table_main["score"] > 0)].groupby("year").size(),
+
+    table_main[((table_main["source"] == "Other")
+        |(table_main["source"] == "4-koma manga")
+        |(table_main["source"] == "Picture book")
+        |(table_main["source"] == "Music")
+        |(table_main["source"] == "Book")
+        |(table_main["source"] == "Radio")
+        |(table_main["source"] == "Mixed media")
+        |(table_main["source"] == "Card game")
+        |(table_main["source"] == "Web novel"))
+    & (table_main["score"] > 0)].groupby("year").size(),
+],
+axis =1)
+
+tab_year_source.columns =  ['#Manga', '#Original', '#Game', '#Visual novel', '#Web manga', '#Light novel', '#Novel', '#Unknown', '#Other']
+
+
+
+
+
+
+
+
 #
 #
 #
@@ -224,7 +293,7 @@ tab_year_score.columns = ["score_mean","score_min", "score_max",
 
 # Combing above created tables:
 table_year = pd.concat([
-    tab_year_type, tab_year_score, #tab_year_stuff, tab_year_score_distr
+    tab_year_type, tab_year_score,tab_year_source
 ],
 axis =1)
 
