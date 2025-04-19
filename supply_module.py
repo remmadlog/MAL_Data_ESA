@@ -525,7 +525,7 @@ def download_anime_year(year, anime_type = "all"):
         for a_type in ['TV', 'Movie', 'Special', 'TV Special', 'OVA', 'ONA']:
             IDs = get_ids_in_season(year,anime_type=a_type)
             for anime_id in IDs:
-                print(year, "----", anime_id)  # just to check that nothing is stuck
+                # print(year, "----", anime_id)  # just to check that nothing is stuck
                 download_json_all_param(anime_id, a_type)
     else:
         IDs = get_ids_in_season(year,anime_type=anime_type)
