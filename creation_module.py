@@ -1204,6 +1204,9 @@ Usage of "split_list":
        This could maybe improved by saving it in a file and appending the file (?)
        The split is fixed to 11 ( A range of n will be split into a list of 11 lists - some might be empty if n < 11)
 """
+# todo: something is of with the table_SGT
+#   -- some rows occur multiple times (not supposed to happen)
+#   -- you can use .drop_duplicates() to remove duplicate rows <-- for now I do that when I use the table
 # name recommendation: name = str(Years[0]) + "_" + str(Years[-1])
 def get_table_season(Range , name):
     # range to list:
@@ -1218,6 +1221,7 @@ def get_table_season(Range , name):
     for Years in list(split_list(Y_list,11)):
         # preparations
         #   Table_main
+        # todo: approved can be removed -- always true
         columns = ["anime_id", "approved", "title", "anime_type", "source", "episodes", "status", "airing", "start", "end",
                    "duration", "rating", "score", "scored_by", "rank", "popularity", "on_list", "favorites", "synopsis",
                    "season", "year", "broadcast_day", "broadcast_time"]
