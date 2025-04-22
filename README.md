@@ -180,7 +180,12 @@ Here’s a **prediction of seasonal averages for 2025**, based on seasonal and y
 
 Grouping by **year and season** instead of just year allowed more granular predictions (e.g. Winter 2025, Spring 2025, etc.).
 
-**TODO**
+**Postponed**
+- I tried using ARIMA from sklearn
+- only got negative r2 values
+  - even using a parameter search
+- not sure where I went wrong
+- needs more investigating, will skip this for now
 
 ---
 
