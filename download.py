@@ -9,7 +9,7 @@ This file is used to download all anime_id driven data using api.jikan
         -- take your time and maybe reduce the range
 """
 
-from supply_module import *
+from module_supply import *
 
 for year in range(1970,2025):
     print("---------------------------------------------------------")

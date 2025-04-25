@@ -100,7 +100,7 @@ import logging
 #   #   #   #   #   #   #
 
 logger = logging.getLogger("__supply__")
-logging.basicConfig(filename='Logging.log', encoding='utf-8', level=logging.WARNING,format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(filename='tracking_logging/Logging.log', encoding='utf-8', level=logging.WARNING, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 
 #   #   #   #   #   #   #
@@ -344,10 +344,10 @@ def save_json(data_json,path,name):
 #     }
 # }
 def save_tracking(Type,year_id,season_reqparam, anime_type = "unknown"):
-    with open('tracking.json', encoding="utf8") as f:
+    with open('tracking_logging/tracking.json', encoding="utf8") as f:
         data = json.load(f)
     if Type == "season":
-        with open("tracking.json", "w", encoding="utf8") as f:
+        with open("tracking_logging/tracking.json", "w", encoding="utf8") as f:
             try:
                 data["season"][str(year_id)]["season"].append(season_reqparam)
             except:
@@ -356,7 +356,7 @@ def save_tracking(Type,year_id,season_reqparam, anime_type = "unknown"):
                                                              ]}
             json.dump(data, f, ensure_ascii=False, indent=4)
     elif Type == "anime":
-        with open("tracking.json","w", encoding="utf8") as f:
+        with open("tracking_logging/tracking.json", "w", encoding="utf8") as f:
             try:
                 data["anime"][str(year_id)]["req_param"].append(season_reqparam)
             except:
@@ -372,7 +372,7 @@ def save_tracking(Type,year_id,season_reqparam, anime_type = "unknown"):
 # check if a requested data was saved before
 # returns: 1 = file was saved before // 0 = file is not saved on disk
 def check_exist(Type, year_id, season_reqparam):
-    with open('tracking.json', encoding="utf8") as f:
+    with open('tracking_logging/tracking.json', encoding="utf8") as f:
         data = json.load(f)
         if Type == "season":
             try:
@@ -395,7 +395,7 @@ def check_exist(Type, year_id, season_reqparam):
 # get a list of all id/req_param so we can check the list and not always open tracking for each id/req_param -- think that might be better
 # use this if you want to download a lot of ids in one go e.g. download_json_all_param
 def get_existing_ids():
-    with open('tracking.json', encoding="utf8") as f:
+    with open('tracking_logging/tracking.json', encoding="utf8") as f:
         data = json.load(f)
     id_list = []
     for item in data["anime"]:
@@ -550,16 +550,16 @@ def download_anime_season(year, season, anime_type = "all"):
 
 # a more direct list of errors compared to logging todo: make logging better if you need this!
 def tracking_error(error_text,url):
-    with open("tracking_errors.txt", 'a', encoding='utf-8') as f:
+    with open("tracking_logging/tracking_errors.txt", 'a', encoding='utf-8') as f:
         f.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "---" + error_text + "---" + url + "\n")
 
 # if
 # "data" is not in data it is usually the case, that the "id" has no information under "episodes" or "characters"
 # get a list of this so we can check a sample if that is the case
 def tracking_warning(error_text,url):
-    with open("tracking_possible_problems.txt", 'a', encoding='utf-8') as f:
+    with open("tracking_logging/tracking_possible_problems.txt", 'a', encoding='utf-8') as f:
         f.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "---" + error_text + "---" + url + "\n")
-    with open("tracking_data=[].txt", 'a', encoding='utf-8') as g:
+    with open("tracking_logging/tracking_data=[].txt", 'a', encoding='utf-8') as g:
         if error_text == "data[data] == []":
             spl = url.split("/")
             g.write(spl[-2]+"/"+spl[-1] + "\n")
@@ -567,9 +567,9 @@ def tracking_warning(error_text,url):
 
 # to keep a better overview it helps to be able to reset the warning and error tracking txt files
 def reset_error_warning_tracking():
-    with open("tracking_errors.txt", 'w', encoding='utf-8') as f:
+    with open("tracking_logging/tracking_errors.txt", 'w', encoding='utf-8') as f:
         f.close()
-    with open("tracking_possible_problems.txt", 'w', encoding='utf-8') as f:
+    with open("tracking_logging/tracking_possible_problems.txt", 'w', encoding='utf-8') as f:
         f.close()
 
 
@@ -578,7 +578,7 @@ def reset_error_warning_tracking():
 # makes sense if you not try to get this specific id but all ids
 def get_empty_suffix_list():
     id_list = []
-    with open("tracking_data=[].txt", 'r', encoding='utf-8') as f:
+    with open("tracking_logging/tracking_data=[].txt", 'r', encoding='utf-8') as f:
         for line in f:
             id_list.append(line.split("\n")[0])
     return id_list

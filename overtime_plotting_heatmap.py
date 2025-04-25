@@ -54,7 +54,7 @@ def round_to_nearest_quarter_hour(minutes, base=15):
 # opening tables:
 # "table" uses the created table
 table = pd.read_excel('S_1970_2024_information_by_year.xlsx')
-# "table_main" is the main table we obtained using creation_module.py
+# "table_main" is the main table we obtained using module_creation.py
 table_main = pd.read_excel('Season_1970_2024_main.xlsx')
 
 

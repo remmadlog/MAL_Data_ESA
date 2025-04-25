@@ -113,7 +113,7 @@ def create_dataset(table_main):
     training_table = training_table[col]
 
     # save table for now
-    training_table.to_excel("training_yearly.xlsx")
+    training_table.to_excel("xlsx_tables/training_yearly.xlsx")
     print("Saved dataset as: training_yearly.xlsx")
 
 

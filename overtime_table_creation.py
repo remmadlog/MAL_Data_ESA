@@ -1,9 +1,9 @@
 """
-Creating table using the main tables obtained by the __creation_module__
+Creating table using the main tables obtained by the __module_creation__
 """
 from itertools import groupby
 
-from creation_module import *
+from module_creation import *
 from warnings import simplefilter
 
 # since the way we create the table below is probably not the best way, receiving the warning:
@@ -28,7 +28,7 @@ pd.set_option('display.max_columns', 3000)
 
 
 
-# loading tables created by using the creation_module
+# loading tables created by using the module_creation
 table = pd.read_excel('Season_1970_2024_SGT.xlsx')
 table_main = pd.read_excel('Season_1970_2024_main.xlsx')
 
@@ -299,7 +299,7 @@ axis =1)
 
 
 # saving table as xlsx
-table_year.to_excel("S_1970_2024_information_by_year.xlsx")
+table_year.to_excel("xlsx_tables/S_1970_2024_information_by_year.xlsx")
 
 # open table, SINCE the index before was YEAR, but we do not want that.
 # reopening the table from file gives us a nw indes column that is independent of the file
@@ -313,7 +313,7 @@ normalized = (df-df.min())/(df.max()-df.min())
 normalized["year"] = table_year["year"]
 
 #save the normalized file as xlsx
-normalized.to_excel("S_1970_2024_information_by_year_normalized.xlsx")
+normalized.to_excel("xlsx_tables/S_1970_2024_information_by_year_normalized.xlsx")
 
 
 

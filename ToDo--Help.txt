@@ -1,3 +1,6 @@
+# Need to use this more -.-
+# information in here are old -- todo: update!
+
 Maybe all ToDos:
 __supply_module__
 ToDo:
@@ -25,17 +28,17 @@ ToDo:
 __creation_module__
 ToDo:
     - URGENT
-        -- creating list by id_full and co
-            -- The smart way!
+        --
     - IMPORTANT
         -- Fist column of tables created by "get_table_season" is odd
         -- logging
-        -- SPECIAL and OVA consideration!
+        -- creating list by id_full and co
+            -- The smart way!
     - OTHER
+        -- remove "approved" from table - it is always TRUE
         -- In get_table_season()
             -- consider commented creation of:
                     studio_list, genre_list, theme_list
-               delete and or write different function
         -- efficiency
             -- df creation ist very slow (rethink the process)
         -- try: except:
@@ -50,48 +53,16 @@ __thoughts__
         -- They are all importente (shows - movies)
 
 
+TODO: get an overview -- I lost trck of my plotting (have a goal in mind, that could help)
+TODO: In table_STG -> rows are not unique -- that's not ment to be
 
---Done--
+--LEARNINGS--
+-- Could have save a lot of time:
+    -- table_main.groupby("year").agg({"duration": "mean", "episodes": "mean", "score":"mean"})
+    -- table_main.groupby(["year","anime_type"]).agg({"duration": "mean", "episodes": "mean", "score":"mean"}).unstack()
+    todo: maybe change that where it is easy to change
 
 
---Tables--
-    -- YEAR
-        -- #anime_type
-        -- score: mean,min,may for TV and Movie
-        -- round(score) = i for i in range(1,11)
-    -- YEAR and SEASON
-        -- #anime_type
-        -- score: mean,min,may for TV and Movie
-        -- tv_episode_mean, tv_duration_mean, tv_scored_by_mean, tv_on_list_mean, tv_favorites_mean, movie_duration_mean, movie_scored_by_mean, movie_on_list_mean, movie_favorites_mean
-    -- YEAR and SOURCE
-        -- "#shows" | "#TV" | "#Movie" | "#Other" | "score_mean"
-    -- YEAR and SEASON and SOURCE
-        -- "#shows" | "#TV" | "#Movie" | "#Other" | "score_mean"
-    -- YEAR and RATING
-        -- "#shows" | "#TV" | "#Movie" | "#Other"
-    -- YEAR and SEASON and RATING
-        -- "#shows" | "#TV" | "#Movie" | "#Other"
-    -- DAY and YEAR
-        -- score
-     -- DAY
-        -- score
-
-Year
-	Season
-		Status
-			Type
-				Episodes
-				Duration
-				Score
-				Genre
-				Theme
-				Studio
-				Source
-
-- Genre over time
-- Theme over time
-- Source over time
-			
 
 
 

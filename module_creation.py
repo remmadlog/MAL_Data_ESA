@@ -97,7 +97,7 @@ from pathlib import Path
 import json
 import logging
 import warnings
-from supply_module import *
+from module_supply import *
 import pandas as pd
 import numpy as np
 from warnings import simplefilter
@@ -130,7 +130,7 @@ pd.set_option('display.max_columns', 3000)
 #   #   #   #   #   #   #
 
 logger = logging.getLogger("_creation_")
-logging.basicConfig(filename='Logging.log', encoding='utf-8', level=logging.WARNING,format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(filename='tracking_logging/Logging.log', encoding='utf-8', level=logging.WARNING, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 
 #   #   #   #   #   #   #
@@ -166,7 +166,7 @@ def open_data(Type, year_id, season_reqparam, anime_type = "TV"):
             print('No such file: ' + path_name)
 
 def open_id(anime_id, req_param = "full"):
-    with open("tracking.json", encoding="utf8") as f:
+    with open("tracking_logging/tracking.json", encoding="utf8") as f:
         tracking = json.load(f)
     try:
         anime_type = tracking["anime"][str(anime_id)]["anime_type"]
@@ -184,7 +184,7 @@ def open_id(anime_id, req_param = "full"):
 
 
 def open_season(year, season):
-    with open("tracking.json", encoding="utf8") as f:
+    with open("tracking_logging/tracking.json", encoding="utf8") as f:
         tracking = json.load(f)
     try:
         if season in tracking["season"][str(year)]["season"]:
@@ -210,7 +210,7 @@ def open_season(year, season):
 # We usually don't want tio use this if we want to access the related files
 # it is likely they don't exist -- e.g. entry["status"] != "Finished Airing"
 def get_IDs_do_not_use(anime_type = "TV", season = "all", year = 0):
-    with open("tracking.json", encoding="utf8") as f:
+    with open("tracking_logging/tracking.json", encoding="utf8") as f:
         tracking = json.load(f)
     anime_IDs = []
     if season =="all" and year == 0:
