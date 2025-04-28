@@ -41,7 +41,7 @@ Below you'll find a **very brief** analysis of some trends in the MAL dataset. W
 
 It’s no surprise that the number of entries has grown over time, especially in the last decade.
 
-<img src="Plots/YEAR_Amount_(Shows_TV+_Movie+_Other).png" width="750">
+<img src="Plots/overtime/YEAR_Amount_(Shows_TV+_Movie+_Other).png" width="750">
 
 A clear dip appears around 2020 due to COVID-19.  
 - **Movies and specials** decreased.  
@@ -51,7 +51,7 @@ A clear dip appears around 2020 due to COVID-19.
 
 ### TV, OVA, ONA Trends
 
-<img src="Plots/YEAR_Amount_(TV_OVA_ONA).png" width="750">
+<img src="Plots/overtime/YEAR_Amount_(TV_OVA_ONA).png" width="750">
 
 
 - ONAs have exploded in recent years.  
@@ -62,7 +62,7 @@ A clear dip appears around 2020 due to COVID-19.
 ### Movie & Special Output
 
 
-<img src="Plots/YEAR_Amount_(Movie_Special).png" width="750">
+<img src="Plots/overtime/YEAR_Amount_(Movie_Special).png" width="750">
 
 A more focused look shows the decline in movie and special releases over time.
 
@@ -70,7 +70,7 @@ A more focused look shows the decline in movie and special releases over time.
 
 ### Source Material Usage
 
-<img src="Plots/YEAR_Amount_SOURCE.png" width="750">
+<img src="Plots/overtime/YEAR_Amount_SOURCE.png" width="750">
 
 - Original works had a notable rise (and possibly a recent fall).
 - Manga remains a strong, consistent source.
@@ -78,7 +78,7 @@ A more focused look shows the decline in movie and special releases over time.
 - Visual novels and traditional novels are declining.
 
 Also visualized here:  
-<img src="Plots/Heatmap_TF_Source.png" width="750">
+<img src="Plots/overtime/Heatmap_TF_Source.png" width="750">
 
 ---
 
@@ -86,13 +86,13 @@ Also visualized here:
 
 Just the number of shows doesn't tell the full story. Performance matters too.
 
-<img src="Plots/Heatmap_average_Score_Source_TF.png" width="750">
+<img src="Plots/overtime/Heatmap_average_Score_Source_TF.png" width="750">
 
 - Original works tend to score higher in the last decade.
 
 But scores in general have been rising:
 
-<img src="Plots/YEAR_SCORE_average.png" width="750">
+<img src="Plots/overtime/YEAR_SCORE_average.png" width="750">
 
 - The average score rose by ~0.5 points over the past 5 years.
 - A 6.5 today might’ve been a 6.0 thirty years ago, but we can’t confirm without knowing when scores were given.
@@ -102,15 +102,15 @@ But scores in general have been rising:
 
 ### Engagement Trends
 
-<img src="Plots/YEAR_ScoredBy_average.png" width="750">
+<img src="Plots/overtime/YEAR_ScoredBy_average.png" width="750">
 
 - Fewer people are scoring shows since 2015.
 - Fewer than half of all shows are scored by more than 5,000 users.
 
 Other engagement metrics follow similar trends:
 
-<img src="Plots/YEAR_OnList_average.png" width="750">
-<img src="Plots/YEAR_FAVORITES_average.png" width="750">
+<img src="Plots/overtime/YEAR_OnList_average.png" width="750">
+<img src="Plots/overtime/YEAR_FAVORITES_average.png" width="750">
 
 - Most shows have low engagement.  
 - A small number of hits drive the stats up.
@@ -124,7 +124,7 @@ We can’t say overall MAL activity is lower, just that newer shows get less eng
 
 #### Duration
 
-<img src="Plots/Heatmap_average_Duration_Type_TF.png" width="750">
+<img src="Plots/overtime/Heatmap_average_Duration_Type_TF.png" width="750">
 
 - **Movies** are longer than they used to be.
 - **TV specials** are now half as long as pre-2000.
@@ -132,7 +132,7 @@ We can’t say overall MAL activity is lower, just that newer shows get less eng
 
 #### Episodes
 
-<img src="Plots/Heatmap_average_Episodes_Type_TF.png" width="750">
+<img src="Plots/overtime/Heatmap_average_Episodes_Type_TF.png" width="750">
 
 - Show lengths (episode count) are down, likely due to seasonal splits.
   - e.g. *The Apothecary Diaries* S1 & S2 = ~50 episodes total, but recorded as two ~25-episode series.
@@ -140,13 +140,13 @@ We can’t say overall MAL activity is lower, just that newer shows get less eng
 - OVAs and ONAs resemble TV shows more than ever.
 
 Also illustrated in:  
-<img src="Plots/Heatmap_TF_Type.png" width="750">
+<img src="Plots/overtime/Heatmap_TF_Type.png" width="750">
 
 ---
 
 ### Rating Distributions
 
-<img src="Plots/Heatmap_TF_Rating_T.png" width="750">
+<img src="Plots/overtime/Heatmap_TF_Rating_T.png" width="750">
 
 - Most content now targets teens or older:
   - 50%+ rated **PG-13**
@@ -155,7 +155,7 @@ Also illustrated in:
 - **R+/Rx (NSFW)** is rarer in proportion, but still increased in raw numbers.
 
 See also:  
-<img src="Plots/Heatmap_TF_Rating.png" width="750">
+<img src="Plots/overtime/Heatmap_TF_Rating.png" width="750">
 
 - 60%+ of R+/Rx content was released in the last 25 years, but total releases have also skyrocketed.
 
@@ -163,7 +163,7 @@ See also:
 
 ### Episode Lengths
 
-<img src="Plots/Heatmap_DF_TF_T.png" width="750">
+<img src="Plots/overtime/Heatmap_DF_TF_T.png" width="750">
 
 - Most entries today are either:
   - Under 5 minutes, or  

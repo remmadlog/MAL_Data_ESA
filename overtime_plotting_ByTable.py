@@ -18,9 +18,9 @@ import matplotlib.pyplot as plt
 
 # use for saving a plt as it is, transparent and as SVG
 def plt_save(name):
-    plt.savefig('Plots/' + name + '.png', dpi=350)
-    plt.savefig('Plots/transparent_png/' + name + '.png', dpi=350, transparent=True)
-    plt.savefig('Plots/SVG/' + name + '.svg', dpi=350, transparent=True)
+    plt.savefig('Plots/overtime/' + name + '.png', dpi=350)
+    plt.savefig('Plots/overtime/transparent_png/' + name + '.png', dpi=350, transparent=True)
+    plt.savefig('Plots/overtime/SVG/' + name + '.svg', dpi=350, transparent=True)
 
 
 # found this here: https://gist.github.com/mdiener21/b4924815497a61954a68cfe3c942360f
