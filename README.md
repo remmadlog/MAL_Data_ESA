@@ -1,6 +1,29 @@
-# MyAnimeList Data Analysis (via Jikan API)
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+- [MyAnimeList Data Analysis](#myanimelist-data-analysis)
+- - [Project Goal](#project-goal)
+- - [Note](#note)
+- - [Technologies & Tools](#technologies-and-tools)
+- [1. Brief MAL Data Analysis Over Time](#1-brief-mal-data-analysis-over-time)
+- - [Remarks](#remarks)
+- - [Data Interpretation](#data-interpretation)
+- - [Predictions](#predictions)
+- - [Conclusion](#conclusion)
+- [2. Brief Analysis of Genre and Themes as well as Studios of the MAL Dataset](#2-brief-analysis-of-genre-and-themes-as-well-as-studios-of-the-mal-dataset)
+- - [Remarks](#remarks)
+- - [Data Interpretation](#data-interpretation)
+- - [Conclusion](#conclusion)
+- [3. Brief Score-Oriented Analysis of the MAL Dataset](#3-brief-score-oriented-analysis-of-the-mal-dataset)
+- - [Remarks](#remarks)
+- - [Data Interpretation](#data-interpretation)
+- - [Conclusion](#conclusion)
+- [Learnings](#learnings)
+
+# MyAnimeList Data Analysis
 
 This project explores data from [MyAnimeList (MAL)](https://myanimelist.net/) using the [Jikan API](https://jikan.moe/#). MAL is a social cataloging platform for anime and manga fans, offering a wide range of metadata and user-generated content.
+
+
 
 ## Project Goal
 This repository serves as a **learning-by-doing** project focused on:
@@ -14,13 +37,15 @@ This repository serves as a **learning-by-doing** project focused on:
 ##  Note
 This is a **learning project**, not intended for production or perfection. The goal is to practice real-world data workflows and apply analytical thinking in a practical context.
 
-##  Technologies & Tools
+##  Technologies and Tools
 - **Python** (pandas, sklearn, matplotlib, etc.)
 - **Jikan API** for MAL data
 
 
 
-# 1. Brief MAL Data Analysis Over Time (April 2025)
+# 1. Brief MAL Data Analysis Over Time
+
+**(April 2025)**
 
 Below you'll find a **very brief** analysis of some trends in the MAL dataset. 
 
@@ -37,7 +62,8 @@ Below you'll find a **very brief** analysis of some trends in the MAL dataset.
 
 ---
 
-## Interpretation
+## Data Interpretation
+
 ### Entry Growth Over Time
 
 It’s no surprise that the number of entries has grown over time, especially in the last decade.
@@ -195,7 +221,10 @@ The MAL dataset provides a depp insight in the development and propularity of an
 
 ---
 
-# 2. Brief  Genres, Themes and Studios focused analysis of the MAL dataset (May 2025)
+# 2. Brief Analysis of Genre and Themes as well as Studios of the MAL Dataset
+
+**(May 2025)**
+
 Below you'll find a very brief analysis of the MAL dataset with a focus on genre and themes.
 Studios will also be considered, but are not the main priority.
 
@@ -529,7 +558,9 @@ Studios will also be considered, but are not the main priority.
 
 
 
-# 3. Brief Score-Oriented Analysis of the MAL Dataset (May 2025)
+# 3. Brief Score-Oriented Analysis of the MAL Dataset
+
+**(May 2025)**
 
 This is a brief, exploratory analysis of the **MyAnimeList (MAL)** dataset, with a specific focus on *score-related patterns*. 
 While the dataset offers many possibilities for deeper insights, the goal here is not exhaustive analysis but rather to **gain familiarity with data tools** through a focused learning project.
@@ -759,8 +790,48 @@ While the dataset offers many possibilities for deeper insights, the goal here i
 - Feature-specific plots (e.g., score vs. episodes, duration) would benefit from **categorization/binning** to improve clarity and reduce visual noise.
 
 
+---
 
 
+# Learnings
+
+**(May 2025)**
+
+Let me present my, probably incomplete, list of learnings so far.
+
+(Keep track on what you learned so you see your progress and can present them without looking at everything you did. The later case will take way more time...)
+
+- General learnings:
+- - Keep things short and clear.
+- - Things take more time than you think they do.
+- - - This is especially true if you are learning while doing.
+- - It is okay to make mistakes.
+- - - They are part of the process.
+- - Managing a solo learning project takes effort and time.
+- - Planing ahead can have an enormous impact on workflow.
+- - Keeping track of todos and priories what to handle and if it should be handled at all (at the moment).
+- Data collecting and cleaning related:
+- - Collecting takes time.
+- - Organizing is a huge part and needs to be taken in consideration.
+- - - Tracking collected data, as well as warnings and errors.
+- - Using an API and handling occurring problems.
+- Data analysis related:
+- - Ratios and totals are both important and should both considered before making assumptions.
+- - A Plot can be overwhelming when it provides to much information.
+- - Creating plots while analysing to avoid to many corrections later on. 
+- Programming related:
+- - Gathering data using request.
+- - Using logging if things get overwhelming.
+- - A feeling for pandas:
+- - - What can I do, where to find help, how to identify helpful advice.
+- - - Using pandas in general.
+- - Using seaborn for heat plots.
+- - Using matplotlib for plotting in general.
+- - Efficiency is not the most important part if your data set is not overwhelmingly large.
+- - - It is okay to do things why to complicate if you are learning.
+- - Using markdowns for e.g. a Git README.
+- - Using Git to back up und publish a project.
+- - - Clear commit comments are quit useful.
 
 
 
