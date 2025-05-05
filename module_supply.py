@@ -349,7 +349,8 @@ def save_tracking(Type,year_id,season_reqparam, anime_type = "unknown"):
     if Type == "season":
         with open("tracking_logging/tracking.json", "w", encoding="utf8") as f:
             try:
-                data["season"][str(year_id)]["season"].append(season_reqparam)
+                if season_reqparam not in data["season"][str(year_id)]["season"]:
+                    data["season"][str(year_id)]["season"].append(season_reqparam)
             except:
                 data["season"][str(year_id)] = {"year": year_id,
                                                "season": [season_reqparam
@@ -358,7 +359,8 @@ def save_tracking(Type,year_id,season_reqparam, anime_type = "unknown"):
     elif Type == "anime":
         with open("tracking_logging/tracking.json", "w", encoding="utf8") as f:
             try:
-                data["anime"][str(year_id)]["req_param"].append(season_reqparam)
+                if season_reqparam not in data["anime"][str(year_id)]["req_param"]:
+                    data["anime"][str(year_id)]["req_param"].append(season_reqparam)
             except:
                 data["anime"][str(year_id)] = {"anime_type": anime_type,
                                                "mal_id": year_id,
@@ -546,6 +548,23 @@ def download_anime_season(year, season, anime_type = "all"):
         for anime_id in IDs:
             # print(anime_id)  # just to check that nothing is stuck
             download_json_all_param(anime_id, anime_type)
+
+
+# for blind downloading
+# # no checking
+# # can result in double entries in tracking[anime][id][req_param] || changed save_tracking, should not be a problem anymore (todo: check)
+def download_full_id(anime_id):
+    request_parameter = ["full", "characters", "staff", "episodes", "forum", "statistics"]
+
+    # getr anime_type
+    # # I could save the requested data here but rn I do not care for an additional request, so I just use that to get anime_type
+    data = get_data("https://api.jikan.moe/v4/anime/" + str(anime_id))[1]
+    anime_type = data["data"]["type"]
+
+    # start downloading
+    for req_param in request_parameter:
+        download_by_malID(anime_id, req_param, anime_type, check_existance=0)
+
 
 
 # a more direct list of errors compared to logging todo: make logging better if you need this!
