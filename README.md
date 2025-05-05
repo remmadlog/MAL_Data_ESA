@@ -615,15 +615,19 @@ While the dataset offers many possibilities for deeper insights, the goal here i
 ### Confirmation by considering Mean score
 
 **Scored by**:
+
 <img src="Plots/score/plt_scored_by_score_normalized.png" width="750">
 
 **On list**:
+
 <img src="Plots/score/plt_on_list_score_normalized.png" width="750">
 
 **Favorites**:
+
 <img src="Plots/score/plt_favorites_score_normalized.png" width="750">
 
 **Duration**:
+
 <img src="Plots/score/plt_duration_score_normalized.png" width="750">
 
 - the average score tends to be quit high if the amount or duration is high
