@@ -1,24 +1,43 @@
 # Table of Contents
-- [Table of Contents](#table-of-contents)
-- [MyAnimeList Data Analysis](#myanimelist-data-analysis)
-- - [Project Goal](#project-goal)
-- - [Note](#note)
-- - [Technologies & Tools](#technologies-and-tools)
-- [1. Brief MAL Data Analysis Over Time](#1-brief-mal-data-analysis-over-time)
-- - [Remarks](#remarks)
-- - [Data Interpretation](#data-interpretation)
-- - [Predictions](#predictions)
-- - [Conclusion](#conclusion)
-- [2. Brief Analysis of Genre and Themes as well as Studios of the MAL Dataset](#2-brief-analysis-of-genre-and-themes-as-well-as-studios-of-the-mal-dataset)
-- - [Remarks](#remarks)
-- - [Data Interpretation](#data-interpretation)
-- - [Conclusion](#conclusion)
-- [3. Brief Score-Oriented Analysis of the MAL Dataset](#3-brief-score-oriented-analysis-of-the-mal-dataset)
-- - [Remarks](#remarks)
-- - [Data Interpretation](#data-interpretation)
-- - [Conclusion](#conclusion)
-- [Learnings](#learnings)
-- [Machine Learning](#machine-learning)
+
+<details open>
+<summary>Show table of contents</summary>
+
+1. [Table of Contents](#table-of-contents)
+2. [MyAnimeList Data Analysis](#myanimelist-data-analysis)
+   - [Project Goal](#project-goal)
+   - [Note](#note)
+   - [Technologies & Tools](#technologies-and-tools)
+   - [Todos](#todos)
+3. Data Analysis
+   - [1. Brief MAL Data Analysis Over Time](#1-brief-mal-data-analysis-over-time)
+     - [Remarks](#remarks)
+     - [Data Interpretation](#data-interpretation)
+     - [Predictions](#predictions)
+     - [Conclusion](#conclusion)
+   - [2. Brief Analysis of Genre and Themes as well as Studios of the MAL Dataset](#2-brief-analysis-of-genre-and-themes-as-well-as-studios-of-the-mal-dataset)
+     - [Remarks](#remarks)
+     - [Data Interpretation](#data-interpretation)
+     - [Conclusion](#conclusion)
+   - [3. Brief Score-Oriented Analysis of the MAL Dataset](#3-brief-score-oriented-analysis-of-the-mal-dataset)
+      - [Remarks](#remarks)
+      - [Data Interpretation](#data-interpretation)
+      - [Conclusion](#conclusion)
+   - [Learnings](#learnings)
+4. [Machine Learning](#machine-learning)
+
+</details>
+
+
+<div style="text-align: right"> 
+
+(
+[Section start](#table-of-contents) | 
+[Top](#table-of-contents)
+)
+</div>
+
+---
 
 # MyAnimeList Data Analysis
 
@@ -35,13 +54,36 @@ This repository serves as a **learning-by-doing** project focused on:
 - Applying clustering techniques
 - Performing predictive analysis
 
+
 ##  Note
 This is a **learning project**, not intended for production or perfection. The goal is to practice real-world data workflows and apply analytical thinking in a practical context.
+
 
 ##  Technologies and Tools
 - **Python** (pandas, sklearn, matplotlib, etc.)
 - **Jikan API** for MAL data
+- **Orange**
 
+
+## Todos
+This is a very brief list of some task I want to do at some point.
+
+- General documentation
+- Mentioning and explain the Jikan API usage
+- Cleaner and more focused version of most python files
+
+
+<div style="text-align: right"> 
+
+(
+[Section start](#myanimelist-data-analysis) | 
+[Top](#table-of-contents)
+)
+</div>
+
+
+
+---
 
 
 # 1. Brief MAL Data Analysis Over Time
@@ -54,14 +96,14 @@ Below you'll find a **very brief** analysis of some trends in the MAL dataset.
 - This analysis intentionally omits some relationships and detailed interpretations. 
 - With more time and demand, much deeper insights can be extracted.
 - It is meant primarily as a *learning exercise* and not a comprehensive study.
----
+
 
 ## Remarks
 - **Engagement by year** refers to engagement **with shows from that year**, not interactions that happened **during** that year.
 - The low number of shows in the early years makes it harder to draw solid conclusions.
 - For entries before 2004, engagement occurred post-release, since MAL launched in November 2004.
 
----
+
 
 ## Data Interpretation
 
@@ -75,7 +117,7 @@ A clear dip appears around 2020 due to COVID-19.
 - **Movies and specials** decreased.  
 - **Music-related content** increased noticeably.
 
----
+
 
 ### TV, OVA, ONA Trends
 
@@ -85,7 +127,7 @@ A clear dip appears around 2020 due to COVID-19.
 - ONAs have exploded in recent years.  
   Titles like *Cyberpunk: Edgerunners* and *Shiguang Dailiren* are standout examples.
 
----
+
 
 ### Movie & Special Output
 
@@ -94,7 +136,7 @@ A clear dip appears around 2020 due to COVID-19.
 
 A more focused look shows the decline in movie and special releases over time.
 
----
+
 
 ### Source Material Usage
 
@@ -108,7 +150,7 @@ A more focused look shows the decline in movie and special releases over time.
 Also visualized here:  
 <img src="Plots/overtime/Heatmap_TF_Source.png" width="750">
 
----
+
 
 ### Performance & Score Trends
 
@@ -126,7 +168,7 @@ But scores in general have been rising:
 - A 6.5 today might’ve been a 6.0 thirty years ago, but we can’t confirm without knowing when scores were given.
 - Still, the score increase appears consistent, not skewed by outliers.
 
----
+
 
 ### Engagement Trends
 
@@ -146,7 +188,7 @@ Other engagement metrics follow similar trends:
 
 We can’t say overall MAL activity is lower, just that newer shows get less engagement on average.
 
----
+
 
 ### Other Notable Trends
 
@@ -170,7 +212,7 @@ We can’t say overall MAL activity is lower, just that newer shows get less eng
 Also illustrated in:  
 <img src="Plots/overtime/Heatmap_TF_Type.png" width="750">
 
----
+
 
 ### Rating Distributions
 
@@ -187,7 +229,7 @@ See also:
 
 - 60%+ of R+/Rx content was released in the last 25 years, but total releases have also skyrocketed.
 
----
+
 
 ### Episode Lengths
 
@@ -198,7 +240,7 @@ See also:
   - 20–30 minutes long.
 - Short-format anime is significantly more common now.
 
----
+
 
 ## Predictions
 
@@ -215,10 +257,19 @@ Grouping by **year and season** instead of just year allowed more granular predi
 - not sure where I went wrong
 - needs more investigating, will skip this for now
 
----
+
 
 ## Conclusion
 The MAL dataset provides a depp insight in the development and propularity of anime over the last 25 years and gives a good idea of teh development of the last 55 years.
+
+
+<div style="text-align: right"> 
+
+(
+[Section start](#1-brief-mal-data-analysis-over-time) | 
+[Top](#table-of-contents)
+)
+</div>
 
 ---
 
@@ -234,7 +285,7 @@ Studios will also be considered, but are not the main priority.
 - With more time and demand, much deeper insights can be extracted.
 - It is meant primarily as a *learning exercise* and not a comprehensive study.
 
----
+
 
 ## Remarks
 
@@ -244,7 +295,7 @@ Studios will also be considered, but are not the main priority.
   - Genres and themes often appear in combinations (e.g., *Action, Adventure, Fantasy*).
   - Studios may appear either solo or in combination with others.
 
----
+
 
 ## Data Interpretation
 
@@ -268,7 +319,7 @@ Studios will also be considered, but are not the main priority.
   - ~6,200 entries have no theme.
   - Average: **1.77 genres** per entry, but only **0.99 themes**.
 
----
+
 
 ### Average Scoring
 
@@ -305,7 +356,7 @@ Studios will also be considered, but are not the main priority.
 - Well-used genres like **Comedy**, **Action**, and **Fantasy** generally perform well with themes.
 - Worst combo (≥30 entries): **Avant Garde x Music**.
 
----
+
 
 ### Source Analysis
 
@@ -321,7 +372,7 @@ Studios will also be considered, but are not the main priority.
 
 - No notable outliers, but the data aligns with expected trends regarding source-theme pairings.
 
----
+
 
 ### Duration Trends
 
@@ -339,7 +390,7 @@ Studios will also be considered, but are not the main priority.
 
 - No strong duration trends except for **Music**-tagged themes tending toward shorter formats.
 
----
+
 
 ### Genre x Theme Matching (Solo Mode)
 <img src="Plots/SGT/heatmap_genre_theme_matching.png" width="750">
@@ -351,11 +402,14 @@ Studios will also be considered, but are not the main priority.
 - **CGDCT** (Cute Girls Doing Cute Things) appears with *Comedy* and *Slice of Life*.
 - **Parody** is mainly paired with *Comedy*.
 
----
+
 
 ### Tables
 
 #### Most single used genre, theme, studio per year
+
+<details>
+<summary>Show table</summary>
 
 | Year | Max Genre | Genre Count | Max Studio       | Studio Count | Max Theme  | Theme Count |
 |------|-----------|-------------|------------------|---------------|------------|--------------|
@@ -415,11 +469,15 @@ Studios will also be considered, but are not the main priority.
 | 2023 | Fantasy   | 249         | AQUA ARIS        | 25            | Music      | 181          |
 | 2024 | Fantasy   | 194         | J.C.Staff        | 16            | Music      | 101          |
 
+</details>
+
 - A rise in **Fantasy** after a long era of **Comedy**.
 - A long era of **Toei Animation** followed by **Madhouse**, **Sunrise**, **A-1 Pictures** and **AQUA ARIS**.
 - Themes are mainly dominated by **Mecha** and **Music**.
 
 #### Most used genre combination
+<details>
+<summary>Show table</summary>
 
 |   year | genre.max                |   amount |
 |-------:|:-------------------------|---------:|
@@ -479,11 +537,16 @@ Studios will also be considered, but are not the main priority.
 |   2023 | Action,Adventure,Fantasy |       53 |
 |   2024 | Action,Adventure,Fantasy |       61 |
 
+</details>
+
 - **1991 to 2022** are single entries,
 - - probably due to a lot of combinations that are **too specific** .
 - The last 2 years are again combinations: **Action**, **Adventure** and **Fantasy**.
 
 #### Best performing genre, theme and studio with score and amount of entries
+
+<details>
+<summary>Show table</summary>
 
 |   year | genre         |   score_x |   amount_x | theme             |   score_y |   amount_y | studio                     |   score |   amount |
 |-------:|:--------------|----------:|-----------:|:------------------|----------:|-----------:|:---------------------------|--------:|---------:|
@@ -543,6 +606,8 @@ Studios will also be considered, but are not the main priority.
 |   2023 | Drama         |   7.28027 |         73 | Showbiz           |   8.58    |          1 | LAN Studio                 | 8.64    |        1 |
 |   2024 | Drama         |   7.44091 |         55 | Survival          |   8.84    |          1 | Studio DURIAN              | 8.65    |        1 |
 
+</details>
+
 - I am **unsure** about the impact of the studio part,
 - - there is **often** **just 1 entry**.
 - **Themes** are all over the place and are **not well tracked**.
@@ -558,6 +623,16 @@ Studios will also be considered, but are not the main priority.
 - **The whole consideration of genres, themes and studios could have been done better, there is a lot of room for improvement on my end, maybe I will visit this in the futur.**
 
 
+<div style="text-align: right"> 
+
+(
+[Section start](#2-brief-analysis-of-genre-and-themes-as-well-as-studios-of-the-mal-dataset) | 
+[Top](#table-of-contents)
+)
+</div>
+
+
+---
 
 # 3. Brief Score-Oriented Analysis of the MAL Dataset
 
@@ -567,14 +642,11 @@ This is a brief, exploratory analysis of the **MyAnimeList (MAL)** dataset, with
 While the dataset offers many possibilities for deeper insights, the goal here is not exhaustive analysis but rather to **gain familiarity with data tools** through a focused learning project.
 
 
----
-
 ## Remarks
 
 - **Only non-zero score entries** are considered to ensure that the analysis focuses on relevant, aired content.
 - **Only completed entries** are included to avoid misleading or incomplete data, such as shows with zero episodes.
 
----
 
 ## Data Interpretation
 
@@ -611,7 +683,6 @@ While the dataset offers many possibilities for deeper insights, the goal here i
   - Typical TV-length shows (~23 mins) score between **5.5–9**.
   - Longer content (e.g., movies) tend to perform even better, possibly due to higher production quality or targeted marketing.
 
----
 
 ### Confirmation by considering Mean score
 
@@ -731,7 +802,6 @@ While the dataset offers many possibilities for deeper insights, the goal here i
 
 - **40% of the top entries aired in the last 4 years**, showing a trend toward recent high-performing content.
 
----
 
 ### Score Trends Over Time (Last ~10 Years)
 
@@ -785,7 +855,7 @@ While the dataset offers many possibilities for deeper insights, the goal here i
 - - entries **longer than 160 minutes**, there are only **2** entries,
 - - entries with a duration **between 120 and 150 minutes**, there are **32** entries.
 
----
+
 
 ## Conclusion
 
@@ -793,6 +863,15 @@ While the dataset offers many possibilities for deeper insights, the goal here i
 - Score trends show a **general increase over the past decade**, especially for **Movies**, **OVAs**, and **Music** entries.
 - Scoring behaviour over time has a **non-trivial impact** and should be considered.
 - Feature-specific plots (e.g., score vs. episodes, duration) would benefit from **categorization/binning** to improve clarity and reduce visual noise.
+
+
+<div style="text-align: right"> 
+
+(
+[Section start](#3-brief-score-oriented-analysis-of-the-mal-dataset) | 
+[Top](#table-of-contents)
+)
+</div>
 
 
 ---
@@ -837,6 +916,18 @@ Let me present my, probably incomplete, list of learnings so far.
 - - Using markdowns for e.g. a Git README.
 - - Using Git to back up und publish a project.
 - - - Clear commit comments are quit useful.
+
+
+
+<div style="text-align: right"> 
+
+(
+[Section start](#learnings) | 
+[Top](#table-of-contents)
+)
+</div>
+
+---
 
 
 # Machine Learning
@@ -886,13 +977,13 @@ I want to write this while working on it at the same time, in oder to see if thi
 - [training_score.csv](xlsx_tables/training_score/training_score.csv) contains more than 1k features.
 - 1k features are lot, therefore we do a feature selection.
 - Feature selection methods used:
-- - RreliefF feature scoring.
+- - RreliefF feature scoring
 - - Univariate feature selection:
-- - - chi2.
-- - - anova.
-- - Correlation-based feature selection.
-- - - Influence on target.
-- - Variance thresholding.
+- - - chi2
+- - - anova
+- - Correlation-based feature selection
+- - - Influence on target
+- - Variance thresholding
 - - - Feature variance check (a constant feature is not a good feature)
 - - Feature ranking
 - - - Using Orange
@@ -906,11 +997,11 @@ I want to write this while working on it at the same time, in oder to see if thi
 - - Considering union, intersections as well as partial (only top 50 or top 100 entries) union and intersection.
 - Ending with 14 files, see [training_score](xlsx_tables/training_score).
 - - One for each feature list and one for arranged combinations.
-- In order to see which file will be of use, we will use all of them and decide afterward
-- - I have not a good feeling for what will work and what won't work, therefore I will try and see
+- In order to see which file will be of use, we will use all of them and decide afterward.
+- - I have not a good feeling for what will work and what won't work, therefore I will try and see.
 
 ## Regarding ml_model.py (WIP)
-- Using different ML models on our data to obtain prediction models
+- Using different ML models on our data to obtain prediction models:
 - - Linear Regression
 - - Multinomial Logistic Regression (MLR)
 - - KNN
@@ -919,4 +1010,15 @@ I want to write this while working on it at the same time, in oder to see if thi
 - - Decision Tree
 - - Random Forest
 - - Assembled Learning
-- Where necessary and or helpful a parameter search is used
+- Where necessary and or helpful, a parameter search is used.
+
+
+
+<div style="text-align: right"> 
+
+(
+[Section start](#machine-learning) | 
+[Top](#table-of-contents)
+)
+</div>
+---
