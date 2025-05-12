@@ -23,6 +23,24 @@ Idea:
 import pandas as pd
 import numpy as np
 from sklearn.feature_selection import SelectKBest   # importing additional libraries below
+from operator import itemgetter     # for sorting list of lists
+
+
+
+
+
+"""I want the feature list to be sorted but SelectKBest does not provide this. So I do it very very ugly, please forgive me (me telling future me to not get super mad)"""
+def sorting(selected_indices,selected_scores):
+    help_list = []
+    for i in selected_indices:
+        help_list.append([features[i],selected_scores[i]])
+
+    # soring by score
+    help_list = sorted(help_list, key=itemgetter(1))
+    # reverse order so the highest score is first entry
+    help_list.reverse()
+    return help_list
+
 
 # open csv
 dfml = pd.read_csv('xlsx_tables/training_score/training_score.csv').fillna(0)
@@ -58,8 +76,7 @@ target = ["score"]
 dfml_data = dfml[features].astype("float").fillna(0)
 #defining target data
 dfml_target = dfml[target].astype("float").fillna(0)
-# target data unknown value error -> transform to int
-dfml_target = dfml_target["score"].astype("int")
+dfml_target = dfml_target["score"].astype("float")
 
 
 # len of created features lists
@@ -73,15 +90,22 @@ from sklearn.feature_selection import chi2
 # get the 100 best features provided by chi2
 k_best_features = q
 selector = SelectKBest(score_func=chi2, k=k_best_features)
-X_new = selector.fit_transform(dfml_data, dfml_target)
+
+# since chi2 is for categorical target
+X_new = selector.fit_transform(dfml_data, dfml_target.astype("str"))
 
 # ids of chosen features
 selected_indices = selector.get_support(indices=True)
 
+# scores as array
+selected_scores = selector.scores_
+
+help_list = sorting(selected_indices,selected_scores)
+
 # get features as list
 features_chi2 = []
-for i in selected_indices:
-    features_chi2.append(features[i])
+for entry in help_list:
+    features_chi2.append(entry[0])
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 from sklearn.feature_selection import f_classif
@@ -94,10 +118,15 @@ X_new = selector.fit_transform(dfml_data, dfml_target)
 # ids of chosen features
 selected_indices = selector.get_support(indices=True)
 
+# scores as array
+selected_scores = selector.scores_
+
+help_list = sorting(selected_indices,selected_scores)
+
 # get features as list
 features_anova = []
-for i in selected_indices:
-    features_anova.append(features[i])
+for entry in help_list:
+    features_anova.append(entry[0])
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """Correlation-based Feature Selection"""
@@ -115,7 +144,6 @@ cor_val = cor_val.sort_values(ascending=False)
 features_cor_val = cor_val.index
 # # only getting the top 100
 features_cor_val = features_cor_val[:q].to_list()
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """Variance Thresholding"""
@@ -135,6 +163,8 @@ dfml_data_selected = selector.fit_transform(dfml_data)
 # get features as list
 features_variance = dfml_data.columns[selector.get_support()].to_list()
 
+
+# todo: SORTING -- Not sure how to do that so this list will be excluded form the reduction intersections below
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -162,6 +192,7 @@ Consider ml_orange_feature_score_RandromTree.xlsx
 - 
 """
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # open Rank file
 df_rank = pd.read_excel('xlsx_tables/ml_orange_feature_rank.xlsx').fillna(0)
 # cleaning first two rows
@@ -176,6 +207,7 @@ features_univar = df_rank.sort_values("Univar. reg.", ascending=False)[:q]["Feat
 # get top 100 features by 'RReliefF'
 features_rrelieff = df_rank.sort_values("RReliefF", ascending=False)[:q]["Feature"].to_list()
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # open Random Tree file
 df_rt = pd.read_excel('xlsx_tables/ml_orange_feature_score_RandromTree.xlsx').fillna(0)
@@ -198,16 +230,7 @@ All feature lists
 - features_rrelieff
 - features_tree_r2_mean
 """
-# print(features_chi2)
-# print(features_anova)
-# print(features_cor_val)
-# print(features_variance)
-# print(features_univar)
-# print(features_rrelieff)
-# print(features_tree_r2_mean)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 """
 Since I have not much experience regarding this, I do not know how many features are to many.
 Therefore, I will consider different approaches. 
@@ -219,7 +242,6 @@ Maybe I also go with:
 - Usage of each feature selection separately?
 """
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 # take an intersection
 features_intersection = set(features_chi2) & set(features_anova) & set(features_cor_val) & set(features_variance) & set(features_univar) & set(features_rrelieff) & set(features_tree_r2_mean)
 features_intersection = list(features_intersection)
@@ -231,12 +253,12 @@ print("Feature Amount Union:      ", len(features_union_full))
 
 # take half
 k = int(round(q/2,0))
-features_union_half = list(set(features_chi2[:k]+features_anova[:k]+features_cor_val[:k]+features_variance[:k]+features_univar[:k]+features_rrelieff[:k]+features_tree_r2_mean[:k]))
+features_union_half = list(set(features_chi2[:k]+features_anova[:k]+features_cor_val[:k]+features_univar[:k]+features_rrelieff[:k]+features_tree_r2_mean[:k]))
 print("Feature Amount Union Half:      ", len(features_union_half))
 
 # take quarter
 k = int(round(q/4,0))
-features_union_quarter = list(set(features_chi2[:k]+features_anova[:k]+features_cor_val[:k]+features_variance[:k]+features_univar[:k]+features_rrelieff[:k]+features_tree_r2_mean[:k]))
+features_union_quarter = list(set(features_chi2[:k]+features_anova[:k]+features_cor_val[:k]+features_univar[:k]+features_rrelieff[:k]+features_tree_r2_mean[:k]))
 print("Feature Amount Union Quarter:      ", len(features_union_quarter))
 
 # combination: intersection \cap union_full
@@ -244,13 +266,14 @@ features_comb_full = list(set(features_intersection)&set(features_union_full))
 print("Feature Amount Combination:      ", len(features_comb_full))
 
 # combination: intersection \cap union_half
-features_comb_half = list(set(features_intersection)&set(features_union_half))
+features_comb_half = list(set(features_intersection)&set(features_union_half)&set(features_variance))
 print("Feature Amount Combination Half:      ", len(features_comb_half))
 
 # combination: intersection \cap union_quarter
-features_comb_quarter = list(set(features_intersection)&set(features_union_quarter))
+features_comb_quarter = list(set(features_intersection)&set(features_union_quarter)&set(features_variance))
 print("Feature Amount Combination Quarter:      ", len(features_comb_quarter))
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # creating tables using the established features
 training_score_features_intersection = dfml[["anime_id"] + features_intersection + ["score"]]
@@ -269,7 +292,7 @@ training_score_features_univar = dfml[["anime_id"] + features_univar + ["score"]
 training_score_features_rrelieff = dfml[["anime_id"] + features_rrelieff + ["score"]]
 training_score_features_tree_r2_mean = dfml[["anime_id"] + features_tree_r2_mean + ["score"]]
 
-
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # saving everything as CSV (it is faster this way and good enough)
 training_score_features_chi2.to_csv("xlsx_tables/training_score/selection_pure_chi2.csv", index=False)
