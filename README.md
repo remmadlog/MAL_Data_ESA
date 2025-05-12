@@ -1003,14 +1003,15 @@ I want to write this while working on it at the same time, in oder to see if thi
 ## Regarding ml_model.py (WIP)
 - Using different ML models on our data to obtain prediction models:
 - - Linear Regression
-- - Multinomial Logistic Regression (MLR)
-- - KNN
-- - Support Vector Machine (SVM)
 - - Neuronal Network
 - - Decision Tree
 - - Random Forest
-- - Assembled Learning
-- Where necessary and or helpful, a parameter search is used.
+- - Ensemble Learning
+- A parameter search is used to find suitable parameters.
+- - Note: fixing **random_state** is important and can otherwise result in non-usable parameters.
+- - - Learned that the hard way.
+- - For more information see [ml_gridsearch_notes.md](ml_gridsearch_notes.md).
+
 
 
 
