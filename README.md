@@ -23,8 +23,8 @@
       - [Remarks](#remarks)
       - [Data Interpretation](#data-interpretation)
       - [Conclusion](#conclusion)
-   - [Learnings](#learnings)
 4. [Machine Learning](#machine-learning)
+5. [Learnings](#learnings)
 
 </details>
 
@@ -877,59 +877,6 @@ While the dataset offers many possibilities for deeper insights, the goal here i
 ---
 
 
-# Learnings
-
-**(May 2025)**
-
-Let me present my, probably incomplete, list of learnings so far.
-
-(Keep track on what you learned so you see your progress and can present them without looking at everything you did. The later case will take way more time...)
-
-- General learnings:
-- - Keep things short and clear.
-- - Things take more time than you think they do.
-- - - This is especially true if you are learning while doing.
-- - It is okay to make mistakes.
-- - - They are part of the process.
-- - Managing a solo learning project takes effort and time.
-- - Planing ahead can have an enormous impact on workflow.
-- - Keeping track of todos and priories what to handle and if it should be handled at all (at the moment).
-- Data collecting and cleaning related:
-- - Collecting takes time.
-- - Organizing is a huge part and needs to be taken in consideration.
-- - - Tracking collected data, as well as warnings and errors.
-- - Using an API and handling occurring problems.
-- Data analysis related:
-- - Ratios and totals are both important and should both considered before making assumptions.
-- - A Plot can be overwhelming when it provides to much information.
-- - Creating plots while analysing to avoid to many corrections later on. 
-- Programming related:
-- - Gathering data using request.
-- - Using logging if things get overwhelming.
-- - A feeling for pandas:
-- - - What can I do, where to find help, how to identify helpful advice.
-- - - Using pandas in general.
-- - Using seaborn for heat plots.
-- - Using matplotlib for plotting in general.
-- - Efficiency is not the most important part if your data set is not overwhelmingly large.
-- - - It is okay to do things why to complicate if you are learning.
-- - Using markdowns for e.g. a Git README.
-- - Using Git to back up und publish a project.
-- - - Clear commit comments are quit useful.
-
-
-
-<div style="text-align: right"> 
-
-(
-[Section start](#learnings) | 
-[Top](#table-of-contents)
-)
-</div>
-
----
-
-
 # Machine Learning
 
 **(May 2025)**
@@ -1000,17 +947,24 @@ I want to write this while working on it at the same time, in oder to see if thi
 - In order to see which file will be of use, we will use all of them and decide afterward.
 - - I have not a good feeling for what will work and what won't work, therefore I will try and see.
 
-## Regarding ml_model.py (WIP)
+**For more information see:** [notes_ml_featureselection.md](notes_ml_featureselection.md)
+
+
+## Regarding [ml_model_parameter_search.py](ml_model_parameter_search.py) (WIP)
 - Using different ML models on our data to obtain prediction models:
-- - Linear Regression
-- - Neuronal Network
-- - Decision Tree
-- - Random Forest
-- - Ensemble Learning
+  - Linear Regression
+  - Neuronal Network
+  - Decision Tree
+  - Random Forest
+  - Gradient Boosting
+  - Elastic Net
+  - XGBoosting
 - A parameter search is used to find suitable parameters.
-- - Note: fixing **random_state** is important and can otherwise result in non-usable parameters.
-- - - Learned that the hard way.
-- - For more information see [ml_gridsearch_notes.md](ml_gridsearch_notes.md).
+  - Note: fixing **random_state** is important and can otherwise result in non-usable parameters.
+    - Learned that the hard way. 
+- Focused on **r2** and **MAE** for scoring.
+
+**For more information and results see:** [ml_gridsearch_notes.md](notes_ml_gridsearch.md)
 
 
 
@@ -1019,6 +973,67 @@ I want to write this while working on it at the same time, in oder to see if thi
 
 (
 [Section start](#machine-learning) | 
+[Top](#table-of-contents)
+)
+</div>
+
+---
+
+
+# Learnings
+
+**(May 2025)**
+
+Let me present my, probably incomplete, list of learnings so far.
+
+(Keep track on what you learned so you see your progress and can present them without looking at everything you did. The later case will take way more time...)
+
+- **General learnings:**
+  - Keep things short and clear.
+  - Things take more time than you think they do.
+    - This is especially true if you are learning while doing.
+  - It is okay to make mistakes.
+    - They are part of the process.
+  - Managing a solo learning project takes effort and time.
+    - Planing ahead can have an enormous impact on workflow.
+    - Keeping track of todos and priories what to handle and if it should be handled at all (at the moment).
+- **Data collecting and cleaning:**
+  - Collecting takes time.
+  - Organizing is a huge part and needs to be taken in consideration.
+    - Tracking collected data, as well as warnings and errors.
+  - Using an API and handling occurring problems.
+- **Data analysis:**
+  - Ratios and totals are both important and should both considered before making assumptions.
+  - A Plot can be overwhelming when it provides to much information.
+  - Creating plots while analysing to avoid to many corrections later on. 
+- **Programming:**
+  - Gathering data using request.
+  - Using logging if things get overwhelming.
+  - A feeling for pandas:
+    - What can I do, where to find help, how to identify helpful advice.
+    - Using pandas in general.
+  - Using seaborn for heat plots.
+    - Using matplotlib for plotting in general.
+    - Efficiency is not the most important part if your data set is not overwhelmingly large.
+    - It is okay to do things why to complicate if you are learning.
+  - Using markdowns for e.g. a Git README.
+    - Using Git to back up und publish a project.
+    - Clear commit comments are quit useful.
+- **Machine learning:**
+  - Feature selection
+    - Different methods can provide vastly different results.
+    - Different feature sizes can make a significant differance.
+  - Choosing parameters
+    - A gridsearch takes time, chose the candidates wisely.
+    - Parameters for a smaller feature set do not necessarily provide an indication for the larger feature set.
+    - 
+
+
+
+<div style="text-align: right"> 
+
+(
+[Section start](#learnings) | 
 [Top](#table-of-contents)
 )
 </div>
