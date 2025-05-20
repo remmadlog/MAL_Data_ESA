@@ -89,7 +89,7 @@ for anime_id in tqdm(anime_data):
     dropped = statistics["data"]["dropped"]
     plan_to_watch = statistics["data"]["plan_to_watch"]
     # subtract completed so we do not bias it
-    total = statistics["data"]["total"] - completed
+    total = statistics["data"]["total"] - completed     # ! We remove completed later
 
 
     # write row
