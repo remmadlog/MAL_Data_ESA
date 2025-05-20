@@ -25,7 +25,8 @@ The results obtained there will be used in the next steps.
   - Forgot scaling for a minute, using scaled data works much better...
   - Considered **MAE** as scoring lead, since I have a better feeling for the real impact.
 
-
+> [!NOTE]
+> One may also consider [notes_ml_gridsearch_all_features.md](notes_ml_gridsearch_all_features.md) for a brief look into the possibility of using **all** features.
 ---
 
 ---
@@ -503,7 +504,6 @@ model = SVR(
                             # # if float, must be non-negative.
     epsilon = 0.09,         # pecifies the epsilon-tube within which no penalty is associated
     kernel = "rbf",         #  kernel type to be used in the algorithm
-    random_state = 42       # for reproducibility
 )
 ```
 
@@ -1121,8 +1121,7 @@ model = GradientBoostingRegressor(
   >    'C': [0.1, 1, 10, 100],
   >    'gamma':[0.01, 0.1, 1],
   >    'epsilon': [0.01, 0.1, 0.5],
-  >    'kernel': ["rbf"],
-  >    'random_state': [42]                       # for reproducibility
+  >    'kernel': ["rbf"]
   >            }
   >```
   >
@@ -1156,8 +1155,7 @@ model = GradientBoostingRegressor(
   >    'C': [0.1, 1, 10, 100],
   >    'gamma':["scale", "auto"],        #'gamma':[0.01, 0.1, 1, "scale", "auto"],
   >    'epsilon': [0.001, 0.01, 0.1, 0.5],
-  >    'kernel': ["rbf"],         # 'kernel': ["linear", "poly", "rbf"]
-  >    'random_state': [42] 
+  >    'kernel': ["rbf"]         # 'kernel': ["linear", "poly", "rbf"]
   >}
   >```
   >
@@ -1191,8 +1189,7 @@ model = GradientBoostingRegressor(
   >    'C': [10,25,50],
   >    'gamma':["scale", "auto"],        #'gamma':[0.01, 0.1, 1, "scale", "auto"],
   >    'epsilon': [0.01, 0.02, 0.04, 0.06],
-  >    'kernel': ["rbf"],         # 'kernel': ["linear", "poly", "rbf"]
-  >    'random_state': [42]                       # for reproducibility
+  >    'kernel': ["rbf"]         # 'kernel': ["linear", "poly", "rbf"]
   >            }
   >```
   >
@@ -1216,8 +1213,7 @@ model = GradientBoostingRegressor(
   >    'C': [9,10,11],
   >    'gamma':["auto"],        #'gamma':[0.01, 0.1, 1, "scale", "auto"],
   >    'epsilon': [0.06, 0.08, 0.1, 0.15, 0.2],
-  >    'kernel': ["rbf"],         # 'kernel': ["linear", "poly", "rbf"]
-  >    'random_state': [42]                       # for reproducibility
+  >    'kernel': ["rbf"]         # 'kernel': ["linear", "poly", "rbf"]
   >            }
   >```
   >
@@ -1241,8 +1237,7 @@ model = GradientBoostingRegressor(
   >    'C': [7,8,9],
   >    'gamma':["auto"],        #'gamma':[0.01, 0.1, 1, "scale", "auto"],
   >    'epsilon': [0.1, 0.12, 0.13, 0.15],
-  >    'kernel': ["rbf", "poly"],         # 'kernel': ["linear", "poly", "rbf"]
-  >    'random_state': [42]                       # for reproducibility
+  >    'kernel': ["rbf", "poly"]         # 'kernel': ["linear", "poly", "rbf"]
   >            }
   >```
   >
@@ -1266,8 +1261,7 @@ model = GradientBoostingRegressor(
   >    'C': [4,5,6,7],
   >    'gamma':["auto"],        #'gamma':[0.01, 0.1, 1, "scale", "auto"],
   >    'epsilon': [0.09,0.1,0.11],
-  >    'kernel': ["rbf"],         # 'kernel': ["linear", "poly", "rbf"]
-  >    'random_state': [42]                       # for reproducibility
+  >    'kernel': ["rbf"]         # 'kernel': ["linear", "poly", "rbf"]
   >            }
   >```
   >
@@ -1291,8 +1285,7 @@ model = GradientBoostingRegressor(
   >    'C': [5],
   >    'gamma':["auto", 0.001,0.00001,0.000001, "scale"],        #'gamma':[0.01, 0.1, 1, "scale", "auto"],
   >    'epsilon': [0.09],
-  >    'kernel': ["rbf"],         # 'kernel': ["linear", "poly", "rbf"]
-  >    'random_state': [42]                       # for reproducibility
+  >    'kernel': ["rbf"]         # 'kernel': ["linear", "poly", "rbf"]
   >            }
   >```
   >
@@ -1316,8 +1309,7 @@ model = GradientBoostingRegressor(
   >    'C': [5],
   >    'gamma':[0.0005,0.001,0.0015,0.002,0.0025],        #'gamma':[0.01, 0.1, 1, "scale", "auto"],
   >    'epsilon': [0.09],
-  >    'kernel': ["rbf"],         # 'kernel': ["linear", "poly", "rbf"]
-  >    'random_state': [42]                       # for reproducibility
+  >    'kernel': ["rbf"]         # 'kernel': ["linear", "poly", "rbf"]
   >            }
   >```
   >
@@ -1341,8 +1333,7 @@ model = SVR(
     C = 5,
     gamma = 0.0015,
     epsilon = 0.09,
-    kernel = "rbf",
-    random_state = 42                       # for reproducibility
+    kernel = "rbf"
 )
 ```
 </details>
