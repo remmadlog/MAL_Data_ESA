@@ -18,7 +18,6 @@ Maybe use Classification modules too (target classification needed for that)
 """Import"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 import pandas as pd
-import csv
 
 # for splitting a DF into training and testing
 from sklearn.model_selection import train_test_split
@@ -29,21 +28,12 @@ from sklearn.preprocessing import StandardScaler
 # for evaluating
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
-# for LinearRegression
-from sklearn.linear_model import LinearRegression
-
-# for the Neuronal Network
-from sklearn.neural_network import MLPRegressor
-
-# for Decision Tree
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.model_selection import GridSearchCV
-
-# for the random forest
-from sklearn.ensemble import RandomForestRegressor
-
 # Save and Load models using pickle
 import pickle
+
+# for calculating confidence interval
+import scipy.stats as stats
+
 """
 # save
 with open('model.pkl','wb') as f:
@@ -281,7 +271,7 @@ with open('xlsx_tables/training_score/trained_models/XGB.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # print name and scores
-print("SVR")
+print("XGB")
 # making predictions
 y_pred_xgb = model.predict(X_test_scaled)
 # print scores
@@ -292,38 +282,33 @@ print_scores(y_test, y_pred_xgb)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """Creating a table"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-df_predictions = pd.concat(
-    [y_test_id["anime_id"], y_test_id["score"], y_pred_LR, y_pred_MLP, y_pred_tree, y_pred_forest],
-    axis=1
+# define anime_id col
+df_id = y_test_id["anime_id"].astype("int")
+df_id = df_id.astype("str").reset_index(drop=True)
+
+# reset the index so concat works probably
+df_score = y_test_id["score"].reset_index(drop=True)
+
+
+df_predictions = pd.concat([
+    df_id,
+    df_score,
+    pd.DataFrame(y_pred_LR),
+    pd.DataFrame(y_pred_MLP),
+    pd.DataFrame(y_pred_tree),
+    pd.DataFrame(y_pred_forest),
+    pd.DataFrame(y_pred_gradboost),
+    pd.DataFrame(y_pred_elnet),
+    pd.DataFrame(y_pred_svr),
+    pd.DataFrame(y_pred_xgb)
+], axis=1, ignore_index=True
 )
-df_predictions.columns = ["anime_id", "og_score", "LinReg_score", "NN_score", "Tree_score", "Forest_score"]
+
+df_predictions.columns = [
+    "anime_id", "og_score",
+    "LinReg_score", "MLP_score", "Tree_score", "Forest_score", "GradBoost_score", "ElNet_score", "SVR_score", "XGB_score"
+    ]
+
+df_predictions.to_csv("xlsx_tables/training_score/predictions.csv", index=False)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-
-
-
-
-
-#
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# """Using classifications"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# """         Multinomial Logistic Regression"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# """         KNN"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# """         Support Vector Machine (SVM)"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# """         Ensemble Learning"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#
-#
