@@ -52,11 +52,12 @@ from sklearn.linear_model import ElasticNet
 # for Support Vector Regression
 from sklearn.svm import SVR
 
-# for Extream Gradient Boosting
+# for Extreme Gradient Boosting
 from xgboost import XGBRegressor
 
 # Save and Load models using pickle
 import pickle
+
 """
 # save
 with open('model.pkl','wb') as f:
@@ -333,7 +334,6 @@ model = SVR(
                             # # if float, must be non-negative.
     epsilon = 0.09,         # pecifies the epsilon-tube within which no penalty is associated
     kernel = "rbf",         #  kernel type to be used in the algorithm
-    random_state = 42       # for reproducibility
 )
 # fitting the model on training data
 # # X = features || y = target
