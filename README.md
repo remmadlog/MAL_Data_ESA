@@ -15,7 +15,7 @@
    - [Summary: Brief Analysis of Genre and Themes as well as Studios](#summary-brief-analysis-of-genre-and-themes-as-well-as-studios)
    - [Full Entry: Brief Analysis of Genre and Themes as well as Studios](section_DataAnalysis.md#2-brief-analysis-of-genre-and-themes-as-well-as-studios-of-the-mal-dataset)
    - [Summary: Brief Score-Oriented Analysis](#summary-brief-score-oriented-analysis)
-   - [Full Entry: Brief Score-Oriented Analysis](#3-brief-score-oriented-analysis-of-the-mal-dataset)
+   - [Full Entry: Brief Score-Oriented Analysis](section_DataAnalysis.md#3-brief-score-oriented-analysis-of-the-mal-dataset)
 4. [Machine Learning](#machine-learning)
    - [Summary](#machine-learning)
    - [Full Entry](section_MachineLearning.md#machine-learning)
