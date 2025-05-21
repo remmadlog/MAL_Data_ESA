@@ -73,7 +73,7 @@ This is a very brief list of some task I want to do at some point.
 ---
 
 # Data Analysis
-> See [section_DataAnalysis.md](section_DataAnalysis.md) for full information.
+> See [section_DataAnalysis](section_DataAnalysis.md) for full information.
 
 ## Summary: Brief MAL Data Analysis Over Time
 This is a high-level summary of trends in the MAL dataset, focusing on anime production, scoring, and engagement over time.
@@ -173,7 +173,7 @@ This section explores how various features relate to **anime scores** in the MAL
 
 
 # Machine Learning
-> See [section_MachineLearning.md](section_MachineLearning.md) for full information.
+> See [section_MachineLearning](section_MachineLearning.md) for full information.
 
 ## A Summary
 
@@ -198,10 +198,10 @@ This section explores predicting anime scores using various **machine learning m
 - Emphasis on experimentation due to uncertainty about what features will perform well.
 
 > Detailed results and notes in:  
-> [notes_ml_featureselection.md](notes_ml_featureselection.md)  
-> [notes_ml_gridsearch.md](notes_ml_gridsearch.md)  
-> [notes_ml_gridsearch_all_features.md](notes_ml_gridsearch_all_features.md)
-> [notes_ml_model_evaluation.md](notes_ml_model_evaluation.md)
+> [notes_ml_featureselection](notes_ml_featureselection.md)  
+> [notes_ml_gridsearch](notes_ml_gridsearch.md)  
+> [notes_ml_gridsearch_all_features](notes_ml_gridsearch_all_features.md)  
+> [notes_ml_model_evaluation](notes_ml_model_evaluation.md)
 
 
 

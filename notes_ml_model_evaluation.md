@@ -25,7 +25,7 @@ Thus, we consider the following table:
 Average of all trained models.
 
 **Combined Biased Mean**:
-Biased average of all trained models using the R² score given by the cross validation in the gridsearch in [ml_model_parameter_search.py](ml_model_parameter_search.py) and in [notes_ml_gridsearch.md](notes_ml_gridsearch.md).
+Biased average of all trained models using the R² score given by the cross validation in the gridsearch in [ml_model_parameter_search.py](ml_model_parameter_search.py) and in [notes_ml_gridsearch](notes_ml_gridsearch.md).
 
 ### Focusing on **Extreme Gradient Boosting**
 

@@ -78,7 +78,7 @@ I want to write this while working on it at the same time, in oder to see if thi
 - In order to see which file will be of use, we will use all of them and decide afterward.
 - - I have not a good feeling for what will work and what won't work, therefore I will try and see.
 
-> For more information, see [notes_ml_featureselection.md](notes_ml_featureselection.md).
+> For more information, see [notes_ml_featureselection](notes_ml_featureselection.md).
 
 
 ### Regarding [ml_model_parameter_search.py](ml_model_parameter_search.py) (WIP)
@@ -95,12 +95,12 @@ I want to write this while working on it at the same time, in oder to see if thi
     - Learned that the hard way. 
 - Focused on **r2** and **MAE** for scoring.
 
-> For more information and results, see [ml_gridsearch_notes.md](notes_ml_gridsearch.md).\
-> For a consideration of **all** features, see [notes_ml_gridsearch_all_features.md](notes_ml_gridsearch_all_features.md).
+> For more information and results, see [notes_ml_gridsearch_notes](notes_ml_gridsearch.md).\
+> For a consideration of **all** features, see [notes_ml_gridsearch_all_features](notes_ml_gridsearch_all_features.md).
 
 
 ## Results
-The main findings are presented in [notes_ml_model_evaluation.md](notes_ml_model_evaluation.md).
+The main findings are presented in [notes_ml_model_evaluation](notes_ml_model_evaluation.md).
 
 
 <div style="text-align: right"> 

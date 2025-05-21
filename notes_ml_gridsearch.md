@@ -26,7 +26,7 @@ The results obtained there will be used in the next steps.
   - Considered **MAE** as scoring lead, since I have a better feeling for the real impact.
 
 > [!NOTE]
-> One may also consider [notes_ml_gridsearch_all_features.md](notes_ml_gridsearch_all_features.md) for a brief look into the possibility of using **all** features.
+> One may also consider [notes_ml_gridsearch_all_features](notes_ml_gridsearch_all_features.md) for a brief look into the possibility of using **all** features.
 ---
 
 ---
