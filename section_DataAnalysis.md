@@ -641,10 +641,10 @@ While the dataset offers many possibilities for deeper insights, the goal here i
 <img src="Plots/score/plt_duration_score_normalized.png" width="750">
 
 - the average score tends to be quit high if the amount or duration is high
-- - remember, I do not think that this is surprising
-- - - good shows will be put on lists since people watched it, or want to watch it
-- - - an entry that is favorite by a lot of persons is likely to be rated higher, why else should so many people favorite it
-- - - good shows are watched by more people, and so they are scored by more people
+  - remember, I do not think that this is surprising
+    - good shows will be put on lists since people watched it, or want to watch it
+    - an entry that is favorite by a lot of persons is likely to be rated higher, why else should so many people favorite it 
+    - good shows are watched by more people, and so they are scored by more people
 
 
 ### Exception: Episode Count
@@ -654,7 +654,7 @@ While the dataset offers many possibilities for deeper insights, the goal here i
 
 - High episode count **does not correlate** with higher scores.
 - In fact, many top-scoring entries have **fewer than 13 episodes**, often standard cour lengths.
-- - after shows with less than 4 episodes ~10485, shows around 10-13 episodes ~3158 make the majority of entries
+  - after shows with less than 4 episodes ~10485, shows around 10-13 episodes ~3158 make the majority of entries
 
 <img src="Plots/score/scatter_score_episodes_normalized.png" width="750">
 
@@ -773,25 +773,25 @@ While the dataset offers many possibilities for deeper insights, the goal here i
 <img src="Plots/score/bar_score_EF_time.png" width="750">
 
 - There is a **significant score decrease** of shows with 
-- - **more than 500** **episodes**,
-- - - but we only have **1 entry**, so the impact of this data is **insignificant**.
-- - **200-300** **episodes**, there are **7**.
-- - **60-100** **episodes**, there are **24**.
+  - **more than 500** **episodes**,
+    - but we only have **1 entry**, so the impact of this data is **insignificant**.
+  - **200-300** **episodes**, there are **7**.
+  - **60-100** **episodes**, there are **24**.
 - There is also in **increase** of entries with
-- - **300-500 episodes**, there are **2** entries.
-- - **200-100 episodes**, there are **16** entries.
-- - **14-21 episodes**, there are **190** entries,
-- - - this might be a **considerable amount**.
-- - **less than 4 episodes**, there are **4080** entries,
-- - - this is a **considerable** **amount**.
+  - **300-500 episodes**, there are **2** entries.
+  - **200-100 episodes**, there are **16** entries.
+  - **14-21 episodes**, there are **190** entries,
+    - this might be a **considerable amount**.
+  - **less than 4 episodes**, there are **4080** entries,
+    - this is a **considerable** **amount**.
 
 #### By Duration
 
 <img src="Plots/score/bar_score_DF_time.png" width="750">
 
 - **Overall increase**, except
-- - entries **longer than 160 minutes**, there are only **2** entries,
-- - entries with a duration **between 120 and 150 minutes**, there are **32** entries.
+  - entries **longer than 160 minutes**, there are only **2** entries,
+  - entries with a duration **between 120 and 150 minutes**, there are **32** entries.
 
 
 

@@ -10,10 +10,20 @@
    - [Technologies & Tools](#technologies-and-tools)
    - [Todos](#todos)
 3. [Data Analysis](#data-analysis)
+   - [Summary: Brief Data Analysis Over Time](#summary-brief-data-analysis-over-time)
+   - [Full Entry: Brief Data Analysis Over Time](section_DataAnalysis.md#1-brief-mal-data-analysis-over-time)
+   - [Summary: Brief Analysis of Genre and Themes as well as Studios](#summary-brief-analysis-of-genre-and-themes-as-well-as-studios)
+   - [Full Entry: Brief Analysis of Genre and Themes as well as Studios](section_DataAnalysis.md#2-brief-analysis-of-genre-and-themes-as-well-as-studios-of-the-mal-dataset)
+   - [Summary: Brief Score-Oriented Analysis](#summary-brief-score-oriented-analysis)
+   - [Full Entry: Brief Score-Oriented Analysis](#3-brief-score-oriented-analysis-of-the-mal-dataset)
 4. [Machine Learning](#machine-learning)
+   - [Summary](#machine-learning)
+   - [Full Entry](section_MachineLearning.md#machine-learning)
 5. [Learnings](#learnings)
 
 </details>
+
+
 
 
 <div style="text-align: right"> 
@@ -35,11 +45,19 @@ This project explores data from [MyAnimeList (MAL)](https://myanimelist.net/) us
 ## Project Goal
 This repository serves as a **learning-by-doing** project focused on:
 
-- Fetching anime/manga data using the Jikan API
-- Cleaning and transforming raw data
-- Exploring relationships between different features
-- Applying clustering techniques
-- Performing predictive analysis
+1. [x] Fetching anime/manga data using the Jikan API.
+2. [x] Cleaning and transforming raw data.
+   - [x] Create an easy-to-excess file containing the main data. 
+     - [S_1970_2024_merged.xlsx](xlsx_tables/S_1970_2024_merged.xlsx) and [S_1970_2024_merged_unique.xlsx](xlsx_tables/S_1970_2024_merged_unique.xlsx).
+3. [x] Exploring relationships between different features and categories.
+4. [ ] Applying clustering techniques.
+   - [ ] Performe a feature selection.
+   - [ ] Train several models.
+   - [ ] Evaluate the trained models.
+5. [x] Performing predictive analysis using multiple ml models.
+   - [x] Performe a feature selection.
+   - [x] Train several models.
+   - [x] Evaluate the trained models.
 
 
 ##  Note
@@ -50,14 +68,28 @@ This is a **learning project**, not intended for production or perfection. The g
 - **Python** (pandas, sklearn, matplotlib, etc.)
 - **Jikan API** for MAL data
 - **Orange**
+- **Git** (repo, markdowns)
 
 
 ## Todos
 This is a very brief list of some task I want to do at some point.
+In general, they don't take priority over the main project goals.
+> Maybe not doing any of them, maybe I will do all of them.
+> No promises were made.
 
-- General documentation
-- Mentioning and explain the Jikan API usage
-- Cleaner and more focused version of most python files
+- [ ] Move from `.xlsx` to `.csv`.
+- [ ] Highlight the combined dataset.
+- [ ] Documentation for the following files:
+  - [ ] [module_supply.py](module_supply.py)
+  - [ ] [module_creation.py](module_creation.py)
+- [ ] Mentioning and explaining the Jikan API.
+- [ ] Cleaner and more focused version of:
+  - [ ] [module_supply.py](module_supply.py)
+  - [ ] [module_creation.py](module_creation.py)
+- [ ] Creating (cleaner) modules for
+    - [ ] Automate/easy analysis
+    - [ ] Gridsearch
+    - [ ] Training and evaluation
 
 
 <div style="text-align: right"> 
@@ -75,7 +107,7 @@ This is a very brief list of some task I want to do at some point.
 # Data Analysis
 > See [section_DataAnalysis](section_DataAnalysis.md) for full information.
 
-## Summary: Brief MAL Data Analysis Over Time
+## Summary: Brief Data Analysis Over Time
 This is a high-level summary of trends in the MAL dataset, focusing on anime production, scoring, and engagement over time.
 
 ### Key Insights
@@ -89,7 +121,8 @@ This is a high-level summary of trends in the MAL dataset, focusing on anime pro
 - **Short-form anime** (under 5 min) is more common now.
 - **Ratings**: Most content now targets teens (PG-13+), with R+/Rx growing in count but not proportion.
 
-> This summary is part of a broader, ongoing exploration of the MAL dataset as a data science learning project.
+> [!IMPORTANT]  
+> This summary is part of a broader, ongoing exploration of the MAL dataset as a data science learning project.  
 > For more details see [Data Analysis](section_DataAnalysis.md).
 
 <div style="text-align: right"> 
@@ -101,7 +134,7 @@ This is a high-level summary of trends in the MAL dataset, focusing on anime pro
 </div>
 
 
-## Summary: Genre, Theme, and Studio Analysis (MAL Dataset)
+## Summary: Brief Analysis of Genre and Themes as well as Studios
 
 This analysis focuses on the distribution and average scores of **genres**, **themes**, and to a lesser extent, **studios**, based on completed and rated anime entries from the MyAnimeList (MAL) dataset.
 
@@ -121,7 +154,8 @@ This analysis focuses on the distribution and average scores of **genres**, **th
   - Highest scoring themes (less common): **Love Polygon**, **Childcare**, **Iyashikei**.
 - **Studios**: Considered but not deeply analyzed in this overview.
 
-> This summary is part of a broader, ongoing exploration of the MAL dataset as a data science learning project.
+> [!IMPORTANT]  
+> This summary is part of a broader, ongoing exploration of the MAL dataset as a data science learning project.  
 > For more details see [Data Analysis](section_DataAnalysis.md).
 
 <div style="text-align: right"> 
@@ -156,8 +190,8 @@ This section explores how various features relate to **anime scores** in the MAL
 - **Rx-rated** shows have the highest recent scores.
 - Entries with **short durations** or **extreme episode counts** are harder to assess due to sample size issues.
 
-
-> This summary is part of a broader, ongoing exploration of the MAL dataset as a data science learning project.
+> [!IMPORTANT]  
+> This summary is part of a broader, ongoing exploration of the MAL dataset as a data science learning project.  
 > For more details see [Data Analysis](section_DataAnalysis.md).
 
 <div style="text-align: right"> 
@@ -197,6 +231,7 @@ This section explores predicting anime scores using various **machine learning m
 - **r²** and **MAE** are primary evaluation metrics.
 - Emphasis on experimentation due to uncertainty about what features will perform well.
 
+> [!IMPORTANT]  
 > Detailed results and notes in:  
 > [notes_ml_featureselection](notes_ml_featureselection.md)  
 > [notes_ml_gridsearch](notes_ml_gridsearch.md)  
@@ -223,45 +258,34 @@ Let me present my, probably incomplete, list of learnings so far.
 
 (Keep track on what you learned so you see your progress and can present them without looking at everything you did. The later case will take way more time...)
 
-- **General learnings:**
-  - Keep things short and clear.
-  - Things take more time than you think they do.
-    - This is especially true if you are learning while doing.
-  - It is okay to make mistakes.
-    - They are part of the process.
-  - Managing a solo learning project takes effort and time.
-    - Planing ahead can have an enormous impact on workflow.
-    - Keeping track of todos and priories what to handle and if it should be handled at all (at the moment).
-- **Data collecting and cleaning:**
-  - Collecting takes time.
-  - Organizing is a huge part and needs to be taken in consideration.
-    - Tracking collected data, as well as warnings and errors.
-  - Using an API and handling occurring problems.
-- **Data analysis:**
-  - Ratios and totals are both important and should both considered before making assumptions.
-  - A Plot can be overwhelming when it provides to much information.
-  - Creating plots while analysing to avoid to many corrections later on. 
-- **Programming:**
-  - Gathering data using request.
-  - Using logging if things get overwhelming.
-  - A feeling for pandas:
-    - What can I do, where to find help, how to identify helpful advice.
-    - Using pandas in general.
-  - Using seaborn for heat plots.
-    - Using matplotlib for plotting in general.
-    - Efficiency is not the most important part if your data set is not overwhelmingly large.
-    - It is okay to do things why to complicate if you are learning.
-  - Using markdowns for e.g. a Git README.
-    - Using Git to back up und publish a project.
-    - Clear commit comments are quit useful.
-- **Machine learning:**
-  - Feature selection
-    - Different methods can provide vastly different results.
-    - Different feature sizes can make a significant differance.
-  - Choosing parameters
-    - A gridsearch takes time, chose the candidates wisely.
-    - Parameters for a smaller feature set do not necessarily provide an indication for the larger feature set.
+- **General Learnings**
+  - Be clear and concise.
+  - Learning takes time -- plan ahead.
+  - Mistakes are part of progress.
+  - Prioritize and track tasks.
 
+- **Data Collection & Cleaning**
+  - Collecting and organizing data takes time.
+  - Track data, warnings, and errors.
+  - Handle API issues as they come.
+
+- **Data Analysis**
+  - Use both ratios and totals.
+  - Avoid overcrowded plots.
+  - Plot during analysis to reduce rework.
+
+- **Programming**
+  - Use `requests` to gather data.
+  - Logging helps manage complexity.
+  - Learn here to get help.
+  - Efficiency matters less for small datasets.
+  - Use Markdown and Git (with clear commits).
+
+- **Machine Learning**
+  - Feature selection methods vary in impact.
+  - Feature size affects outcomes.
+  - Choose grid search params carefully.
+  - Parameters for small sets may not generalize.
 
 
 <div style="text-align: right"> 
