@@ -135,9 +135,9 @@ dfmutemp = dfmutemp[(dfmutemp["score"]>0) & (dfmutemp["episodes"]>0) & (dfmutemp
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """
 - I planed on only use get_dummies for gerne and theme and not on studios to reduce feature amount
-- - figuring out the "good" features later is an option so we use this
+    - figuring out the "good" features later is an option so we use this
 - for "anime_type", "source", "rating","season" i planed on lable encoding, but it is possible the the modle will see a meaning behind those numbers
-- - 1<3 || if 1 = "summer" and 3 = "winter" --> "winter" > "summer" || that would be not so good
+    - 1<3 || if 1 = "summer" and 3 = "winter" --> "winter" > "summer" || that would be not so good
 - here we use get dummies for all the categories
 """
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -168,7 +168,7 @@ df_encoded_rest = df_encoded_rest.groupby("anime_id").sum()
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # full encodes table
-df_encoded = pd.merge(df_encoded_sgt, df_encoded_rest, on="anime_id")
+df_encoded = pd.merge(df_encoded_sgt, df_encoded_rest, on="anime_id", how='inner') #! df_encoded_sgt smaller than df_encoded_rest
 
 
 # full table
@@ -177,9 +177,10 @@ dfml = pd.merge(dftemp, df_on_list ,on="anime_id",how='inner')
 
 
 # saving table as xlsx
-dfml.to_csv("xlsx_tables/training_score/training_score.csv", index=False)
+# dfml.to_csv("xlsx_tables/training_partial_set_OnList.csv", index=False)
 
-
+# : Saving 'dftemp' to use another day
+dftemp.to_csv("xlsx_tables/training_full_set.csv", index=False)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
