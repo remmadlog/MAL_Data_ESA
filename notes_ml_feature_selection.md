@@ -1,6 +1,6 @@
 # Feature Selection
 
-Here I present a short overview of my feature selection methods used in [ml_feature_selection.py](ml_feature_selection.py).
+Here I present a short overview of my feature selection methods used in [ml_feature_selection.py](ml_fs_score_prediction.py).
 
 ## General Approach
 

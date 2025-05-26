@@ -9,6 +9,8 @@
    - [Note](#note)
    - [Technologies & Tools](#technologies-and-tools)
    - [Todos](#todos)
+   - [Updates](#updates)
+   - [Documentations](#documentations)
 3. [Data Analysis](#data-analysis)
    - [Summary: Brief Data Analysis Over Time](#summary-brief-data-analysis-over-time)
    - [Full Entry: Brief Data Analysis Over Time](section_DataAnalysis.md#1-brief-mal-data-analysis-over-time)
@@ -64,7 +66,7 @@ This repository serves as a **learning-by-doing** project focused on:
 This is a **learning project**, not intended for production or perfection. The goal is to practice real-world data workflows and apply analytical thinking in a practical context.
 
 
-##  Technologies and Tools
+## Technologies and Tools
 - **Python** (pandas, sklearn, matplotlib, etc.)
 - **Jikan API** for MAL data
 - **Orange**
@@ -82,14 +84,26 @@ In general, they don't take priority over the main project goals.
 - [ ] Documentation for the following files:
   - [ ] [module_supply.py](module_supply.py)
   - [ ] [module_creation.py](module_creation.py)
+  - [x] [module_ml.py](module_ml.py)
 - [ ] Mentioning and explaining the Jikan API.
 - [ ] Cleaner and more focused version of:
   - [ ] [module_supply.py](module_supply.py)
   - [ ] [module_creation.py](module_creation.py)
-- [ ] Creating (cleaner) modules for
+- [ ] Creating (cleaner) modules/files for
     - [ ] Automate/easy analysis
-    - [ ] Gridsearch
-    - [ ] Training and evaluation
+    - [x] Gridsearch
+    - [x] Training and evaluation
+
+
+
+## Updates
+See [section_updates.md](section_updates.md).
+
+
+## Documentations
+- [ ] Documentation for `module_creation.py`
+- [ ] Documentation for `module_supply.py`
+- [x] [Documentation for the machine learning module](Documentation_module_ml.md)
 
 
 <div style="text-align: right"> 
@@ -233,7 +247,7 @@ This section explores predicting anime scores using various **machine learning m
 
 > [!IMPORTANT]  
 > Detailed results and notes in:  
-> [notes_ml_featureselection](notes_ml_featureselection.md)  
+> [notes_ml_featureselection](notes_ml_feature_selection.md)  
 > [notes_ml_gridsearch](notes_ml_gridsearch.md)  
 > [notes_ml_gridsearch_all_features](notes_ml_gridsearch_all_features.md)  
 > [notes_ml_model_evaluation](notes_ml_model_evaluation.md)

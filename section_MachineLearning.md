@@ -49,10 +49,10 @@ I want to write this while working on it at the same time, in oder to see if thi
   - Group by anime_id to obtain a table with unique rows (one row per `anime_id`).
 - Merge all tables suitable.
 - End up with a CSV file, since way too many columns for xlsx, that contains all needed information.
-  - [training_score.csv](xlsx_tables/training_score/training_score.csv)
+  - [training_score.csv](xlsx_tables/training_partial_set_OnList.csv)
 
-### Regarding [ml_feature_selection.py](ml_feature_selection.py)
-- [training_score.csv](xlsx_tables/training_score/training_score.csv) contains more than 1k features.
+### Regarding [ml_feature_selection.py](ml_fs_score_prediction.py)
+- [training_score.csv](xlsx_tables/training_partial_set_OnList.csv) contains more than 1k features.
 - 1k features are lot, therefore we do a feature selection.
 - Feature selection methods used:
   - RreliefF feature scoring
@@ -78,7 +78,7 @@ I want to write this while working on it at the same time, in oder to see if thi
 - In order to see which file will be of use, we will use all of them and decide afterward.
   - I have not a good feeling for what will work and what won't work, therefore I will try and see.
 
-> For more information, see [notes_ml_featureselection](notes_ml_featureselection.md).
+> For more information, see [notes_ml_featureselection](notes_ml_feature_selection.md).
 
 
 ### Regarding [ml_model_parameter_search.py](ml_model_parameter_search.py) (WIP)
