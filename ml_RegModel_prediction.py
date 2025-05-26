@@ -17,106 +17,28 @@ Maybe use Classification modules too (target classification needed for that)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """Import"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-import pandas as pd
+from module_ml import *
 
-# for splitting a DF into training and testing
-from sklearn.model_selection import train_test_split
-
-# for scaling
-from sklearn.preprocessing import StandardScaler
-
-# for evaluating
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-
-# Save and Load models using pickle
-import pickle
-
-# for calculating confidence interval
-import scipy.stats as stats
-
-"""
-# save
-with open('model.pkl','wb') as f:
-    pickle.dump(model,f)
-# load
-with open('model.pkl', 'rb') as f:
-    model = pickle.load(f)
-# using
-model.predict(X[0:1])
-"""
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Defining usefully, but non-essential Functions"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-# get evaluations a list
-def get_scores(y_test, y_pred):
-    # # r^2
-    r2 = r2_score(y_test, y_pred)
-
-    # # mean absolut error (MAE)
-    mae = mean_absolute_error(y_test, y_pred)
-
-    # # mean squared error (MSE)
-    mse = mean_squared_error(y_test, y_pred)
-
-    # # root mean squared error (RMSE)
-    rmse = mse ** 0.5
-
-    # print("     r2  : ", r2)
-    # print("     mae : ", mae)
-    # print("     mse : ", mse)
-    # print("     rmse: ", rmse)
-    return [r2,mae,mse,rmse]
+#. Decisions to make # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#" Loading data obtained by our feature selection
+df = pd.read_csv("xlsx_tables/training_score/selection_arranged_union.csv").fillna(0)
 
 
-# print evaluations
-def print_scores(y_test, y_pred):
-    # # r^2
-    r2 = r2_score(y_test, y_pred)
-
-    # # mean absolut error (MAE)
-    mae = mean_absolute_error(y_test, y_pred)
-
-    # # mean squared error (MSE)
-    mse = mean_squared_error(y_test, y_pred)
-
-    # # root mean squared error (RMSE)
-    rmse = mse ** 0.5
-
-    print("     r2  : ", r2)
-    print("     mae : ", mae)
-    print("     mse : ", mse)
-    print("     rmse: ", rmse)
-
+#" Chose a path for saving
+# Change path if you want to load different models
+path_model = "xlsx_tables/training_score/trained_models/"
+# path to save predictions
+path_pred = "xlsx_tables/training_score/"
+#. # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Loading Data"""
+"""Splitting and scaling data"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# df_comb = pd.read_csv("xlsx_tables/training_score/selection_arranged_comb.csv").fillna(0)
-# df_comb2 = pd.read_csv("xlsx_tables/training_score/selection_arranged_comb2.csv").fillna(0)
-# df_comb4 = pd.read_csv("xlsx_tables/training_score/selection_arranged_comb4.csv").fillna(0)
-# df_inter = pd.read_csv("xlsx_tables/training_score/selection_arranged_intersection.csv").fillna(0)
-df_union = pd.read_csv("xlsx_tables/training_score/selection_arranged_union.csv").fillna(0)
-# df_union2 = pd.read_csv("xlsx_tables/training_score/selection_arranged_union2.csv").fillna(0)
-# df_union4 = pd.read_csv("xlsx_tables/training_score/selection_arranged_union4.csv").fillna(0)
-# df_anova = pd.read_csv("xlsx_tables/training_score/selection_pure_anova.csv").fillna(0)
-# df_chiw = pd.read_csv("xlsx_tables/training_score/selection_pure_chi2.csv").fillna(0)
-# df_corval = pd.read_csv("xlsx_tables/training_score/selection_pure_corval.csv").fillna(0)
-# df_rrff = pd.read_csv("xlsx_tables/training_score/selection_pure_rrelieff.csv").fillna(0)
-# df_tree = pd.read_csv("xlsx_tables/training_score/selection_pure_tree.csv").fillna(0)
-# df_univar = pd.read_csv("xlsx_tables/training_score/selection_pure_univar.csv").fillna(0)
-# df_var = pd.read_csv("xlsx_tables/training_score/selection_pure_var.csv").fillna(0)
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Preparations"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# We start with a smaller dataset
-df_temp = df_union.copy()
+df_temp = df.copy()
 
 # X features
 X = df_temp.drop(["score"], axis=1).astype("float").fillna(0)
@@ -155,7 +77,7 @@ X_test_scaled = scaler.transform(X_test)
 """         Linear Regression"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # load model
-with open('xlsx_tables/training_score/trained_models/LinearRegression.pkl', 'rb') as f:
+with open(path_model + 'LinearRegression.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # print name and scores
@@ -171,7 +93,7 @@ print_scores(y_test, y_pred_LR)
 """         Neuronal Network"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # load model
-with open('xlsx_tables/training_score/trained_models/MLPRegressor.pkl', 'rb') as f:
+with open(path_model + 'MLPRegressor.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # print name and scores
@@ -187,7 +109,7 @@ print_scores(y_test, y_pred_MLP)
 """         Decision Tree"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # load model
-with open('xlsx_tables/training_score/trained_models/DecisionTreeRegressor.pkl', 'rb') as f:
+with open(path_model + 'DecisionTreeRegressor.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # print name and scores
@@ -203,7 +125,7 @@ print_scores(y_test, y_pred_tree)
 """         Random Forest"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # load model
-with open('xlsx_tables/training_score/trained_models/RandomForestRegressor.pkl', 'rb') as f:
+with open(path_model + 'RandomForestRegressor.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # print name and scores
@@ -219,7 +141,7 @@ print_scores(y_test, y_pred_forest)
 """         Gradient Boosting"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # load model
-with open('xlsx_tables/training_score/trained_models/GradientBoostingRegressor.pkl', 'rb') as f:
+with open(path_model + 'GradientBoostingRegressor.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # print name and scores
@@ -235,7 +157,7 @@ print_scores(y_test, y_pred_gradboost)
 """         Elastic Net"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # load model
-with open('xlsx_tables/training_score/trained_models/ElasticNet.pkl', 'rb') as f:
+with open(path_model + 'ElasticNet.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # print name and scores
@@ -251,7 +173,7 @@ print_scores(y_test, y_pred_elnet)
 """         Support Vector Regression"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # load model
-with open('xlsx_tables/training_score/trained_models/SVR.pkl', 'rb') as f:
+with open(path_model + 'SVR.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # print name and scores
@@ -267,7 +189,7 @@ print_scores(y_test, y_pred_svr)
 """         XGB"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # load model
-with open('xlsx_tables/training_score/trained_models/XGB.pkl', 'rb') as f:
+with open(path_model + 'XGB.pkl', 'rb') as f:
     model = pickle.load(f)
 
 # print name and scores
@@ -309,6 +231,6 @@ df_predictions.columns = [
     "LinReg_score", "MLP_score", "Tree_score", "Forest_score", "GradBoost_score", "ElNet_score", "SVR_score", "XGB_score"
     ]
 
-df_predictions.to_csv("xlsx_tables/training_score/predictions.csv", index=False)
+df_predictions.to_csv(path_pred + "predictions.csv", index=False)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

@@ -1,4 +1,3 @@
-# WIP
 """
 In this file we want to start with the modeling and figuring out what model or model combinations works well and what feature set is suitable.
 Models I want to use
@@ -18,128 +17,26 @@ Maybe use Classification modules too (target classification needed for that)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """Import"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-import pandas as pd
-import csv
+from module_ml import *
 
-# for splitting a DF into training and testing
-from sklearn.model_selection import train_test_split
 
-# for scaling
-from sklearn.preprocessing import StandardScaler
-
-# for evaluating
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-
-# for LinearRegression
-from sklearn.linear_model import LinearRegression
-
-# for the Neuronal Network
-from sklearn.neural_network import MLPRegressor
-
-# for Decision Tree
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.model_selection import GridSearchCV
-
-# for the random forest
-from sklearn.ensemble import RandomForestRegressor
-
-# for Gradient Boosting (ensemble)
-from sklearn.ensemble import GradientBoostingRegressor
-
-# for Elastic Net
-from sklearn.linear_model import ElasticNet
-
-# for Support Vector Regression
-from sklearn.svm import SVR
-
-# for Extreme Gradient Boosting
-from xgboost import XGBRegressor
-
-# Save and Load models using pickle
-import pickle
-
-"""
-# save
-with open('model.pkl','wb') as f:
-    pickle.dump(model,f)
-# load
-with open('model.pkl', 'rb') as f:
-    model = pickle.load(f)
-# using
-model.predict(X[0:1])
-"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Defining usefully, but non-essential Functions"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#. Decisions to make # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#" Loading data obtained by our feature selection
+df = pd.read_csv("xlsx_tables/training_score/selection_arranged_union.csv").fillna(0)
 
-# get evaluations a list
-def get_scores(y_test, y_pred):
-    # # r^2
-    r2 = r2_score(y_test, y_pred)
-
-    # # mean absolut error (MAE)
-    mae = mean_absolute_error(y_test, y_pred)
-
-    # # mean squared error (MSE)
-    mse = mean_squared_error(y_test, y_pred)
-
-    # # root mean squared error (RMSE)
-    rmse = mse ** 0.5
-
-    # print("     r2  : ", r2)
-    # print("     mae : ", mae)
-    # print("     mse : ", mse)
-    # print("     rmse: ", rmse)
-    return [r2,mae,mse,rmse]
-
-
-# print evaluations
-def print_scores(y_test, y_pred):
-    # # r^2
-    r2 = r2_score(y_test, y_pred)
-
-    # # mean absolut error (MAE)
-    mae = mean_absolute_error(y_test, y_pred)
-
-    # # mean squared error (MSE)
-    mse = mean_squared_error(y_test, y_pred)
-
-    # # root mean squared error (RMSE)
-    rmse = mse ** 0.5
-
-    print("     r2  : ", r2)
-    print("     mae : ", mae)
-    print("     mse : ", mse)
-    print("     rmse: ", rmse)
-
+#" Chose a path for saving
+# Change path if you want to keep older models
+path = "xlsx_tables/training_score/trained_models/"
+#. # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Loading Data"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# df_comb = pd.read_csv("xlsx_tables/training_score/selection_arranged_comb.csv").fillna(0)
-# df_comb2 = pd.read_csv("xlsx_tables/training_score/selection_arranged_comb2.csv").fillna(0)
-# df_comb4 = pd.read_csv("xlsx_tables/training_score/selection_arranged_comb4.csv").fillna(0)
-# df_inter = pd.read_csv("xlsx_tables/training_score/selection_arranged_intersection.csv").fillna(0)
-df_union = pd.read_csv("xlsx_tables/training_score/selection_arranged_union.csv").fillna(0)
-# df_union2 = pd.read_csv("xlsx_tables/training_score/selection_arranged_union2.csv").fillna(0)
-# df_union4 = pd.read_csv("xlsx_tables/training_score/selection_arranged_union4.csv").fillna(0)
-# df_anova = pd.read_csv("xlsx_tables/training_score/selection_pure_anova.csv").fillna(0)
-# df_chiw = pd.read_csv("xlsx_tables/training_score/selection_pure_chi2.csv").fillna(0)
-# df_corval = pd.read_csv("xlsx_tables/training_score/selection_pure_corval.csv").fillna(0)
-# df_rrff = pd.read_csv("xlsx_tables/training_score/selection_pure_rrelieff.csv").fillna(0)
-# df_tree = pd.read_csv("xlsx_tables/training_score/selection_pure_tree.csv").fillna(0)
-# df_univar = pd.read_csv("xlsx_tables/training_score/selection_pure_univar.csv").fillna(0)
-# df_var = pd.read_csv("xlsx_tables/training_score/selection_pure_var.csv").fillna(0)
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Preparations"""
+"""Splitting and scaling data"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # We start with a smaller dataset
-df_temp = df_union.copy()
+df_temp = df.copy()
 
 # X features
 X = df_temp.drop(["anime_id", "score"], axis=1).astype("float").fillna(0)
@@ -163,6 +60,7 @@ X_train_scaled = scaler.fit_transform(X_train)
 # scale test data.
 X_test_scaled = scaler.transform(X_test)
 
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """Model Introductions"""
@@ -178,7 +76,7 @@ model = LinearRegression()
 model.fit(X_train_scaled, y_train)
 
 # save
-with open('xlsx_tables/training_score/trained_models/LinearRegression.pkl','wb') as f:
+with open(path + 'LinearRegression.pkl','wb') as f:
     pickle.dump(model,f)
 
 print("LinearRegression")
@@ -186,6 +84,8 @@ print("LinearRegression")
 y_pred = model.predict(X_test_scaled)
 # print scores
 print_scores(y_test, y_pred)
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """         Neuronal Network"""
@@ -204,15 +104,16 @@ model = MLPRegressor(
 model.fit(X_train_scaled, y_train)
 
 # save
-with open('xlsx_tables/training_score/trained_models/MLPRegressor.pkl','wb') as f:
+with open(path + 'MLPRegressor.pkl','wb') as f:
     pickle.dump(model,f)
-
 
 print("MLPRegressor")
 # making predictions
 y_pred = model.predict(X_test_scaled)
 # print scores
 print_scores(y_test, y_pred)
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """         Decision Tree"""
@@ -231,15 +132,16 @@ model = DecisionTreeRegressor(
 model.fit(X_train, y_train)
 
 # save
-with open('xlsx_tables/training_score/trained_models/DecisionTreeRegressor.pkl','wb') as f:
+with open(path + 'DecisionTreeRegressor.pkl','wb') as f:
     pickle.dump(model,f)
-
 
 print("DecisionTreeRegressor")
 # making predictions
 y_pred = model.predict(X_test)
 # print scores
 print_scores(y_test, y_pred)
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """         Random Forest"""
@@ -259,16 +161,16 @@ model = RandomForestRegressor(
 model.fit(X_train, y_train)
 
 # save
-with open('xlsx_tables/training_score/trained_models/RandomForestRegressor.pkl','wb') as f:
+with open(path + 'RandomForestRegressor.pkl','wb') as f:
     pickle.dump(model,f)
-
-
 
 print("RandomForestRegressor")
 # making predictions
 y_pred = model.predict(X_test)
 # print scores
 print_scores(y_test, y_pred)
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """         Gradient Boosting"""
@@ -286,16 +188,16 @@ model = GradientBoostingRegressor(
 model.fit(X_train_scaled, y_train)
 
 # save
-with open('xlsx_tables/training_score/trained_models/GradientBoostingRegressor.pkl','wb') as f:
+with open(path + 'GradientBoostingRegressor.pkl','wb') as f:
     pickle.dump(model,f)
-
-
 
 print("GradientBoostingRegressor")
 # making predictions
 y_pred = model.predict(X_test_scaled)
 # print scores
 print_scores(y_test, y_pred)
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """         Elastic Net"""
@@ -311,16 +213,16 @@ model = ElasticNet(
 model.fit(X_train_scaled, y_train)
 
 # save
-with open('xlsx_tables/training_score/trained_models/ElasticNet.pkl','wb') as f:
+with open(path + 'ElasticNet.pkl','wb') as f:
     pickle.dump(model,f)
-
-
 
 print("ElasticNet")
 # making predictions
 y_pred = model.predict(X_test_scaled)
 # print scores
 print_scores(y_test, y_pred)
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """         Support Vector Regression"""
@@ -340,16 +242,15 @@ model = SVR(
 model.fit(X_train_scaled, y_train)
 
 # save
-with open('xlsx_tables/training_score/trained_models/SVR.pkl','wb') as f:
+with open(path + 'SVR.pkl','wb') as f:
     pickle.dump(model,f)
-
-
 
 print("SVR")
 # making predictions
 y_pred = model.predict(X_test_scaled)
 # print scores
 print_scores(y_test, y_pred)
+
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 """         XGB"""
@@ -367,15 +268,15 @@ model = XGBRegressor(
 model.fit(X_train_scaled, y_train)
 
 # save
-with open('xlsx_tables/training_score/trained_models/XGB.pkl','wb') as f:
+with open(path + 'XGB.pkl','wb') as f:
     pickle.dump(model,f)
-
-
 
 print("XGB")
 # making predictions
 y_pred = model.predict(X_test_scaled)
 # print scores
 print_scores(y_test, y_pred)
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
