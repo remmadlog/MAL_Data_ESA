@@ -13,14 +13,14 @@
    - [Documentations](#documentations)
 3. [Data Analysis](#data-analysis)
    - [Summary: Brief Data Analysis Over Time](#summary-brief-data-analysis-over-time)
-   - [Full Entry: Brief Data Analysis Over Time](section_DataAnalysis.md#1-brief-mal-data-analysis-over-time)
+   - [Full Entry: Brief Data Analysis Over Time](Documentation_and_Notes/section_DataAnalysis.md#1-brief-mal-data-analysis-over-time)
    - [Summary: Brief Analysis of Genre and Themes as well as Studios](#summary-brief-analysis-of-genre-and-themes-as-well-as-studios)
-   - [Full Entry: Brief Analysis of Genre and Themes as well as Studios](section_DataAnalysis.md#2-brief-analysis-of-genre-and-themes-as-well-as-studios-of-the-mal-dataset)
+   - [Full Entry: Brief Analysis of Genre and Themes as well as Studios](Documentation_and_Notes/section_DataAnalysis.md#2-brief-analysis-of-genre-and-themes-as-well-as-studios-of-the-mal-dataset)
    - [Summary: Brief Score-Oriented Analysis](#summary-brief-score-oriented-analysis)
-   - [Full Entry: Brief Score-Oriented Analysis](section_DataAnalysis.md#3-brief-score-oriented-analysis-of-the-mal-dataset)
+   - [Full Entry: Brief Score-Oriented Analysis](Documentation_and_Notes/section_DataAnalysis.md#3-brief-score-oriented-analysis-of-the-mal-dataset)
 4. [Machine Learning](#machine-learning)
    - [Summary](#machine-learning)
-   - [Full Entry](section_MachineLearning.md#machine-learning)
+   - [Full Entry](Documentation_and_Notes/section_MachineLearning.md#machine-learning)
 5. [Learnings](#learnings)
 
 </details>
@@ -50,7 +50,7 @@ This repository serves as a **learning-by-doing** project focused on:
 1. [x] Fetching anime/manga data using the Jikan API.
 2. [x] Cleaning and transforming raw data.
    - [x] Create an easy-to-excess file containing the main data. 
-     - [S_1970_2024_merged.xlsx](xlsx_tables/S_1970_2024_merged.xlsx) and [S_1970_2024_merged_unique.xlsx](xlsx_tables/S_1970_2024_merged_unique.xlsx).
+     - [S_1970_2024_merged.xlsx](Workplace/created_files/S_1970_2024_merged.xlsx) and [S_1970_2024_merged_unique.xlsx](Workplace/created_files/S_1970_2024_merged_unique.xlsx).
 3. [x] Exploring relationships between different features and categories.
 4. [ ] Applying clustering techniques.
    - [ ] Performe a feature selection.
@@ -82,13 +82,13 @@ In general, they don't take priority over the main project goals.
 - [ ] Move from `.xlsx` to `.csv`.
 - [ ] Highlight the combined dataset.
 - [ ] Documentation for the following files:
-  - [ ] [module_supply.py](module_supply.py)
-  - [ ] [module_creation.py](module_creation.py)
-  - [x] [module_ml.py](module_ml.py)
+  - [ ] [module_supply.py](Workplace/module_supply.py)
+  - [ ] [module_creation.py](Workplace/module_creation.py)
+  - [x] [module_ml.py](Workplace/module_ml.py)
 - [ ] Mentioning and explaining the Jikan API.
 - [ ] Cleaner and more focused version of:
-  - [ ] [module_supply.py](module_supply.py)
-  - [ ] [module_creation.py](module_creation.py)
+  - [ ] [module_supply.py](Workplace/module_supply.py)
+  - [ ] [module_creation.py](Workplace/module_creation.py)
 - [ ] Creating (cleaner) modules/files for
     - [ ] Automate/easy analysis
     - [x] Gridsearch
@@ -97,13 +97,13 @@ In general, they don't take priority over the main project goals.
 
 
 ## Updates
-See [section_updates.md](section_updates.md).
+See [section_updates.md](Documentation_and_Notes/section_updates.md).
 
 
 ## Documentations
 - [ ] Documentation for `module_creation.py`
 - [ ] Documentation for `module_supply.py`
-- [x] [Documentation for the machine learning module](Documentation_module_ml.md)
+- [x] [Documentation for the machine learning module](Documentation_and_Notes/Documentation_module_ml.md)
 
 
 <div style="text-align: right"> 
@@ -119,7 +119,7 @@ See [section_updates.md](section_updates.md).
 ---
 
 # Data Analysis
-> See [section_DataAnalysis](section_DataAnalysis.md) for full information.
+> See [section_DataAnalysis](Documentation_and_Notes/section_DataAnalysis.md) for full information.
 
 ## Summary: Brief Data Analysis Over Time
 This is a high-level summary of trends in the MAL dataset, focusing on anime production, scoring, and engagement over time.
@@ -137,7 +137,7 @@ This is a high-level summary of trends in the MAL dataset, focusing on anime pro
 
 > [!IMPORTANT]  
 > This summary is part of a broader, ongoing exploration of the MAL dataset as a data science learning project.  
-> For more details see [Data Analysis](section_DataAnalysis.md).
+> For more details see [Data Analysis](Documentation_and_Notes/section_DataAnalysis.md).
 
 <div style="text-align: right"> 
 
@@ -170,7 +170,7 @@ This analysis focuses on the distribution and average scores of **genres**, **th
 
 > [!IMPORTANT]  
 > This summary is part of a broader, ongoing exploration of the MAL dataset as a data science learning project.  
-> For more details see [Data Analysis](section_DataAnalysis.md).
+> For more details see [Data Analysis](Documentation_and_Notes/section_DataAnalysis.md).
 
 <div style="text-align: right"> 
 
@@ -206,7 +206,7 @@ This section explores how various features relate to **anime scores** in the MAL
 
 > [!IMPORTANT]  
 > This summary is part of a broader, ongoing exploration of the MAL dataset as a data science learning project.  
-> For more details see [Data Analysis](section_DataAnalysis.md).
+> For more details see [Data Analysis](Documentation_and_Notes/section_DataAnalysis.md).
 
 <div style="text-align: right"> 
 
@@ -221,7 +221,7 @@ This section explores how various features relate to **anime scores** in the MAL
 
 
 # Machine Learning
-> See [section_MachineLearning](section_MachineLearning.md) for full information.
+> See [section_MachineLearning](Documentation_and_Notes/section_MachineLearning.md) for full information.
 
 ## A Summary
 
@@ -247,10 +247,10 @@ This section explores predicting anime scores using various **machine learning m
 
 > [!IMPORTANT]  
 > Detailed results and notes in:  
-> [notes_ml_featureselection](notes_ml_feature_selection.md)  
-> [notes_ml_gridsearch](notes_ml_gridsearch.md)  
-> [notes_ml_gridsearch_all_features](notes_ml_gridsearch_all_features.md)  
-> [notes_ml_model_evaluation](notes_ml_model_evaluation.md)
+> [notes_ml_featureselection](Documentation_and_Notes/notes_ml_feature_selection.md)  
+> [notes_ml_gridsearch](Documentation_and_Notes/notes_ml_gridsearch.md)  
+> [notes_ml_gridsearch_all_features](Documentation_and_Notes/notes_ml_gridsearch_all_features.md)  
+> [notes_ml_model_evaluation](Documentation_and_Notes/notes_ml_model_evaluation.md)
 
 
 

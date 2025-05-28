@@ -1,0 +1,263 @@
+Amount pre  anime_type in top 100
+| anime_type   |   Amount |
+|:-------------|---------:|
+| Movie        |       20 |
+| Music        |        1 |
+| ONA          |        6 |
+| OVA          |        2 |
+| TV           |       68 |
+| TV Special   |        3 |
+
+Amount pre  source in top 100
+| source       |   Amount |
+|:-------------|---------:|
+| 4-koma manga |        1 |
+| Game         |        1 |
+| Light novel  |       12 |
+| Manga        |       60 |
+| Novel        |        3 |
+| Original     |       13 |
+| Visual novel |        3 |
+| Web manga    |        5 |
+| Web novel    |        2 |
+
+Amount pre  rating in top 100
+| rating                         |   Amount |
+|:-------------------------------|---------:|
+| G - All Ages                   |        1 |
+| PG - Children                  |        1 |
+| PG-13 - Teens 13 or older      |       55 |
+| R - 17+ (violence & profanity) |       39 |
+| R+ - Mild Nudity               |        4 |
+
+Amount per  season in top 100
+| season   |   Amount |
+|:---------|---------:|
+| fall     |       30 |
+| spring   |       25 |
+| summer   |       22 |
+| winter   |       23 |
+
+Amount per  year in top 100
+|   year |   Amount |
+|-------:|---------:|
+|   1980 |        1 |
+|   1988 |        1 |
+|   1997 |        2 |
+|   1998 |        1 |
+|   1999 |        2 |
+|   2000 |        1 |
+|   2001 |        1 |
+|   2004 |        2 |
+|   2005 |        1 |
+|   2006 |        3 |
+|   2007 |        1 |
+|   2008 |        2 |
+|   2009 |        3 |
+|   2010 |        1 |
+|   2011 |        3 |
+|   2012 |        2 |
+|   2013 |        3 |
+|   2014 |        4 |
+|   2015 |        2 |
+|   2016 |        3 |
+|   2017 |        7 |
+|   2018 |        4 |
+|   2019 |        4 |
+|   2020 |        5 |
+|   2021 |        9 |
+|   2022 |       11 |
+|   2023 |       10 |
+|   2024 |       11 |
+
+Amount pre  broadcast_day in top 100
+| broadcast_day   |   Amount |
+|:----------------|---------:|
+| 0               |       33 |
+| Fridays         |        6 |
+| Mondays         |       12 |
+| Saturdays       |       10 |
+| Sundays         |       17 |
+| Thursdays       |        6 |
+| Tuesdays        |        6 |
+| Wednesdays      |       10 |
+
+Amount pre  broadcast_time in top 100
+| broadcast_time   |   Amount |
+|:-----------------|---------:|
+| 0                |       33 |
+| 00:00            |       11 |
+| 00:05            |        1 |
+| 00:10            |        4 |
+| 00:30            |        2 |
+| 00:35            |        1 |
+| 00:40            |        1 |
+| 00:50            |        2 |
+| 00:56            |        1 |
+| 01:00            |        1 |
+| 01:05            |        1 |
+| 01:20            |        1 |
+| 01:25            |        1 |
+| 01:29            |        1 |
+| 01:30            |        3 |
+| 01:35            |        5 |
+| 01:45            |        1 |
+| 01:55            |        1 |
+| 01:59            |        1 |
+| 02:00            |        1 |
+| 02:05            |        1 |
+| 02:25            |        1 |
+| 02:58            |        1 |
+| 03:40            |        1 |
+| 08:30            |        1 |
+| 10:55            |        1 |
+| 17:00            |        3 |
+| 18:00            |        4 |
+| 19:30            |        1 |
+| 21:30            |        1 |
+| 22:30            |        2 |
+| 23:00            |        6 |
+| 23:15            |        1 |
+| 23:30            |        1 |
+| 23:45            |        1 |
+| 23:56            |        1 |
+
+Amount pre  DF in top 100
+| DF        |   Amount |
+|:----------|---------:|
+| < 005min  |        1 |
+| < 030min  |       78 |
+| < 060min  |        1 |
+| < 090min  |        3 |
+| < 120min  |        7 |
+| < 150min  |        8 |
+| < 160min  |        1 |
+| >= 160min |        1 |
+
+Amount pre  EF in top 100
+| EF       |   Amount |
+|:---------|---------:|
+| < 004 Ep |       23 |
+| < 010 Ep |        2 |
+| < 014 Ep |       37 |
+| < 021 Ep |        4 |
+| < 025 Ep |        9 |
+| < 060 Ep |       19 |
+| < 100 Ep |        3 |
+| < 200 Ep |        2 |
+| < 300 Ep |        1 |
+
+Average amount of  favorites
+| item      |   average |
+|:----------|----------:|
+| episodes  |     20.08 |
+| duration  |     42.47 |
+| on_list   | 871990    |
+| favorites |  28910.5  |
+
+Amount pre  theme in top 100 (unknown removed)
+| theme           |   Amount |
+|:----------------|---------:|
+| Adult Cast      |       12 |
+| Anthropomorphic |        1 |
+| CGDCT           |        1 |
+| Childcare       |        1 |
+| Combat Sports   |        4 |
+| Delinquents     |        1 |
+| Detective       |        1 |
+| Gag Humor       |        9 |
+| Gore            |       14 |
+| Historical      |       24 |
+| Isekai          |        1 |
+| Iyashikei       |        5 |
+| Love Polygon    |        2 |
+| Mecha           |        6 |
+| Medical         |        1 |
+| Military        |       15 |
+| Music           |        4 |
+| Mythology       |        5 |
+| Organized Crime |        3 |
+| Otaku Culture   |        1 |
+| Parody          |        9 |
+| Performing Arts |        1 |
+| Psychological   |        5 |
+| Reincarnation   |        2 |
+| Samurai         |       10 |
+| School          |       15 |
+| Space           |        3 |
+| Strategy Game   |        1 |
+| Super Power     |        6 |
+| Survival        |        6 |
+| Team Sports     |        4 |
+| Time Travel     |        4 |
+| Urban Fantasy   |        1 |
+| Vampire         |        5 |
+| Workplace       |        1 |
+
+Amount pre  genre in top 100 (unknown removed)
+| genre         |   Amount |
+|:--------------|---------:|
+| Action        |       46 |
+| Adventure     |       24 |
+| Award Winning |       15 |
+| Comedy        |       21 |
+| Drama         |       47 |
+| Ecchi         |        1 |
+| Fantasy       |       16 |
+| Gourmet       |        1 |
+| Horror        |        1 |
+| Mystery       |       18 |
+| Romance       |       11 |
+| Sci-Fi        |       23 |
+| Slice of Life |        5 |
+| Sports        |        9 |
+| Supernatural  |       20 |
+| Suspense      |       13 |
+
+Amount pre  studio in top 100 (unknown removed)
+| studio                     |   Amount |
+|:---------------------------|---------:|
+| A-1 Pictures               |        5 |
+| Artland                    |        3 |
+| B.CMAY PICTURES            |        1 |
+| Bandai Namco Pictures      |        5 |
+| Bones                      |        4 |
+| Brain's Base               |        1 |
+| CloverWorks                |        2 |
+| CoMix Wave Films           |        1 |
+| DandeLion Animation Studio |        1 |
+| Doga Kobo                  |        1 |
+| Gainax                     |        2 |
+| K-Factory                  |        1 |
+| Khara                      |        1 |
+| Kinema Citrus              |        3 |
+| Kitty Film Mitaka Studio   |        1 |
+| Kyoto Animation            |        6 |
+| LAN Studio                 |        2 |
+| MAPPA                      |        7 |
+| Madhouse                   |        8 |
+| OLM                        |        3 |
+| P.I.C.S.                   |        1 |
+| Pierrot                    |        6 |
+| Pierrot Films              |        1 |
+| Production I.G             |        3 |
+| Red Dog Culture House      |        1 |
+| Shaft                      |        5 |
+| Shin-Ei Animation          |        1 |
+| Shuka                      |        1 |
+| Studio Bind                |        1 |
+| Studio DURIAN              |        1 |
+| Studio Deen                |        2 |
+| Studio Ghibli              |        3 |
+| Studio Signpost            |        3 |
+| Sunrise                    |        7 |
+| TMS Entertainment          |        1 |
+| TOHO animation STUDIO      |        1 |
+| Tatsunoko Production       |        1 |
+| Toei Animation             |        2 |
+| Tokyo Movie Shinsha        |        1 |
+| Trigger                    |        2 |
+| White Fox                  |        1 |
+| Wit Studio                 |        3 |
+| ufotable                   |        2 |
+
