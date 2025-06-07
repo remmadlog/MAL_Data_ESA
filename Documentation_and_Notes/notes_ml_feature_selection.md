@@ -1,8 +1,14 @@
 # Feature Selection
 
-Here I present a short overview of my feature selection methods used in [ml_feature_selection.py](../Workplace/ml_fs_score_prediction.py).
+## First steps
+Presenting feature selection methods used in [ml_feature_selection.py](../Workplace/ml_fs_score_prediction.py).
 
-## General Approach
+Thees are marly baby steps and first tries, They are more advanced later on.
+
+<details>
+<summary>ml_feature_selection.py</summary>
+
+### General Approach
 
 My idea was to rank the **1175** features (after removing) in different ways and use the intersection or the union or some kind of combination to obtain a reasonable sized feature set.
 
@@ -15,11 +21,10 @@ My idea was to rank the **1175** features (after removing) in different ways and
 2. Creating target set
 3. Use different methods for the selection
    - chi2
-     - Only for classes &#8594; made targets to strings
+     - Only for classification
    - anova
    - Correlation-based Feature Selection
    - Variance Thresholding
-     - could not sort the outcome
    - Feature Ranking in Orange
      - univar
      - rrelieff
@@ -32,7 +37,7 @@ My idea was to rank the **1175** features (after removing) in different ways and
        - Not done for features_variance, since it's not sorted.
 5. Saving files as CSV
 
-## Feature Appearance
+### Feature Appearance
 
 The features come in different groups:
 1. Categorial
@@ -51,10 +56,7 @@ The features come in different groups:
       - **Split** in: watching, on_hold, dropped, plan_to_watch
         - "Completed" was **removed**, since for **new** shows this is always **zero**
 
-
-
-
-## Results
+### Results
 
 We end up with 7 lists of features:
 - features_chi2
@@ -78,3 +80,63 @@ Creating sets by only taking the top 50 and top 100 features (all but features_v
   - union of the top 100 intersected with intersection of all lists
 - combination_quarter     
 -   union of the top 50 intersected with intersection of all lists
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## More complicated approaches
+
+Presenting feature selection methods used in [ml_unsupervised_fs.py](../Workplace/ml_unsupervised_fs.py)
+
+Here we present more techniques, more understanding, more structure.
+
+<details>
+<summary>ml_unsupervised_fs.py</summary>
+
+Considering the application in [ml_KMeans_search.py](../Workplace/ml_KMeans_search.py) as well as the feature selection functions in [module_ml.py](../Workplace/module_ml.py):
+
+
+### Unsupervised feature selection methods
+
+- autoencoder_feature_selector
+- clustering_stability_selector
+- correlation_selector
+- entropy_feature_selector
+- eval_scor_pred
+- fa_selector
+- feature_selection_pipeline
+- fs_f_classif
+- greedy_clustering_feature_selection
+- ica_selector
+- laplacian_score
+- pca_selector
+- silhouette_feature_selector
+- tsne_sensitivity_selector
+- variance_threshold_selector
+
+
+- By Hand: Selecting, or rather **not** selecting features by hand.
+  - remove every feature that has less than ``n`` entries (if entries are ``1`` or ``0``)
+
+Several of thees methods are used in [ml_unsupervised_fs.py](../Workplace/ml_unsupervised_fs.py) to finde good features for clustering.
+The resulting features are than used in [ml_KMeans_search.py](../Workplace/ml_KMeans_search.py) to see wich set of features provides the best results.
+An application is than done in [ml_clustering.py](../Workplace/ml_clustering.py).
+
+For more details on each method see [Documentation_module_ml.md](Documentation_module_ml.md).
+For more details on how they were used see [notes_ml_UnsupervisedFS.md](notes_ml_UnsupervisedFS.md).
+
+
+
+</details>

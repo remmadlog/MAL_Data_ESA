@@ -167,7 +167,7 @@ df_encoded_rest = df_encoded_rest.drop(["rating_0"], axis=1)
 df_encoded_rest = df_encoded_rest.groupby("anime_id").sum()
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# full encodes table
+# full encoded table
 df_encoded = pd.merge(df_encoded_sgt, df_encoded_rest, on="anime_id", how='inner') #! df_encoded_sgt smaller than df_encoded_rest
 
 
@@ -180,6 +180,9 @@ dfml = pd.merge(dftemp, df_on_list ,on="anime_id",how='inner')
 # dfml.to_csv("created_files/training_partial_set_OnList.csv", index=False)
 
 # : Saving 'dftemp' to use another day
+df_encoded_ = pd.merge(df_encoded_sgt, df_encoded_rest, on="anime_id", how='outer')
+dftemp = pd.merge(df_encoded, dfmu[["anime_id", "year", "score", "rank", "episodes", "duration","scored_by", "on_list", "favorites"]] ,on="anime_id",how='inner')
+
 dftemp.to_csv("created_files/training_full_set.csv", index=False)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 

@@ -1,157 +1,98 @@
 """
-In this file we will investigate the MAL dataset using clustering methods.
-
-Plan and deviation:
-- Use 'selection_arranged_union.csv'
-    - VERY WEAK silhouette score for KMeans (n_cluster = 2, score = 0.17)
-- Use 'selection_arranged_intersection.csv'
-    - WEAK silhouette score for KMeans (n_cluster = 2, score = 0.31)
-
-I intend to consider the whole data set too, but will probably drop `on_list` for that.
-    - After changing 'ml_table_creation.py' we now can use 'training_full_set.csv'
-        - Still a WEAK silhouette score for KMeans (n_cluster = 2, score = 0.41)
+Application of Clustering methods.
+    Mainly DBSCAN
+        Mainly bad results
 """
-# note for myself regarding comment colors in pycharm using better comments
-# # # orange
-#? blue
-#! red
-#. purple
-#: green
-#, blueish
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Import"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-import pandas as pd
-import numpy as np
-
-# for splitting a DF into training and testing
-from sklearn.model_selection import train_test_split
-
-# for scaling
-from sklearn.preprocessing import StandardScaler
-
-# for clustering
-from sklearn.cluster import KMeans
-
-# for scoring
-from sklearn.metrics import silhouette_score
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Loading"""
+#: Imports
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Loading file with selected features (fs)
-# df_fs = pd.read_csv("created_files/training_score/selection_arranged_intersection.csv").fillna(0)
-df_partial_fs = pd.read_csv("created_files/training_score/selection_arranged_union.csv").fillna(0)
-
-
-# considering the main table
-df_full_no_fs = pd.read_csv("created_files/training_full_set.csv").fillna(0)
-
-# reduce features in df_full_no_fs
-# ! feature selection by hand -- maybe do smth. similar as in 'ml_fs_score_prediction.py' -> model training, clustering....
-df_full_fs = df_full_no_fs[
-    ["anime_id", "season_fall", "season_spring", "season_summer", "season_winter", "year", "score", "rank", "episodes", "duration"]
-    + ["anime_type_0","anime_type_CM","anime_type_Movie","anime_type_Music","anime_type_ONA","anime_type_OVA","anime_type_PV","anime_type_Special","anime_type_TV","anime_type_TV Special"]
-    + ["source_4-koma manga","source_Book","source_Card game","source_Game","source_Light novel","source_Manga","source_Mixed media","source_Music","source_Novel","source_Original","source_Other","source_Picture book","source_Radio","source_Unknown","source_Visual novel","source_Web manga","source_Web novel"]
-    + ["rating_G - All Ages","rating_PG - Children","rating_PG-13 - Teens 13 or older","rating_R - 17+ (violence & profanity)","rating_R+ - Mild Nudity","rating_Rx - Hentai"]
-]
-
-# considered dataset
-df = df_full_fs.copy()
+from module_ml import *
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Preparations"""
+#: Chose what to execute
+do_clustering_DBSCAN = 0
+do_analysis_DBSCAN = 0
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-def data_preparation(df):
-    # We start with a smaller dataset
-    df_temp = df.copy()
-
-    # X features
-    X = df_temp
-    #: We do not need y, we do NOT have a TARGET
-    y = X
-
-    # splitting in test and trainings data (10% test data)
-    X_train_id, X_test_id, y_train_id, y_test_id, = train_test_split(
-        X,          # split the feature set
-        y,                 # split the target set
-        test_size=0.1,     # get 10% as text data
-        random_state=42    # split random but repeatable
-    )
-
-    # kept anime_id till now, needs to be removed!
-    X_train = X_train_id.drop(["anime_id"], axis=1)
-    X_test = X_test_id.drop(["anime_id"], axis=1)
-    y_train = y_train_id.drop(["anime_id"], axis=1)
-    y_test = y_test_id.drop(["anime_id"], axis=1)
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#: CLUSTERING (focusing on DBSCAN)
+if do_clustering_DBSCAN == 0:
+    # Loading data
+    df = pd.read_csv('created_files/training_full_set.csv')
 
 
-    # Instantiate StandardScaler
-    scaler = StandardScaler()
+    # Selected features
+    studios = ['studio_100studio', 'studio_10Gauge', 'studio_2:10 Animation', 'studio_3D Co.', 'studio_5 Inc.', 'studio_717 Animation Studio', 'studio_7doc', 'studio_81 Produce', 'studio_8bit', 'studio_A-1 Pictures', 'studio_A-Line', 'studio_A-Real', 'studio_A.C.G.T.', 'studio_ABJ COMPANY', 'studio_ACC Production', 'studio_ACiD FiLM', 'studio_AHA Entertainment', 'studio_AIC', 'studio_AIC ASTA', 'studio_AIC Build', 'studio_AIC Classic', 'studio_AIC Frontier', 'studio_AIC PLUS+', 'studio_AIC Project', 'studio_AIC Spirits', 'studio_AIC Takarazuka', 'studio_AION Studio', 'studio_AMGA', 'studio_APPP', 'studio_AQUA ARIS', 'studio_ARCUS', 'studio_ARECT', 'studio_ASK Animation Studio', 'studio_ASTROBROS.', 'studio_AT-2', 'studio_AXsiZ', 'studio_AYCO', 'studio_Academy Productions', 'studio_Acca effe', 'studio_Actas', 'studio_Adonero', 'studio_Agent 21', 'studio_Ai Si Animation Studio', 'studio_Ai Yume Mai', 'studio_Aiko', 'studio_Aiti St.', 'studio_Ajia-do', 'studio_Akatsuki', 'studio_Albacrow', 'studio_Alfred Imageworks', 'studio_Alice Production', 'studio_Alke', 'studio_Alpha Animation', 'studio_Amarcord', 'studio_Amineworks', 'studio_An DerCen', 'studio_Andraft', 'studio_Anima', 'studio_Anima&Co.', 'studio_Animaruya', 'studio_Animation 21', 'studio_Animation 501', 'studio_Animation Do', 'studio_Animation Lab Japan', 'studio_Animation Planet', 'studio_Animation Staff Room', 'studio_Anime Antenna Iinkai', 'studio_Anime Beans', 'studio_Anime R', 'studio_Anime Tokyo', 'studio_Ankama Animations', 'studio_Annapuru', 'studio_Anon Pictures', 'studio_Anpro', 'studio_Arch', 'studio_Arcs Create', 'studio_Arcturus', 'studio_Ark', 'studio_Arms', 'studio_Artland', 'studio_Artmic', 'studio_Artner', 'studio_Arvo Animation', 'studio_Asahi Production', 'studio_Ascension', 'studio_Ashi Productions', 'studio_Asmik Ace', 'studio_Assez Finaud Fabric', 'studio_Asura Film', 'studio_Atelier Pontdarc', 'studio_Atorie A.B.C.', 'studio_Atti Production', 'studio_Au Praxinoscope', 'studio_Aubec', 'studio_Aurora Animation', 'studio_Avaco Creative Studios', 'studio_Axis', 'studio_Azeta Pictures', 'studio_B&T', 'studio_B.CMAY PICTURES', 'studio_BUDDHA INC.', 'studio_BUG FILMS', 'studio_BUILD DREAM', 'studio_BYMENT', 'studio_Bakken Record', 'studio_Bandai Namco Filmworks', 'studio_Bandai Namco Pictures', 'studio_Barnum Studio', 'studio_BeSTACK', 'studio_Beat Frog', 'studio_Bebow', 'studio_Bee Media', 'studio_Bee Train', 'studio_Beijing Enlight Pictures', 'studio_Beijing Huihuang Animation Company', 'studio_Bibury Animation CG', 'studio_Bibury Animation Studios', 'studio_Big Bang', 'studio_Big Firebird Culture', 'studio_Big Wing', 'studio_Blade', 'studio_Blaze Studio', 'studio_BloomZ', 'studio_Blue Cat', 'studio_Blue Note', 'studio_Blue bread', 'studio_Bones', 'studio_Bouncy', 'studio_Boyan Pictures', "studio_Brain's Base", 'studio_BreakBottle', 'studio_Bridge', 'studio_Brio Animation', 'studio_Buemon', 'studio_Buyuu', 'studio_C and R', 'studio_C&S Production', 'studio_C-Station', 'studio_C2C', 'studio_CCTV Animation', 'studio_CELAVIE', 'studio_CG Year', 'studio_CGCG Studio', 'studio_CHOCOLATE', 'studio_CLAP', 'studio_CMC Media', 'studio_CUKA', 'studio_Cafe de Jeilhouse', 'studio_Calf Studio', 'studio_Caviar', 'studio_Chaos Project', 'studio_Charaction', "studio_Children's Playground Entertainment", 'studio_Chiptune', 'studio_Chongzhuo Animation', 'studio_Chosen', 'studio_ChuChu', 'studio_Circle Tribute', 'studio_Circus Production', 'studio_Cloud Art', 'studio_Cloud Culture', 'studio_Cloud Hearts', 'studio_CloverWorks', 'studio_CoMix Wave Films', 'studio_Coastline Animation Studio', 'studio_Cocktail Media', 'studio_Code', 'studio_Collaboration Works', 'studio_Colored Pencil Animation', 'studio_Colored Pencil Animation Japan', 'studio_Comma Studio', 'studio_CompTown', 'studio_Composition Inc.', 'studio_Concept Films', 'studio_Connect', 'studio_Contrail', 'studio_Craftar Studios', 'studio_Creators Dot Com', 'studio_Creators in Pack', 'studio_Creatures Inc.', 'studio_Cutie Bee', 'studio_CyberConnect2', 'studio_Cyclone Graphics', 'studio_CygamesPictures', 'studio_D & D Pictures', "studio_D'ART Shtajio", 'studio_D.A.S.T Corporation', 'studio_DAX Production', 'studio_DC Impression Vision', 'studio_DLE', 'studio_DMM.futureworks', 'studio_DOGA Productions', 'studio_DR Movie', 'studio_DRAWIZ', 'studio_Daewon Media', 'studio_Dancing CG Studio', 'studio_DandeLion Animation Studio', 'studio_Dangun Pictures', 'studio_Darts', 'studio_Datama Film', 'studio_Daume', 'studio_David Production', 'studio_Dawn Animation', 'studio_Deck', 'studio_Decovocal', 'studio_Delight Animation', 'studio_Digital Dream Studios', 'studio_Digital Frontier', 'studio_Digital Media Lab', 'studio_Digital Network Animation', 'studio_Diomedéa', 'studio_Directions', 'studio_Djinn Power', 'studio_Doga Kobo', 'studio_Dongwoo A&E', 'studio_Drawing and Manual', 'studio_Dream Entertainment', 'studio_Drive', 'studio_Dyna Method', 'studio_Dynamic Planning', 'studio_Dynamo Pictures', 'studio_E&G Films', 'studio_E&H Production', 'studio_EDP graphic works', 'studio_EKACHI EPILKA', 'studio_EMT Squared', 'studio_ENGI', 'studio_EOEO System', 'studio_EOTA', 'studio_Eallin', 'studio_East Fish Studio', 'studio_Echo', 'studio_Echoes', 'studio_Egg', 'studio_Egg Firm', 'studio_Eiken', 'studio_Ekura Animal', 'studio_Elias', 'studio_Emon', 'studio_Encourage Films', 'studio_Enishiya', 'studio_Enjin Productions', 'studio_Enzo Animation', 'studio_Eshoya Honpo', 'studio_Ether Kitten', 'studio_Euluca Lab', 'studio_Executive Decision', 'studio_Ezόla', 'studio_FILMONY', 'studio_FOREST Hunting One', 'studio_Fanworks', 'studio_Felix Film', 'studio_Fenz', 'studio_Fever Creations', 'studio_Fifth Avenue', 'studio_Filmlink International', 'studio_Flagship Line', 'studio_Flat Studio', 'studio_Flavors Soft', 'studio_Flint Sugar', 'studio_Flying Ship Studio', 'studio_Foch Film', 'studio_Fortes', 'studio_Four Some', 'studio_Front Line', 'studio_Frontier One', 'studio_Frontier Works', 'studio_Fugaku', 'studio_Fuji TV', 'studio_Fukushima Gaina', 'studio_Future Planet', 'studio_G&G Direction', 'studio_G&G Entertainment', 'studio_G-Lam', 'studio_G-angle', 'studio_G.P Entertainment', 'studio_GANSIS', 'studio_GARDEN Culture', 'studio_GARDEN LODGE', 'studio_GAV Video', 'studio_GEMBA', 'studio_GIFTanimation', 'studio_GRIZZLY', 'studio_GUMBLAB', 'studio_Ga-Crew', 'studio_Gaina', 'studio_Gainax', 'studio_Gainax Kyoto', 'studio_Gakken', 'studio_Gallop', 'studio_Gambit', 'studio_Garyuu Studio', 'studio_Gathering', 'studio_Gear Studio', 'studio_Geek Toys', 'studio_Gekkou', 'studio_General Entertainment', 'studio_Geno Studio', 'studio_Giga Production', 'studio_Ginga Teikoku', 'studio_Ginga Ya', 'studio_GoHands', 'studio_Gonzino', 'studio_Gonzo', 'studio_Gosay Studio', 'studio_Graphinica', 'studio_Gravity Well', 'studio_Grayscale Arts', 'studio_Green Monster Team', 'studio_Griot Groove', 'studio_Group TAC', 'studio_Grouper Productions', 'studio_Gunners', 'studio_Guton Animation Studio', 'studio_Gyorai Eizo Inc.', 'studio_HAL Film Maker', 'studio_HIDEHOMARE', 'studio_HMCH', 'studio_HORNETS', 'studio_HOTZIPANG', 'studio_HS Pictures Studio', 'studio_Hai An Xian Donghua Gongzuo Shi', 'studio_Hand to Mouse.', 'studio_Haneda xR Studio', 'studio_Haoliners Animation League', 'studio_Happy Elements', 'studio_Hayabusa Film', 'studio_Heart & Soul Animation', 'studio_Heewon Entertainment', 'studio_Hero', 'studio_High Energy Studio', 'studio_Himajin Planning', 'studio_Hiro Media', 'studio_Hololive Production', 'studio_Hong Ying Animation', 'studio_Hoods Entertainment', 'studio_Horannabi', 'studio_Hotline', 'studio_HuaDream', 'studio_HuaMei Animation', 'studio_Hurray!', 'studio_Husio Studio', 'studio_I & A', 'studio_I was a Ballerina', 'studio_I-move', 'studio_I.Gzwei', 'studio_I.Toon', 'studio_IKK Room', 'studio_ILCA', 'studio_ILCASHIPS', 'studio_IMAGICA Lab.', 'studio_INTERFACEDOGS', 'studio_Iconix Entertainment', 'studio_Idea Factory', 'studio_Idol', 'studio_Ijigen Tokyo', 'studio_Image House', 'studio_Image Kei', 'studio_Imageworks Studio', 'studio_Imagica', 'studio_Imagica Digitalscape', 'studio_Imagica Imageworks', 'studio_Imagica Infos', 'studio_Imagin', 'studio_Imagineer', 'studio_Indeprox', 'studio_Indivision', 'studio_Inugoya', 'studio_Ishibashi Planning', 'studio_Ishikawa Pro', 'studio_Ishimori Entertainment', 'studio_Issen', 'studio_Itasca Studio', 'studio_Iyasakadou Film', 'studio_J.C.Staff', 'studio_J.K.I', 'studio_JCF', 'studio_JM Animation', 'studio_JOF', 'studio_Japan Vistec', 'studio_Jichitai Anime', 'studio_Jinnan Studio', 'studio_Jinnis Animation Studios', 'studio_Joicy Studio', 'studio_Joker Films', 'studio_Jumondo', 'studio_Jumonji', 'studio_K-Factory', 'studio_KAGAYA Studio', 'studio_KIZAWA Studio', 'studio_KKC Animation Production', 'studio_KOO-KI', 'studio_KSS', 'studio_Kaca Entertainment', 'studio_Kachidoki Studio', 'studio_Kaeruotoko Shokai', 'studio_Kami Kukan', 'studio_Kamikaze Douga', 'studio_Kamio Japan', 'studio_Kanaban Graphics', 'studio_Kaname Productions', 'studio_Kantou Douga Kai', 'studio_Karaku', 'studio_Karasfilms', 'studio_Kassen', 'studio_Kate Arrow', 'studio_Kazami Gakuen Koushiki Douga-bu', 'studio_Kazuki Production', 'studio_Keica', 'studio_Kenji Studio', 'studio_Kent House', 'studio_KeyEast', 'studio_Keyring', 'studio_Khara', 'studio_Kigumi', 'studio_Kinema Citrus', 'studio_Kino Production', 'studio_Kitty Film Mitaka Studio', 'studio_Knack Productions', 'studio_Koinrush Studio', 'studio_Kojiro Shishido Animation Works', 'studio_Kokusai Eigasha', 'studio_Konami animation', 'studio_Kuai Ying Hu Yu', 'studio_Kung Fu Frog Animation', 'studio_Kuri Jikken Manga Koubou', 'studio_Kusama Art', 'studio_Kyoto Animation', 'studio_Kyotoma', 'studio_Kyushu Network Animation', 'studio_LAN Studio', 'studio_LB Commerce', 'studio_LICO', 'studio_LIDENFILMS', 'studio_LMD', 'studio_LX Animation Studio', 'studio_LandQ studios', 'studio_Lapin Track', 'studio_Larx Entertainment', 'studio_Lay-duce', 'studio_Le-joy Animation Studio', 'studio_Lead', 'studio_Lerche', 'studio_Lesprit', 'studio_Liber', 'studio_Liberty Animation Studio', 'studio_Lide', 'studio_Life Work', 'studio_Light Chaser Animation Studios', 'studio_Lingsanwu Animation', 'studio_Live2D Creative Studio', 'studio_Liyu Culture', 'studio_Lyrics', 'studio_L²Studio', 'studio_M&M', 'studio_M.S.C', 'studio_MAINCONCEPT', 'studio_MAPPA', 'studio_MASTER LIGHTS', 'studio_MAT', 'studio_MB planning', 'studio_MI', 'studio_MK Pictures', 'studio_MMT Technology', 'studio_MOJO Animation', 'studio_MORIE Inc.', 'studio_Maboroshi Koubou', 'studio_Mad Box', 'studio_Madhouse', 'studio_Magia Doraglier', 'studio_Magic Bus', 'studio_Magma Studio', 'studio_Maho Film', 'studio_Majin', 'studio_Makaria', 'studio_Making Animation', 'studio_Manaa Animation', 'studio_Manga Productions', 'studio_Manglobe', 'studio_Marine Entertainment', 'studio_Maro Studio', 'studio_Marone', 'studio_Marui Group', 'studio_Marvelous Entertainment', 'studio_Marvy Jack', 'studio_Marza Animation Planet', 'studio_Maxilla', 'studio_Media Factory', 'studio_Medo', 'studio_Melissa', 'studio_Meltdown', 'studio_Meruhensha', 'studio_Mikimoto Production', 'studio_Mili Pictures', 'studio_Milky Cartoon', 'studio_Millepensee', 'studio_Mimoid', 'studio_Minakata Laboratory', 'studio_Minami Machi Bugyousho', 'studio_Miota', 'studio_Mippei Eigeki Kiryuukan', 'studio_Mirai Film', 'studio_Mirai Fusion', 'studio_Miyu Productions', 'studio_MoMo Production', 'studio_Mokai Technology', 'studio_Momoi Planning', "studio_Monster's Egg", 'studio_MontBlanc Pictures', 'studio_MooGoo', 'studio_Mook Animation', 'studio_Mook DLE', 'studio_Moss Design Unit', 'studio_Motion Magic', 'studio_Mouse', 'studio_Mousou Senka', 'studio_Movic', 'studio_Mushi Production', 'studio_NANON CREATIVE', 'studio_NAZ', 'studio_NHK', 'studio_NHK Enterprises', 'studio_Nagomi', 'studio_Nakamura Production', 'studio_Namu Animation', 'studio_Neft Film', 'studio_Nekonigashi Inc.', 'studio_Network Kouenji Studio', 'studio_New Deer', 'studio_New Generation', 'studio_Next Media Animation', 'studio_Nexus', 'studio_Nice Boat Animation', 'studio_Nihikime no Dozeu', 'studio_Nihon Ad Systems', 'studio_Nippon Animation', 'studio_Nippon Columbia', 'studio_Nippon Ramayana Film Co.', 'studio_Nippon TV Douga', 'studio_No Side', 'studio_Nomad', 'studio_Noovo', 'studio_Nostalook', 'studio_Nur', 'studio_Nut', 'studio_OB Planning', 'studio_OLM', 'studio_OLM Digital', 'studio_ONIRO', 'studio_ORADA COMPANY', 'studio_ORCEN', 'studio_ORENDA', 'studio_OTOIRO', 'studio_OZ', 'studio_Ocon Studio', 'studio_October Media', 'studio_Oddjob', 'studio_Odolttogi', 'studio_Office AO', 'studio_Office DCI', 'studio_Office No. 8', 'studio_Office Nobu', 'studio_Office Take Off', 'studio_Office TakeOut', 'studio_Oh! Production', 'studio_Okumaza', 'studio_Okuruto Noboru', 'studio_Onion Studio', 'studio_Onionskin', 'studio_Opera House', 'studio_Orange', 'studio_Ordet', 'studio_Oriental Creative Color', 'studio_Original Force', 'studio_Outline', 'studio_Oxybot', 'studio_Oz Inc.', 'studio_P core', 'studio_P.A. Works', 'studio_P.I.C.S.', 'studio_PERIMETRON', 'studio_PHANTOM', 'studio_PINE JAM', 'studio_PONOS Corporation', 'studio_PP Project', 'studio_PPM', 'studio_PRA', 'studio_Painting Dream', 'studio_Palm Studio', 'studio_Pancake', 'studio_Panda Factory', 'studio_Panda Tower Studio', 'studio_Panmedia', 'studio_Paper Animation', 'studio_Paper Plane Animation Studio', 'studio_Passion Paint Animation', 'studio_Passione', 'studio_Pastel', 'studio_Pb Animation Co. Ltd.', 'studio_Peak Hunt', 'studio_Phoenix Entertainment', 'studio_Picograph', 'studio_Picona', 'studio_Picture Magic', 'studio_Pie in the sky', 'studio_Pierrot', 'studio_Pierrot Films', 'studio_Pierrot Plus', 'studio_Piko Studio', 'studio_Pink Cat', 'studio_Piso Studio', 'studio_Planet', 'studio_Planet Cartoon', 'studio_Planet Nemo Animation', 'studio_Platinum Vision', 'studio_Plum', 'studio_Plus Heads', 'studio_Pmats9 studio', 'studio_PoRO', 'studio_Point Pictures', 'studio_Pollyanna Graphics', 'studio_Polygon Pictures', 'studio_Poncotan', 'studio_Pony Canyon', 'studio_Pops Inc.', 'studio_Potato House', 'studio_Primastea', 'studio_PrimeTime', 'studio_Production +h.', 'studio_Production D.M.H', 'studio_Production GoodBook', 'studio_Production I.G', 'studio_Production IMS', 'studio_Production Reed', 'studio_Production Wave', 'studio_Project No.9', 'studio_Project Studio Q', 'studio_Project Team Muu', 'studio_Project Team Sarah', 'studio_Public & Basic', 'studio_Public Enemies', 'studio_Pure Arts', 'studio_Purple Cow Studio Japan', 'studio_Puzzle Animation Studio Limited', 'studio_Qianqi Animation', 'studio_Qingxiang Culture', 'studio_Qiyuan Yinghua', 'studio_Quad', 'studio_Qualia Animation', 'studio_Qubic Pictures', 'studio_Quebico', 'studio_Quyue Technology', 'studio_Qzil.la', 'studio_R11R', 'studio_RAMS', 'studio_REALTHING', 'studio_RG Animation Studios', 'studio_ROLL2', 'studio_Rabbit Gate', 'studio_Rabbit Machine', 'studio_Radix', 'studio_Red Dog Culture House', 'studio_Remic', 'studio_Revoroot', 'studio_Rhythmos', 'studio_Rikuentai', 'studio_Ripple Film', 'studio_Ripromo', 'studio_Rising Force', 'studio_Robot Communications', 'studio_Rocen', "studio_Rock'n Roll Mountain", 'studio_Rockwell Eyes', 'studio_Romanov Films', 'studio_Ruo Hong Culture', "studio_Ryuu M's", 'studio_SAFEHOUSE', 'studio_SAMG Entertainment', 'studio_SANZIGEN', 'studio_SBS TV Production', 'studio_SELFISH', 'studio_SIDO LIMITED', 'studio_SIGNIF', 'studio_SILVER LINK.', 'studio_SJYNEXCUS', "studio_STUDIO6'oN", 'studio_STUDIOK110', 'studio_Saber Project', 'studio_Saetta', 'studio_Saigo no Shudan', 'studio_Sakura Create', 'studio_Samsara Animation Studio', 'studio_San-X', 'studio_Sanctuary', 'studio_Sanrio', 'studio_Sanrio Digital', 'studio_Satelight', 'studio_Schoolzone', 'studio_Science SARU', 'studio_Scooter Films', 'studio_Seoul Movie', 'studio_Seven', 'studio_Seven Arcs', 'studio_Seven Arcs Pictures', 'studio_Seven Stone Entertainment', 'studio_Shaft', 'studio_Shanghai Animation Film Studio', 'studio_Sharefun Studio', 'studio_Shelty', 'studio_Shengguang Knight Culture', 'studio_Shengying Animation', 'studio_Shenman Entertainment', 'studio_Shimogumi', 'studio_Shin-Ei Animation', 'studio_Shindeban Film', 'studio_Shinjukuza', 'studio_Shinkuukan', 'studio_Shion', 'studio_Shirogumi', 'studio_Shogakukan Music & Digital Entertainment', 'studio_Shueisha', 'studio_Shuiniu Dongman', 'studio_Shuka', 'studio_Shura', 'studio_Signal.MD', 'studio_Silver', 'studio_Soeishinsha', 'studio_Sofix', 'studio_Soft Garage', 'studio_Sola Digital Arts', 'studio_Sonsan Kikaku', 'studio_Sotsu', 'studio_Sovat Theater', 'studio_Space Neko Company', 'studio_Space-X', 'studio_Sparkly Key Animation Studio', 'studio_Sparky Animation', 'studio_Speed Inc.', 'studio_Spell Bound', 'studio_Spooky graphic', 'studio_Spoon', 'studio_Sprite Animation Studios', 'studio_Square Enix Visual Works', 'studio_Square Pictures', 'studio_Staple Entertainment', 'studio_Starry Cube', 'studio_StealthWorks', 'studio_Stereotype', "studio_Steve N' Steven", 'studio_Stingray', 'studio_Story Effect', 'studio_StoryRiders Co. Ltd.', 'studio_Strawberry Meets Pictures', 'studio_Studio 1st', 'studio_Studio 3Hz', 'studio_Studio 4°C', 'studio_Studio 88', 'studio_Studio 9 Maiami', 'studio_Studio A-CAT', 'studio_Studio Add', 'studio_Studio Animal', 'studio_Studio B&M', 'studio_Studio BAZOOKA', 'studio_Studio Barcelona', 'studio_Studio Bind', 'studio_Studio Bingo', 'studio_Studio Binzo', 'studio_Studio Blanc.', 'studio_Studio Bogey', 'studio_Studio Boogie Nights', 'studio_Studio CA', 'studio_Studio CANDY BOX', 'studio_Studio Chizu', 'studio_Studio Coa', 'studio_Studio Cockpit', 'studio_Studio Colorido', 'studio_Studio Comet', 'studio_Studio Core', 'studio_Studio Crocodile', 'studio_Studio D-Volt', 'studio_Studio DURIAN', 'studio_Studio Dadashow', 'studio_Studio Daisy', 'studio_Studio Deen', 'studio_Studio Dolphin Night', 'studio_Studio Egg', 'studio_Studio Eight Color', 'studio_Studio Elle', 'studio_Studio Eromatick', 'studio_Studio Fantasia', 'studio_Studio Flad', 'studio_Studio Flag', 'studio_Studio Fusion', 'studio_Studio G-1Neo', 'studio_Studio G7', 'studio_Studio GOONEYS', 'studio_Studio Gadget', 'studio_Studio Gale', 'studio_Studio Gazelle', 'studio_Studio Ghibli', 'studio_Studio Gohan', 'studio_Studio Goindol', 'studio_Studio Gokumi', 'studio_Studio Gram', 'studio_Studio Guts', 'studio_Studio Hakk', 'studio_Studio Hibari', 'studio_Studio Himalaya', 'studio_Studio Hokiboshi', 'studio_Studio Izena', 'studio_Studio Jam', 'studio_Studio Jemi', 'studio_Studio Jin', 'studio_Studio Junio', 'studio_Studio Kafka', 'studio_Studio Kai', 'studio_Studio Kajino', 'studio_Studio KeepFire', 'studio_Studio Kelmadick', 'studio_Studio Khronos', 'studio_Studio Kikan', 'studio_Studio Kingyoiro', 'studio_Studio Korumi', 'studio_Studio Kyuuma', 'studio_Studio Lemon', 'studio_Studio Lings', 'studio_Studio Live', 'studio_Studio M2', 'studio_Studio March', 'studio_Studio Massket', 'studio_Studio Matomo', 'studio_Studio Matrix', 'studio_Studio Meditation With a Pencil', 'studio_Studio Mir', 'studio_Studio Moe', 'studio_Studio Moriken', 'studio_Studio N', 'studio_Studio Nanahoshi', 'studio_Studio Nuck', 'studio_Studio OX', 'studio_Studio Outrigger', 'studio_Studio Palette', 'studio_Studio Pastoral', 'studio_Studio Pivote', 'studio_Studio Placebo', 'studio_Studio Polon', 'studio_Studio Ponoc', 'studio_Studio Ppuri', 'studio_Studio Prokion', 'studio_Studio PuYUKAI', 'studio_Studio Ranmaru', 'studio_Studio Rikka', 'studio_Studio Shelter', 'studio_Studio Sign', 'studio_Studio Signal', 'studio_Studio Signpost', 'studio_Studio Sota', 'studio_Studio Soul', 'studio_Studio Take Off', 'studio_Studio Ten', 'studio_Studio Ten Carat', 'studio_Studio Tumble', 'studio_Studio UGOKI', 'studio_Studio Unicorn', 'studio_Studio VOLN', 'studio_Studio W.Baba', 'studio_Studio Wombat', 'studio_Studio World', 'studio_Studio Z5', 'studio_Studio Zero', 'studio_Studio! Cucuri', 'studio_StudioRF Inc.', 'studio_StudioXD', 'studio_Sublimation', 'studio_Success Corp.', 'studio_Sugar Boy', 'studio_Sugata Creative & Design', 'studio_Sumomo Film', 'studio_Suna Kouhou', 'studio_Sunflowers', 'studio_Sunny Gapen', 'studio_Sunny Side Up', 'studio_Sunrise', 'studio_Sunrise Beyond', 'studio_Sunwoo Entertainment', 'studio_Suoyi Technology', 'studio_Super Normal Studio', 'studio_Suspenders', 'studio_Suzuki Mirano', 'studio_Synergy Japan', 'studio_SynergySP', 'studio_T-Rex', 'studio_T.P.O', 'studio_TEC', 'studio_THINGS.', 'studio_THINKR', 'studio_THREE IS A MAGIC NUMBER', 'studio_TMS Entertainment', 'studio_TNK', 'studio_TOHO animation', 'studio_TOHO animation STUDIO', 'studio_TROYCA', 'studio_TUBA', 'studio_TYMOTE', 'studio_TYO Animations', 'studio_Taikong Works', 'studio_Takahashi Studio', 'studio_Takun Manga Box', 'studio_Tama Production', 'studio_Tamura Shigeru Studio', 'studio_Tang Kirin Culture', 'studio_Tatsunoko Production', 'studio_Team OneOne', 'studio_Team TillDawn', 'studio_Team YokkyuFuman', 'studio_Tear Studio', 'studio_Teatro Nishi Tokyo Studio', 'studio_Tecarat', 'studio_Telecom Animation Film', 'studio_Telescreen', 'studio_Tengu Kobo', 'studio_Tezuka Productions', 'studio_The Answer Studio', 'studio_The Monk Studios', 'studio_Think Corporation', 'studio_Three-d', 'studio_Thundray', 'studio_Toei Animation', 'studio_Toei Video', 'studio_Toho Interactive Animation', 'studio_Tokyo Kids', 'studio_Tokyo Media Connections', 'studio_Tokyo Movie', 'studio_Tokyo Movie Shinsha', 'studio_Tokyo TV Douga', 'studio_Tomason', 'studio_Tomovies', 'studio_Tomoyasu Murata Company', 'studio_Tonari Animation', 'studio_Tong Ming Xuan', 'studio_Tonko House', 'studio_Topcraft', 'studio_Toyo Links Corporation', 'studio_Trans Arts', 'studio_Transcendence Picture', 'studio_Transistor Studio', 'studio_Trash Studio', 'studio_Tri-Slash', 'studio_TriF Studio', 'studio_Triangle Staff', 'studio_Trigger', 'studio_Trinet Entertainment', 'studio_TrioPen Studio', 'studio_Triple X', 'studio_Tryforce', 'studio_Tsubo Production', 'studio_Tsuburaya Productions', 'studio_Tsuchida Productions', 'studio_Tsukimidou', 'studio_Tsumugi Akita Animation Lab', 'studio_TthunDer Animation', 'studio_Twenty First', 'studio_Twilight Studio', 'studio_Twilight Town', 'studio_Twin Engine', 'studio_Typhoon Graphics', 'studio_UWAN Pictures', 'studio_UchuPeople', 'studio_Uguisu Kobo', 'studio_Ultra Super Pictures', 'studio_Unend', 'studio_Urban Product', 'studio_Usagi Ou', 'studio_VAP', 'studio_VCRWORKS', 'studio_VROOOOM', 'studio_Valkyria', 'studio_Vasoon Animation', 'studio_Vega Entertainment', 'studio_Venet', 'studio_Viewworks', 'studio_Village Studio', 'studio_Visual 80', 'studio_Visual Flight', 'studio_Voil', 'studio_Volca', 'studio_W+K Tokyo', 'studio_W-Toon Studio', 'studio_WAO World', 'studio_WHOPPERS', 'studio_Wako Productions', 'studio_Watanabe Promotion', 'studio_Wawayu Animation', 'studio_Welz Animation Studios', 'studio_White Fox', 'studio_Windy Studio', 'studio_Wise Guy', 'studio_Wit Studio', 'studio_Wolf Smoke Studio', 'studio_Wolfsbane', 'studio_Wonder Cat Animation', 'studio_Wong Ping Animation Lab', 'studio_Wulifang', 'studio_XEBEC M2', 'studio_XFLAG', 'studio_XFLAG Pictures', 'studio_Xebec', 'studio_Xiaoming Taiji', 'studio_Xing Yi Kai Chen', 'studio_Xuni Ying Ye', 'studio_Y.O.U.C', 'studio_YHKT Entertainment', 'studio_YURUPPE Inc.', 'studio_Yamamura Animation, Inc.', 'studio_Yamato Works', 'studio_Yamiken', 'studio_Yaoyorozu', 'studio_Year Young Culture', 'studio_Yi Chen Animation', 'studio_Yokohama Animation Laboratory', 'studio_Yostar Pictures', 'studio_Yuhodo', 'studio_Yumeta Company', 'studio_Zelico Film', 'studio_Zero-G', 'studio_Zero-G Room', 'studio_Zexcs', 'studio_Zuiyo', 'studio_Zyc', 'studio_aNCHOR', 'studio_animate Film', 'studio_asread.', 'studio_cogitoworks', 'studio_d00r works', 'studio_domerica', 'studio_drop', 'studio_dwarf', 'studio_evg', 'studio_feel.', 'studio_foodunited.', 'studio_happyproject', 'studio_helo.inc', 'studio_iDRAGONS Creative Studio', 'studio_l-a-unch・BOX', 'studio_lxtl', 'studio_maroyaka', 'studio_miHoYoAnime', 'studio_monofilmo', 'studio_pH Studio', 'studio_production doA', 'studio_qmotri', 'studio_soket', 'studio_studio ALBLE', 'studio_studio MOTHER', 'studio_team Yamahitsuji', 'studio_teamKG', 'studio_ufotable', 'studio_uzupiyo Animation & Digital Works', 'studio_yell']
+    genres = ['genre_Action', 'genre_Adventure', 'genre_Avant Garde', 'genre_Award Winning', 'genre_Boys Love', 'genre_Comedy', 'genre_Drama', 'genre_Ecchi', 'genre_Erotica', 'genre_Fantasy', 'genre_Girls Love', 'genre_Gourmet', 'genre_Hentai', 'genre_Horror', 'genre_Mystery', 'genre_Romance', 'genre_Sci-Fi', 'genre_Slice of Life', 'genre_Sports', 'genre_Supernatural', 'genre_Suspense']
+    themes = ['theme_Adult Cast', 'theme_Anthropomorphic', 'theme_CGDCT', 'theme_Childcare', 'theme_Combat Sports', 'theme_Crossdressing', 'theme_Delinquents', 'theme_Detective', 'theme_Educational', 'theme_Gag Humor', 'theme_Gore', 'theme_Harem', 'theme_High Stakes Game', 'theme_Historical', 'theme_Idols (Female)', 'theme_Idols (Male)', 'theme_Isekai', 'theme_Iyashikei', 'theme_Love Polygon', 'theme_Love Status Quo', 'theme_Magical Sex Shift', 'theme_Mahou Shoujo', 'theme_Martial Arts', 'theme_Mecha', 'theme_Medical', 'theme_Military', 'theme_Music', 'theme_Mythology', 'theme_Organized Crime', 'theme_Otaku Culture', 'theme_Parody', 'theme_Performing Arts', 'theme_Pets', 'theme_Psychological', 'theme_Racing', 'theme_Reincarnation', 'theme_Reverse Harem', 'theme_Samurai', 'theme_School', 'theme_Showbiz', 'theme_Space', 'theme_Strategy Game', 'theme_Super Power', 'theme_Survival', 'theme_Team Sports', 'theme_Time Travel', 'theme_Urban Fantasy', 'theme_Vampire', 'theme_Video Game', 'theme_Villainess', 'theme_Visual Arts', 'theme_Workplace']
+    source = ['source_4-koma manga', 'source_Book', 'source_Card game', 'source_Game', 'source_Light novel', 'source_Manga', 'source_Mixed media', 'source_Music', 'source_Novel', 'source_Original', 'source_Other', 'source_Picture book', 'source_Radio', 'source_Unknown', 'source_Visual novel', 'source_Web manga', 'source_Web novel']
+    rating = ['rating_G - All Ages', 'rating_PG - Children', 'rating_PG-13 - Teens 13 or older', 'rating_R - 17+ (violence & profanity)', 'rating_R+ - Mild Nudity', 'rating_Rx - Hentai']
+    anime_type = ['anime_type_0', 'anime_type_CM', 'anime_type_Movie', 'anime_type_Music', 'anime_type_ONA', 'anime_type_OVA', 'anime_type_PV', 'anime_type_Special', 'anime_type_TV', 'anime_type_TV Special']
+    rest = ['season_fall', 'season_spring', 'season_summer', 'season_winter', 'year', 'score', 'rank', 'episodes', 'duration', 'scored_by', 'on_list', 'favorites']
 
-    # scale training data.
-    X_train_scaled = scaler.fit_transform(X_train)
+    # Clustering
+    Y_studios = cluster_DBSCAN(df[studios], n_neighbors=3, min_samples=250, epsilon=0.01)
+    Y_genres = cluster_DBSCAN(df[genres], n_neighbors=3, min_samples=250, epsilon=0.01)
+    Y_themes = cluster_DBSCAN(df[themes], n_neighbors=3, min_samples=250, epsilon=0.01)
+    Y_source = cluster_DBSCAN(df[source], n_neighbors=3, min_samples=250, epsilon=0.01)
+    Y_rating = cluster_DBSCAN(df[rating], n_neighbors=3, min_samples=250, epsilon=0.01)
+    Y_anime_type = cluster_DBSCAN(df[anime_type], n_neighbors=3, min_samples=250, epsilon=0.01)
+    Y_rest = cluster_DBSCAN(df[rest], n_neighbors=3, min_samples=250)
 
-    # scale test data.
-    X_test_scaled = scaler.transform(X_test)
-    return
+
+    # Adding lable columns to main df
+    df["lable_studios"] = Y_studios["labels"]
+    df["lable_genres"] = Y_genres["labels"]
+    df["lable_themes"] = Y_themes["labels"]
+    df["lable_source"] = Y_source["labels"]
+    df["lable_rating"] = Y_rating["labels"]
+    df["lable_anime_type"] = Y_anime_type["labels"]
+    df["lable_rest"] = Y_rest["labels"]
+
+
+    # Saving to file
+    df.to_csv("created_files/clustering_results/DBSCAN.csv", index=False)
+
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Functions"""
+#: Analysis
+if do_analysis_DBSCAN == 1:
+    df = pd.read_csv('created_files/clustering_results/DBSCAN.csv')
+
+
+    lable_list = ["lable_studios", "lable_genres", "lable_themes", "lable_source", "lable_rating", "lable_anime_type", "lable_rest"]
+
+
+
+    for lable in lable_list:
+        print("-------------------------------------")
+        print(lable)
+        Y_1 = df.groupby(lable)["score"].agg([('score_av','mean'),('score_min','min'),('score_max','max'),('score_median','median')]).reset_index()
+        Y_2 = df.groupby(lable)["episodes"].agg([('episodes_av','mean'),('episodes_min','min'),('episodes_max','max'),('episodes_median','median')]).reset_index()
+        Y_3 = df.groupby(lable)["duration"].agg([('duration_av','mean'),('duration_min','min'),('duration_max','max'),('duration_median','median')]).reset_index()
+        Y_4 = df.groupby(lable)["on_list"].agg([('on_list_av','mean'),('on_list_min','min'),('on_list_max','max'),('on_list_median','median')]).reset_index()
+        Y_5 = df.groupby(lable)["favorites"].agg([('favorites_av','mean'),('favorites_min','min'),('favorites_max','max'),('favorites_median','median')]).reset_index()
+        Y_6 = df.groupby(lable)["scored_by"].agg([('scored_by_av','mean'),('scored_by_min','min'),('scored_by_max','max'),('scored_by_median','median')]).reset_index()
+
+
+        print("-------------------------------------")
+        print(Y_1.to_markdown(index=False))
+        print("-------------------------------------")
+        print(Y_2.to_markdown(index=False))
+        print("-------------------------------------")
+        print(Y_3.to_markdown(index=False))
+        print("-------------------------------------")
+        print(Y_4.to_markdown(index=False))
+        print("-------------------------------------")
+        print(Y_5.to_markdown(index=False))
+        print("-------------------------------------")
+        print(Y_6.to_markdown(index=False))
+
+        print("--------------------------------------------------------------------------")
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# X: dataset -- as `DataFrame`
-# range: range to test for n_clusters -- as `range`, `list`
-def kmeans_tuning(X,range):
-    fits = []
-    scores = []
-
-    for k in range:
-        # using KMeans for `k` clusters
-        model = KMeans(n_clusters = k, random_state = 42, n_init='auto')
-        model.fit(X)
-
-        # append the model to fits
-        fits.append(model)
-
-        # evaluate using silhouette_score
-        scores.append(silhouette_score(X, model.labels_, metric='euclidean', random_state = 42))
-
-    top_score = max(scores)
-    top_model = fits[(scores.index(top_score))]
-
-    return top_model, top_score, range[scores.index(top_score)]
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-"""Using KMeans"""
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-# get best scored model
-model , score, n_cluster = kmeans_tuning(X_train_scaled,range(2,25))
-
-print("for ", n_cluster, "clusters, we score: ", score)
-
-
-
-
-
-
-#?  Maybe make functions for everything, so we can use them for different files and stuff
-
-
-
-
-
-
-
-
-
-
-
-
-
 

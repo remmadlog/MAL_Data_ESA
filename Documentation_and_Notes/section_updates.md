@@ -3,6 +3,50 @@
 A probably not compleat list of updates.
 
 
+
+<details>
+<summary>07.06.2025</summary>
+
+> created:
+> - [notes_ml_UnsupervisedFS.md](notes_ml_UnsupervisedFS.md)
+>   - Notes on unsupervised features selection.
+> - [ml_KMeans_search.py](../Workplace/ml_KMeans_search.py)
+>   - Using KMeans for clustering, but finding the right amount of clusters too.
+> - [ml_unsupervised_fs.py](../Workplace/ml_unsupervised_fs.py)
+>   - Using several FS methods for dimensional reduction and more
+>   - Combined and independent use cases
+
+> Updated
+> - [Documentation_module_ml.md](Documentation_module_ml.md)
+>   - Added information about the new functions.
+> - [notes_ml_clustering.md](notes_ml_clustering.md)
+>   - Updated results and conclusion.
+> - [notes_ml_feature_selection.md](notes_ml_feature_selection.md)
+>   - Added information for new functions.
+> - [ml_clustering.py](../Workplace/ml_clustering.py)
+>   - Change content, now only DBSCAN example.
+> - [ml_table_creation.py](../Workplace/ml_table_creation.py)
+>   - Creates now additional table:
+>     - Without a decomposition of ``on_list``, but containing all data
+> - [module_ml.py](../Workplace/module_ml.py)
+>   - Added nes functions
+>     - Unsupervised feature selection
+>       - Variance Selector
+>       - Correlation Selector
+>       - Entropy Selector
+>       - Factor Analysis
+>       - Auto Encoder
+>       - TSNE Selector
+>       - PCA Selector
+>       - ICA Selector
+>   - Clustering
+>     - KMeans
+>     - DBSCAN
+
+</details>
+
+---
+
 <details>
 <summary>28.05.2025</summary>
 

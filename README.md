@@ -52,10 +52,8 @@ This repository serves as a **learning-by-doing** project focused on:
    - [x] Create an easy-to-excess file containing the main data. 
      - [S_1970_2024_merged.xlsx](Workplace/created_files/S_1970_2024_merged.xlsx) and [S_1970_2024_merged_unique.xlsx](Workplace/created_files/S_1970_2024_merged_unique.xlsx).
 3. [x] Exploring relationships between different features and categories.
-4. [ ] Applying clustering techniques.
-   - [ ] Performe a feature selection.
-   - [ ] Train several models.
-   - [ ] Evaluate the trained models.
+4. [x] Applying clustering techniques.
+   - [x] Performe a feature selection.
 5. [x] Performing predictive analysis using multiple ml models.
    - [x] Performe a feature selection.
    - [x] Train several models.
@@ -233,11 +231,24 @@ This section explores predicting anime scores using various **machine learning m
 - Ratios (e.g. watching/on_list) are used over raw counts.
 - Features expanded using `pd.get_dummies`, leading to **1000+ features**.
 
-### Feature Selection
+### Feature Selection for Score Prediction
 - Multiple techniques applied:
   - **RreliefF**, **chi²**, **ANOVA**, **correlation**, **variance thresholding**
   - **Random Forest** and **ranking via Orange**
 - Results saved across 14 feature files for later model testing.
+
+### Unsupervised Feature Selection
+- Several methods used:
+  - Variance Selector
+  - Correlation Selector
+  - Entropy Selector
+  - Factor Analysis
+  - Auto Encoder
+  - TSNE Selector
+  - PCA Selector
+  - ICA Selector
+
+See [notes_ml_UnsupervisedFS.md](Documentation_and_Notes/notes_ml_UnsupervisedFS.md) for more details
 
 ### Models & Parameter Search
 - Models used:
@@ -245,12 +256,24 @@ This section explores predicting anime scores using various **machine learning m
 - **r²** and **MAE** are primary evaluation metrics.
 - Emphasis on experimentation due to uncertainty about what features will perform well.
 
+### Clustering
+- Considered Clustering methods:
+  - KMeans
+    - Overall mixed results
+  - DBSCAN
+    - Overall weak results
+
+See [notes_ml_clustering.md](Documentation_and_Notes/notes_ml_clustering.md) for more details.
+
+
 > [!IMPORTANT]  
 > Detailed results and notes in:  
 > [notes_ml_featureselection](Documentation_and_Notes/notes_ml_feature_selection.md)  
 > [notes_ml_gridsearch](Documentation_and_Notes/notes_ml_gridsearch.md)  
 > [notes_ml_gridsearch_all_features](Documentation_and_Notes/notes_ml_gridsearch_all_features.md)  
 > [notes_ml_model_evaluation](Documentation_and_Notes/notes_ml_model_evaluation.md)
+> [notes_ml_UnsupervisedFS.md](Documentation_and_Notes/notes_ml_UnsupervisedFS.md)
+> [notes_ml_clustering.md](Documentation_and_Notes/notes_ml_clustering.md)
 
 
 
